@@ -127,7 +127,19 @@
                         size_hint: right_w, right_h
                     Spinner:
                         size_hint: right_w, right_h
-                        text: 'Inflow or outflow condition'
+                        text: 'Inflow'
+                        values: ['Inflow', 'Outflow', 'N/A']
+                        background_color: color_button if self.state == 'normal' else color_button_pressed
+                        background_down: 'atlas://data/images/defaulttheme/spinner'
+                        color: color_font
+                        option_cls: Factory.get("MySpinnerOption")
+                    TextInput:
+                        size_hint: right_w, right_h
+                    TextInput:
+                        size_hint: right_w, right_h
+                    Spinner:
+                        size_hint: right_w, right_h
+                        text: 'Inflow'
                         values: ['Inflow', 'Outflow', 'N/A']
                         background_color: color_button if self.state == 'normal' else color_button_pressed
                         background_down: 'atlas://data/images/defaulttheme/spinner'
@@ -151,19 +163,7 @@
                         size_hint: right_w, right_h
                     Spinner:
                         size_hint: right_w, right_h
-                        text: 'Inflow or outflow condition'
-                        values: ['Inflow', 'Outflow', 'N/A']
-                        background_color: color_button if self.state == 'normal' else color_button_pressed
-                        background_down: 'atlas://data/images/defaulttheme/spinner'
-                        color: color_font
-                        option_cls: Factory.get("MySpinnerOption")
-                    TextInput:
-                        size_hint: right_w, right_h
-                    TextInput:
-                        size_hint: right_w, right_h
-                    Spinner:
-                        size_hint: right_w, right_h
-                        text: 'Inflow or outflow condition'
+                        text: 'Inflow'
                         values: ['Inflow', 'Outflow', 'N/A']
                         background_color: color_button if self.state == 'normal' else color_button_pressed
                         background_down: 'atlas://data/images/defaulttheme/spinner'
