@@ -10,4 +10,4 @@ Woodson Miles
 Max Terman (Debug assistant)
 Nate Hills
 Andrew Sutherland
-Jack Bandy (Public selations)
+Jack Bandy (Public relations)

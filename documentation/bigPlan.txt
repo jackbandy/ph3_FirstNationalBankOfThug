@@ -11,6 +11,10 @@ BACK END
 (plugging in PyCamellia with GUI methods)
 Initial Members:
 -Derek
+  -Controller (Middle End)
+    - Has a reference to inputs and necessary outputs 
+    - Checks data against regular expressions defined for each input for validity
+    - Passes verified data on to further backend to be processed by PyCamellia
 -{}th
 -Woodson
 
