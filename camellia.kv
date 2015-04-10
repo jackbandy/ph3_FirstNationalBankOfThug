@@ -1,0 +1,281 @@
+#:kivy 1.0.9
+#:import Factory kivy.factory.Factory
+
+
+#:set color_button (0.784, 0.443, 0.216, 1)  # brown
+#:set color_button_pressed (0.659, 0.522, 0.431, 1)  # darker brown
+#:set color_font   (0.957, 0.890, 0.843, 1)  # off white
+#:set left_h .083333
+#:set right_h 1.0/6.0
+#:set right_w 1.0/3.0
+
+#:set pan2_h 1.0/7.0
+
+
+<MySpinnerOption@SpinnerOption>:
+    background_color: color_button if self.state == 'down' else color_button_pressed
+    background_down: 'atlas://data/images/defaulttheme/button'
+    color: color_font
+
+
+<CamelliaWindow>:
+
+    size_hint: 1, 1
+    pos_hint: {'center_x': .5, 'center_y': .5}
+    do_default_tab: False
+    tab_pos: 'top_mid'
+    background_color: (1, 0, 0, .5)
+    TabbedPanelItem:
+        text: 'Creation'
+        AnchorLayout:
+            anchor_x: 'center'
+            anchor_y: 'center'
+            size: root.size
+
+            Widget:
+                size_hint: 1.0, 1.0
+
+                canvas:
+                    Color:
+                        rgba: 0, .5, .5, 0.4
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+
+            AnchorLayout:
+                anchor_x: 'left'
+                anchor_y: 'center'
+                size_hint: 1.0,1.0
+                StackLayout:
+                    size_hint: .25, 1.0
+                    orientation: 'lr-tb'
+                    Label:
+                        size_hint: 1.0, left_h
+                        text: 'Equation'
+                    Spinner:
+                        size_hint: 1.0, left_h
+                        text: 'Navier-Stokes'
+                        values: ['Navier-Stokes', 'Stokes']
+                        background_color: color_button if self.state == 'normal' else color_button_pressed
+                        background_down: 'atlas://data/images/defaulttheme/spinner'
+                        color: color_font
+                        option_cls: Factory.get("MySpinnerOption")
+                    Label:
+                        size_hint: 1.0, left_h
+                        text: 'Polynomial Order'
+                    Spinner:
+                        size_hint: 1.0, left_h
+                        text: '1'
+                        values: ['1', '2', '3','4', '5', '6', '7', '8', '9']
+                        background_color: color_button if self.state == 'normal' else color_button_pressed
+                        background_down: 'atlas://data/images/defaulttheme/spinner'
+                        color: color_font
+                        option_cls: Factory.get("MySpinnerOption")
+                    Label:
+                        size_hint: 1.0, left_h
+                        text: 'Transient or Steady State'
+                    Spinner:
+                        size_hint: 1.0, left_h
+                        text: 'Transient'
+                        values: ['Transient', 'Steady State']
+                        background_color: color_button if self.state == 'normal' else color_button_pressed
+                        background_down: 'atlas://data/images/defaulttheme/spinner'
+                        color: color_font
+                        option_cls: Factory.get("MySpinnerOption")
+                    Label:
+                        size_hint: 1.0, left_h
+                        text: 'Dimensions'
+                    TextInput:
+                        size_hint: 0.5, left_h
+                    TextInput:
+                        size_hint: 0.5, left_h
+                    Label:
+                        size_hint: 1.0, left_h
+                        text: 'Mesh Elements'
+                    TextInput:
+                        size_hint: 0.5, left_h
+                    TextInput:
+                        size_hint: 0.5, left_h
+                    Label:
+                        size_hint: 1.0, left_h
+                        text: 'Reynolds Number'
+                    TextInput:
+                        size_hint: 1.0, left_h
+
+            AnchorLayout:
+                anchor_x: 'right'
+                anchor_y: 'top'
+                
+                size_hint: 1.0,1.0 
+                StackLayout:
+                    size_hint: .75, .66
+                    orientation: 'lr-tb'
+                    Label:
+                        size_hint: 1.0, right_h
+                        text: 'Flow Conditions'
+                        font_size: 20
+                    Label:
+                        size_hint: right_w, right_h
+                        text: 'Position'
+                    Label:
+                        size_hint: right_w, right_h
+                        text: 'Inflow/Outflow'
+                    Label:
+                        size_hint: right_w, right_h
+                        text: 'Function'
+                    TextInput:
+                        size_hint: right_w, right_h
+                    Spinner:
+                        size_hint: right_w, right_h
+                        text: 'Inflow'
+                        values: ['Inflow', 'Outflow']
+                        background_color: color_button if self.state == 'normal' else color_button_pressed
+                        background_down: 'atlas://data/images/defaulttheme/spinner'
+                        color: color_font
+                        option_cls: Factory.get("MySpinnerOption")
+                    TextInput:
+                        size_hint: right_w, right_h
+                    TextInput:
+                        size_hint: right_w, right_h
+                    Spinner:
+                        size_hint: right_w, right_h
+                        text: 'Inflow'
+                        values: ['Inflow', 'Outflow']
+                        background_color: color_button if self.state == 'normal' else color_button_pressed
+                        background_down: 'atlas://data/images/defaulttheme/spinner'
+                        color: color_font
+                        option_cls: Factory.get("MySpinnerOption")
+                    TextInput:
+                        size_hint: right_w, right_h
+                    TextInput:
+                        size_hint: right_w, right_h
+                    Spinner:
+                        size_hint: right_w, right_h
+                        text: 'Inflow'
+                        values: ['Inflow', 'Outflow']
+                        background_color: color_button if self.state == 'normal' else color_button_pressed
+                        background_down: 'atlas://data/images/defaulttheme/spinner'
+                        color: color_font
+                        option_cls: Factory.get("MySpinnerOption")
+                    TextInput:
+                        size_hint: right_w, right_h
+                    TextInput:
+                        size_hint: right_w, right_h
+                    Spinner:
+                        size_hint: right_w, right_h
+                        text: 'Inflow'
+                        values: ['Inflow', 'Outflow']
+                        background_color: color_button if self.state == 'normal' else color_button_pressed
+                        background_down: 'atlas://data/images/defaulttheme/spinner'
+                        color: color_font
+                        option_cls: Factory.get("MySpinnerOption")                    
+                    TextInput:
+                        size_hint: right_w, right_h 
+
+            AnchorLayout:
+                anchor_x: 'right'
+                anchor_y: 'bottom'
+                size_hint: 1.0, 1.0
+                StackLayout:
+                    size_hint: .75, .33
+                    orientation: 'lr-tb'
+                    Label:
+                        size_hint: 0.5, 0.5
+                        text: 'Error Messages'
+                        font_size: 20
+                    Button:
+                        size_hint: 0.5, 0.5
+                        text: 'Solve'
+                        font_size: 20
+                    Label:
+                        size_hint: 0.5, 0.5
+                        text: '  '
+                    Button:
+                        size_hint: 0.5, 0.5
+                        text: 'Clear'
+                        font_size: 20
+                    
+                    
+
+
+                        
+
+
+
+    TabbedPanelItem:
+        text: 'Solution'
+        AnchorLayout:
+            anchor_x: 'center'
+            anchor_y: 'center'
+            size: root.size
+
+            Widget:
+                size_hint: 1.0, 1.0
+
+                canvas:
+                    Color:
+                        rgba: 0, .5, .5, 0.4
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+
+            AnchorLayout:
+                anchor_x: 'left'
+                anchor_y: 'top'
+                size_hint: 1.0,1.0
+                StackLayout:
+                    size_hint: .25, 1.0
+                    orientation: 'lr-tb'
+                    Spinner:
+                        size_hint: .5, pan2_h
+                        text: 'u1'
+                        values: ['u1', 'u2', 'p', 'stream', 'mesh', 'error']
+                        background_color: color_button if self.state == 'normal' else color_button_pressed
+                        background_down: 'atlas://data/images/defaulttheme/spinner'
+                        color: color_font
+                        option_cls: Factory.get("MySpinnerOption")
+                    Button:
+                        size_hint: 0.5, pan2_h
+                        text: 'Plot'
+                    Spinner:
+                        size_hint: .5, pan2_h
+                        text: 'h auto'
+                        values: ['h auto', 'h manual', 'p auto', 'p manual']
+                        background_color: color_button if self.state == 'normal' else color_button_pressed
+                        background_down: 'atlas://data/images/defaulttheme/spinner'
+                        color: color_font
+                        option_cls: Factory.get("MySpinnerOption")
+                    Button:
+                        size_hint: 0.5, pan2_h
+                        text: 'Refine'
+                    TextInput:
+                        id: m_refine
+                        size_hint: 1.0, pan2_h
+                    Button:
+                        size_hint: 1.0, pan2_h
+                        text: 'Load'
+                    TextInput:
+                        id: load
+                        size_hint: 1.0, pan2_h
+                    Button:
+                        size_hint: 1.0, pan2_h
+                        text: 'Save'
+                    TextInput:
+                        id: load
+                        size_hint: 1.0, pan2_h
+            AnchorLayout:
+                anchor_x: 'right'
+                anchor_y: 'top'
+                size_hint: 1.0,1.0
+                StackLayout:
+                    size_hint: .75, 1.0
+                    orientation: 'lr-tb'
+                    Label:
+                        size_hint: 1.0, .7
+                        text: 'Plot goes here!'
+                    Label:
+                        size_hint: 1.0, .3
+                        text: 'Your error is:'
+
+
+
