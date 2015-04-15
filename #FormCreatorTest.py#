@@ -1,0 +1,7 @@
+from FormCreator import *
+from unittest import *
+
+class FormCreatorTest(TestCase):
+
+if __name__ == '__main__':
+    unittest.main()
