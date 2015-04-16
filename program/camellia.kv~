@@ -30,7 +30,6 @@
     option_cls: Factory.get("MySpinnerOption")
 
 
-
 <CamelliaWindow>:
     size_hint: 1, 1
     pos_hint: {'center_x': .5, 'center_y': .5}
@@ -147,9 +146,11 @@
                             TextInput:
                                 id: dim_1
                                 size_hint: 0.5, 0.35
+                                hint_text: 'x dimension'
                             TextInput:
                                 id: dim_2
                                 size_hint: 0.5, 0.35
+                                hint_text: 'y dimension'
                             Label:
                                 size_hint: 1.0, 0.15
                     AnchorLayout:
