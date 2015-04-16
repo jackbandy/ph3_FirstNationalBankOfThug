@@ -6,12 +6,18 @@ from kivy.uix import *
 from kivy.uix.button import Button
 from kivy.lang import Builder
 from kivy.uix.tabbedpanel import TabbedPanel
+from time import sleep
 
 
 
 
 class CamelliaWindow(TabbedPanel):
-    pass
+    def solve(self, i):
+        i.text = 'Solving'
+        i.disabled = True
+    def clear(self):
+        self.ids.dim_2.disabled = False
+        self.ids.dim_2.text = ''
 
 
 class CamelliaApp(App):
