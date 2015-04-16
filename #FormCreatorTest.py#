@@ -1,8 +1,0 @@
-from FormCreator import *
-from unittest import *
-
-class FormCreatorTest(TestCase):
-    def T
-
-if __name__ == '__main__':
-    unittest.main()
