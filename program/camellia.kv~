@@ -19,6 +19,16 @@
     background_down: 'atlas://data/images/defaulttheme/button'
     color: color_font
 
+[Flow@Spinner]:
+    id: ctx.id if hasattr(ctx, 'id') else None
+    size_hint: 1.0, cond_input
+    text: 'Select In/Outflow'
+    values: ['Inflow', 'Outflow', 'N/A']
+    background_color: color_button if self.state == 'normal' else color_button_pressed
+    background_down: 'atlas://data/images/defaulttheme/spinner'
+    color: color_font
+    option_cls: Factory.get("MySpinnerOption")
+
 
 
 <CamelliaWindow>:
@@ -257,92 +267,36 @@
                             size_hint: 0.9, 1.0
                             Label:
                                 size_hint: 1.0, cond
-                            Spinner:
+                            Flow:
                                 id: flow_1
-                                size_hint: 1.0, cond_input
-                                text: 'Select In/Outflow'
-                                values: ['Inflow', 'Outflow', 'N/A']
-                                background_color: color_button if self.state == 'normal' else color_button_pressed
-                                background_down: 'atlas://data/images/defaulttheme/spinner'
-                                color: color_font
-                                option_cls: Factory.get("MySpinnerOption")
                             Label:
                                 size_hint: 1.0, cond * 2
-                            Spinner:
+                            Flow:
                                 id: flow_2
-                                size_hint: 1.0, cond_input
-                                text: 'Select In/Outflow'
-                                values: ['Inflow', 'Outflow', 'N/A']
-                                background_color: color_button if self.state == 'normal' else color_button_pressed
-                                background_down: 'atlas://data/images/defaulttheme/spinner'
-                                color: color_font
-                                option_cls: Factory.get("MySpinnerOption")
                             Label:
                                 size_hint: 1.0, cond * 2
-                            Spinner:
+                            Flow:
                                 id: flow_3
-                                size_hint: 1.0, cond_input
-                                text: 'Select In/Outflow'
-                                values: ['Inflow', 'Outflow', 'N/A']
-                                background_color: color_button if self.state == 'normal' else color_button_pressed
-                                background_down: 'atlas://data/images/defaulttheme/spinner'
-                                color: color_font
-                                option_cls: Factory.get("MySpinnerOption")
                             Label:
                                 size_hint: 1.0, cond * 2
-                            Spinner:
+                            Flow:
                                 id: flow_4
-                                size_hint: 1.0, cond_input
-                                text: 'Select In/Outflow'
-                                values: ['Inflow', 'Outflow', 'N/A']
-                                background_color: color_button if self.state == 'normal' else color_button_pressed
-                                background_down: 'atlas://data/images/defaulttheme/spinner'
-                                color: color_font
-                                option_cls: Factory.get("MySpinnerOption")
                             Label:
                                 size_hint: 1.0, cond * 2
-                            Spinner:
+                            Flow:
                                 id: flow_5
-                                size_hint: 1.0, cond_input
-                                text: 'Select In/Outflow'
-                                values: ['Inflow', 'Outflow', 'N/A']
-                                background_color: color_button if self.state == 'normal' else color_button_pressed
-                                background_down: 'atlas://data/images/defaulttheme/spinner'
-                                color: color_font
-                                option_cls: Factory.get("MySpinnerOption")
                             Label:
                                 size_hint: 1.0, cond * 2
-                            Spinner:
+                            Flow:
                                 id: flow_6
-                                size_hint: 1.0, cond_input
-                                text: 'Select In/Outflow'
-                                values: ['Inflow', 'Outflow', 'N/A']
-                                background_color: color_button if self.state == 'normal' else color_button_pressed
-                                background_down: 'atlas://data/images/defaulttheme/spinner'
-                                color: color_font
-                                option_cls: Factory.get("MySpinnerOption")
                             Label:
                                 size_hint: 1.0, cond * 2
-                            Spinner:
+                            Flow:
                                 id: flow_7
-                                size_hint: 1.0, cond_input
-                                text: 'Select In/Outflow'
-                                values: ['Inflow', 'Outflow', 'N/A']
-                                background_color: color_button if self.state == 'normal' else color_button_pressed
-                                background_down: 'atlas://data/images/defaulttheme/spinner'
-                                color: color_font
-                                option_cls: Factory.get("MySpinnerOption")
                             Label:
                                 size_hint: 1.0, cond * 2
-                            Spinner:
+                            Flow:
                                 id: flow_8
-                                size_hint: 1.0, cond_input
-                                text: 'Select In/Outflow'
-                                values: ['Inflow', 'Outflow', 'N/A']
-                                background_color: color_button if self.state == 'normal' else color_button_pressed
-                                background_down: 'atlas://data/images/defaulttheme/spinner'
-                                color: color_font
-                                option_cls: Factory.get("MySpinnerOption")
                             Label:
                                 size_hint: 1.0, cond
                     AnchorLayout:
@@ -415,6 +369,7 @@
                             font_size: 20
                             on_press: dim_2.disabled = True
                             background_color: color_button
+                            on_press: root.solve()
                         Label: 
                             size_hint: 0.04, 1.0
                         Button:
@@ -424,6 +379,7 @@
                             font_size: 20
                             on_press: dim_2.disabled = True
                             background_color: color_button
+                            on_press: root.clear()
                         Label: 
                             size_hint: 0.04, 1.0
                     
