@@ -96,7 +96,6 @@
                                 background_down: 'atlas://data/images/defaulttheme/spinner'
                                 color: color_font
                                 option_cls: Factory.get("MySpinnerOption")
-                                on_press: self._toggle_dropdown
                             Label:
                                 size_hint: 1.0, 0.15
 
@@ -414,6 +413,7 @@
                             size_hint: 0.44, 1.0
                             text: 'Solve'
                             font_size: 20
+                            on_press: dim_2.disabled = True
                             background_color: color_button
                         Label: 
                             size_hint: 0.04, 1.0
@@ -422,6 +422,7 @@
                             size_hint: 0.44, 1.0
                             text: 'Clear'
                             font_size: 20
+                            on_press: dim_2.disabled = True
                             background_color: color_button
                         Label: 
                             size_hint: 0.04, 1.0
@@ -560,6 +561,4 @@
                     Label:
                         size_hint: 1.0, .3
                         text: 'Your error is:'
-
-
 
