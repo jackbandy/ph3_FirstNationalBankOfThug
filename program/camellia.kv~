@@ -146,11 +146,11 @@
                             TextInput:
                                 id: dim_1
                                 size_hint: 0.5, 0.35
-                                hint_text: 'x dimension'
+                                hint_text: '(i.e. 8.0)'
                             TextInput:
                                 id: dim_2
                                 size_hint: 0.5, 0.35
-                                hint_text: 'y dimension'
+                                hint_text: '(i.e. 2.0)'
                             Label:
                                 size_hint: 1.0, 0.15
                     AnchorLayout:
