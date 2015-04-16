@@ -12,6 +12,7 @@ from kivy.uix.tabbedpanel import TabbedPanel
 
 class CamelliaWindow(TabbedPanel):
     pass
+        
 
 
 class CamelliaApp(App):
