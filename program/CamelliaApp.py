@@ -44,10 +44,7 @@ class CamelliaWindow(TabbedPanel):
         for y in self.inputs:
             y.background_color = (1,1,1,1)
         for counter, flow  in enumerate(self.flows):
-            print('1')
-            print(counter)
             if (flow.text == 'Inflow'):
-                print('Inflow')
                 text = self.funcs[counter].text
                 if (len(text) == 0):
                      text = '0'
@@ -129,6 +126,8 @@ class CamelliaWindow(TabbedPanel):
             x.text = ''
         for x in self.funcs_b:
             x.text = ''
+        for t_in in self.inputs:
+            t_in.background_color = (1,1,1,1)
 
     def checkFunction(self, text):
         try:
