@@ -38,6 +38,7 @@
     background_color: (1, 0, 0, .5)
     tab_width: root.width/2
     TabbedPanelItem:
+        background_color: color_button
         id: creation
         text: 'Creation'
         AnchorLayout:
@@ -237,7 +238,6 @@
                             TextInput:
                                 id: pos_3
                                 size_hint: 1.0, cond_input
-                                hint_text: 'Nate Sucks'
                             Label:
                                 size_hint: 1.0, cond * 2
                             TextInput:
@@ -316,43 +316,68 @@
                                 size_hint: 1.0, cond
                             TextInput:
                                 id: func_1
-                                size_hint: 1.0, cond_input
-                                hint_text: 'x = -3*(y^2)'
+                                size_hint: 0.5, cond_input
+                                hint_text: 'x velocity'
+                            TextInput:
+                                id: func_1b
+                                size_hint: 0.5, cond_input
+                                hint_text: 'y velocity'
                             Label:
                                 size_hint: 1.0, cond * 2
                             TextInput:
                                 id: func_2
-                                size_hint: 1.0, cond_input
+                                size_hint: 0.5, cond_input
+                            TextInput:
+                                id: func_2b
+                                size_hint: 0.5, cond_input
                             Label:
                                 size_hint: 1.0, cond * 2
                             TextInput:
                                 id: func_3
-                                size_hint: 1.0, cond_input
+                                size_hint: 0.5, cond_input
+                            TextInput:
+                                id: func_3b
+                                size_hint: 0.5, cond_input
                             Label:
                                 size_hint: 1.0, cond *2
                             TextInput:
                                 id: func_4
-                                size_hint: 1.0, cond_input
+                                size_hint: 0.5, cond_input
+                            TextInput:
+                                id: func_4b
+                                size_hint: 0.5, cond_input
                             Label:
                                 size_hint: 1.0, cond * 2
                             TextInput:
                                 id: func_5
-                                size_hint: 1.0, cond_input
+                                size_hint: 0.5, cond_input
+                            TextInput:
+                                id: func_5b
+                                size_hint: 0.5, cond_input
                             Label:
                                 size_hint: 1.0, cond * 2
                             TextInput:
                                 id: func_6
-                                size_hint: 1.0, cond_input
+                                size_hint: 0.5, cond_input
+                            TextInput:
+                                id: func_6b
+                                size_hint: 0.5, cond_input
                             Label:
                                 size_hint: 1.0, cond * 2
                             TextInput:
                                 id: func_7
-                                size_hint: 1.0, cond_input
+                                size_hint: 0.5, cond_input
+                            TextInput:
+                                id: func_7b
+                                size_hint: 0.5, cond_input
                             Label:
                                 size_hint: 1.0, cond * 2
                             TextInput:
                                 id: func_8
-                                size_hint: 1.0, cond_input
+                                size_hint: 0.5, cond_input
+                            TextInput:
+                                id: func_8b
+                                size_hint: 0.5, cond_input
                             Label:
                                 size_hint: 1.0, cond
                     
@@ -376,7 +401,7 @@
                             text: 'Solve'
                             font_size: 20
                             background_color: color_button
-                            on_press: root.solve(dim_2)
+                            on_press: root.solve(func_1)
                         Label: 
                             size_hint: 0.04, 1.0
                         Button:
@@ -385,7 +410,7 @@
                             text: 'Clear'
                             font_size: 20
                             background_color: color_button
-                            on_press: root.clear(creation)
+                            on_press: root.clear()
                         Label: 
                             size_hint: 0.04, 1.0
                     
@@ -395,6 +420,7 @@
     TabbedPanelItem:
         id: solution
         text: 'Solution'
+        background_color: color_button
         AnchorLayout:
             anchor_x: 'center'
             anchor_y: 'center'

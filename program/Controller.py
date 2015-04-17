@@ -37,7 +37,7 @@ class Controller(object):
         reyNum_ = int(reyNum)
         inflowPos_ 
         inflowFunctions_ = []
-        for x as inflowFunctions:
+        for x in inflowFunctions:
             inflowFunctions_.append(self.interpreter2.interpret(x))        
         outflowPos_
         
