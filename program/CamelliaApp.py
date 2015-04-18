@@ -92,6 +92,8 @@ class CamelliaWindow(TabbedPanel):
             self.color_red(self.ids.reyn)
             solveable = False
         print(solveable)
+	if (solveable):
+		self.switch_tab()
         #if stokes reyn = -1 else check it
         # pass the stuff
             #string eq
@@ -105,6 +107,10 @@ class CamelliaWindow(TabbedPanel):
             #List<string> outflow positions
         
         #go to the solution tab
+    
+    def switch_tab(self):
+	a = self.tab_list[0]
+	self.switch_to(a)
 
     def color_red(self, i):
         i.background_color = (.5, 0, 0, 1)
