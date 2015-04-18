@@ -30,14 +30,15 @@
     option_cls: Factory.get("MySpinnerOption")
 
 
-
 <CamelliaWindow>:
     size_hint: 1, 1
     pos_hint: {'center_x': .5, 'center_y': .5}
     do_default_tab: False
     tab_pos: 'top_mid'
     background_color: (1, 0, 0, .5)
+    tab_width: root.width/2
     TabbedPanelItem:
+        background_color: color_button
         id: creation
         text: 'Creation'
         AnchorLayout:
@@ -146,9 +147,11 @@
                             TextInput:
                                 id: dim_1
                                 size_hint: 0.5, 0.35
+                                hint_text: '(i.e. 1.0)'
                             TextInput:
                                 id: dim_2
                                 size_hint: 0.5, 0.35
+                                hint_text: '(i.e. 2.0)'
                             Label:
                                 size_hint: 1.0, 0.15
                     AnchorLayout:
@@ -165,9 +168,11 @@
                             TextInput:
                                 id: mesh_1
                                 size_hint: 0.5, 0.35
+                                hint_text: '(i.e. 3)'
                             TextInput:
                                 id: mesh_2
                                 size_hint: 0.5, 0.35
+                                hint_text: '(i.e. 5)'
                             Label:
                                 size_hint: 1.0, 0.15
 
@@ -185,6 +190,7 @@
                             TextInput:
                                 id: reyn
                                 size_hint: 1.0, 0.35
+                                hint_text: '(i.e. 800)'
                             Label:
                                 size_hint: 1.0, 0.15
 
@@ -221,6 +227,7 @@
                             TextInput:
                                 id: pos_1
                                 size_hint: 1.0, cond_input
+                                hint_text: 'i.e. (x = .05, y > 3)'
                             Label:
                                 size_hint: 1.0, cond * 2
                             TextInput:
@@ -309,42 +316,68 @@
                                 size_hint: 1.0, cond
                             TextInput:
                                 id: func_1
-                                size_hint: 1.0, cond_input
+                                size_hint: 0.5, cond_input
+                                hint_text: 'x velocity'
+                            TextInput:
+                                id: func_1b
+                                size_hint: 0.5, cond_input
+                                hint_text: 'y velocity'
                             Label:
                                 size_hint: 1.0, cond * 2
                             TextInput:
                                 id: func_2
-                                size_hint: 1.0, cond_input
+                                size_hint: 0.5, cond_input
+                            TextInput:
+                                id: func_2b
+                                size_hint: 0.5, cond_input
                             Label:
                                 size_hint: 1.0, cond * 2
                             TextInput:
                                 id: func_3
-                                size_hint: 1.0, cond_input
+                                size_hint: 0.5, cond_input
+                            TextInput:
+                                id: func_3b
+                                size_hint: 0.5, cond_input
                             Label:
                                 size_hint: 1.0, cond *2
                             TextInput:
                                 id: func_4
-                                size_hint: 1.0, cond_input
+                                size_hint: 0.5, cond_input
+                            TextInput:
+                                id: func_4b
+                                size_hint: 0.5, cond_input
                             Label:
                                 size_hint: 1.0, cond * 2
                             TextInput:
                                 id: func_5
-                                size_hint: 1.0, cond_input
+                                size_hint: 0.5, cond_input
+                            TextInput:
+                                id: func_5b
+                                size_hint: 0.5, cond_input
                             Label:
                                 size_hint: 1.0, cond * 2
                             TextInput:
                                 id: func_6
-                                size_hint: 1.0, cond_input
+                                size_hint: 0.5, cond_input
+                            TextInput:
+                                id: func_6b
+                                size_hint: 0.5, cond_input
                             Label:
                                 size_hint: 1.0, cond * 2
                             TextInput:
                                 id: func_7
-                                size_hint: 1.0, cond_input
+                                size_hint: 0.5, cond_input
+                            TextInput:
+                                id: func_7b
+                                size_hint: 0.5, cond_input
                             Label:
                                 size_hint: 1.0, cond * 2
                             TextInput:
                                 id: func_8
-                                size_hint: 1.0, cond_input
+                                size_hint: 0.5, cond_input
+                            TextInput:
+                                id: func_8b
+                                size_hint: 0.5, cond_input
                             Label:
                                 size_hint: 1.0, cond
                     
@@ -368,7 +401,7 @@
                             text: 'Solve'
                             font_size: 20
                             background_color: color_button
-                            on_press: root.solve(dim_2)
+                            on_press: root.solve()
                         Label: 
                             size_hint: 0.04, 1.0
                         Button:
@@ -387,6 +420,7 @@
     TabbedPanelItem:
         id: solution
         text: 'Solution'
+        background_color: color_button
         AnchorLayout:
             anchor_x: 'center'
             anchor_y: 'center'
@@ -463,6 +497,7 @@
                             TextInput:
                                 id: m_refine
                                 size_hint: 1.0, 0.2
+                                hint_text: '(0,1,2,5,8,9,10,...)'
                             Label:
                                 size_hint: 1.0, 0.085
 
@@ -481,6 +516,7 @@
                             TextInput:
                                 id: load_file
                                 size_hint: 1.0, 0.2
+                                hint_text: 'CamelliaModel'
                             Label:
                                 size_hint: 1.0, 0.085
 
@@ -499,6 +535,7 @@
                             TextInput:
                                 id: save_file
                                 size_hint: 1.0, 0.2
+                                hint_text: 'CamelliaModel'
                             Label:  
                                 size_hint: 1.0, 0.085
 

@@ -9,5 +9,5 @@ Seth Wulbecker (Quality assurance)
 Woodson Miles
 Max Terman (Debug assistant)
 Nate Hills
-Andrew Sutherland
+Andrew Sutton
 Jack Bandy (Public relations)
