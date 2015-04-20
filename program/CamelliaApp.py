@@ -142,18 +142,6 @@ class CamelliaWindow(TabbedPanel):
             return False
         return True
 
-<<<<<<< HEAD
-=======
-    def save(self):
-        name = self.ids.save_file.text
-        self.controller.save(name)
-    
-    def load(self):
-        name = self.ids.load_file.text
-        data = self.controller.load(name)
-        #do stuff with the data
-
->>>>>>> b9d16112b30d21798c5b4af57a72a9d1631dcf6b
 class CamelliaApp(App):
     def build(self):
         return CamelliaWindow()
