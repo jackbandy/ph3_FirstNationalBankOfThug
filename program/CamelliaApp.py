@@ -92,6 +92,8 @@ class CamelliaWindow(TabbedPanel):
             self.color_red(self.ids.reyn)
             solveable = False
         print(solveable)
+	if (solveable):
+		self.switch_tab()
         #if stokes reyn = -1 else check it
         # pass the stuff
         #if (solveable):
@@ -108,8 +110,11 @@ class CamelliaWindow(TabbedPanel):
             #List<string> inflow y functions fun_y
             #List<string> outflow positions
 
-        #MAX TERMAN
-        #go to the solution tab 
+
+    #go to the solution tab 
+    def switch_tab(self):
+	a = self.tab_list[0]
+	self.switch_to(a)
 
     def color_red(self, i):
         i.background_color = (.5, 0, 0.1, 1)
