@@ -1,5 +1,4 @@
-Stuff to do:
-
+Done:
 Added Ids:
     creation
     eq
@@ -23,6 +22,7 @@ Added Ids:
     load_file
     save
     save_file
+Stuff to do:
 
 Needs Id (and other changes):
     Plot 
@@ -30,7 +30,7 @@ Needs Id (and other changes):
 
 If input is invalid, red the box
 Regular expression to parse position stuff
-    Use the string "([x,y][=,>,<]/d+)+" Maybe <=, >=, =<, >=
+    Use the string "([x,y][=,>,<]/d+)+" Maybe <=, >=, =<, >=  from stack overflow r"Test(\d*(?:\.\d+))"
 Use interpreter2.py to interpreter functions
 Depending on the state of inflow and outflow grey out
 
