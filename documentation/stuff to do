@@ -30,7 +30,7 @@ Needs Id (and other changes):
 
 If input is invalid, red the box
 Regular expression to parse position stuff
-    Use the string "([x,y][=,>,<]/d+)+" Maybe <=, >=, =<, >=
+    Use the string "([x,y][=,>,<]/d+)+" Maybe <=, >=, =<, >=  from stackoverflow r"Test(\d*(?:\.\d+))"
 Use interpreter2.py to interpreter functions
 Depending on the state of inflow and outflow grey out
 

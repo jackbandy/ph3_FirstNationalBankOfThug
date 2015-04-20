@@ -60,7 +60,7 @@ class CamelliaWindow(TabbedPanel):
                     solveable = False
                     self.color_red(self.funcs_b[counter])
                 else:
-                    fun_x.append(text)
+                    fun_y.append(text)
                 #check positions
             elif (flow.text == 'Outflow'):
                 #check pos
@@ -94,20 +94,25 @@ class CamelliaWindow(TabbedPanel):
         print(solveable)
         #if stokes reyn = -1 else check it
         # pass the stuff
+        #if (solveable):
+            
             #string eq
             #string poly
             #string tuple mesh elements
             #string tuple dimensions
+            
             #string reyn
+            #reyn = self.ids.reyn.text positions
             #List<string> inflow positions
-            #List<string> inflow x functions
-            #List<string> inflow y functions
+            #List<string> inflow x functions fun_x
+            #List<string> inflow y functions fun_y
             #List<string> outflow positions
-        
-        #go to the solution tab
+
+        #MAX TERMAN
+        #go to the solution tab 
 
     def color_red(self, i):
-        i.background_color = (.5, 0, 0, 1)
+        i.background_color = (.5, 0, 0.1, 1)
 
     def clear(self):
         self.ids.eq.text = 'Navier-Stokes'
