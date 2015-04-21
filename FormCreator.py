@@ -21,29 +21,27 @@ class FormCreator():
         space_dim = 2
         mesh = self.makeMesh(dims, elems)
 
-        #for unloaded Navier
+        #for Navier
         if re != None:
             form = NavierStokesVGPFormulation(mesh, re, poly, delta_k)
     
-    #for unloaded Stokes
+    #for Stokes
         else:
             #self.context.setNav(False)
-            use_conforming_traces = False
+            use_conforming_traces = True
             mu = 1.0
-            transient = self.is_transient()
             form = StokesVGPFormulation(space_dim, use_conforming_traces, mu, transient)
-            """if self.context.loaded:
-                form.initializeSolution(self.context.file_name, poly_order)
-            else:"""
             form.initializeSolution(mesh, poly, delta_k)
-            form.addZeroMeanPressureCondition()
+        
+        form.addZeroMeanPressureCondition()
 
         #adding conditions
         inflow = self.add_inflow_conditions(form, transient, inflows, x_vels, y_vels)
         outflow = self.add_outflow_conditions(form, outflows)
         #self.add_conditions("wall", form, transient)
         form.addWallCondition(self.implicit_walls(dims, inflow, outflow))
-
+        
+        
         return form
 
         
@@ -78,6 +76,7 @@ class FormCreator():
             total_boundary = SpatialFilter.unionFilter(total_boundary, boundary)
         return total_boundary
 
+    #adds wall conditions on all part of perameter that is not an inflow or outflow
     def implicit_walls(self, dimensions, inflow, outflow):
         flows = SpatialFilter.unionFilter(inflow, outflow)
         wallConditions = SpatialFilter.negatedFilter(flows)
@@ -93,6 +92,7 @@ class FormCreator():
     
         
     #takes a string and returns a spacial filter
+    #unused for phase 3
     def get_space_fil(self, prompt):
         answer = self.context.query(prompt)
         altered = answer.lower()
