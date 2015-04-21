@@ -19,16 +19,27 @@
     background_down: 'atlas://data/images/defaulttheme/button'
     color: color_font
 
-
+[Flow@Spinner]:
+    id: ctx.id if hasattr(ctx, 'id') else None
+    size_hint: 1.0, cond_input
+    text: 'Select In/Outflow'
+    values: ['Inflow', 'Outflow', 'N/A']
+    background_color: color_button if self.state == 'normal' else color_button_pressed
+    background_down: 'atlas://data/images/defaulttheme/spinner'
+    color: color_font
+    option_cls: Factory.get("MySpinnerOption")
+    
 
 <CamelliaWindow>:
-
     size_hint: 1, 1
     pos_hint: {'center_x': .5, 'center_y': .5}
     do_default_tab: False
     tab_pos: 'top_mid'
     background_color: (1, 0, 0, .5)
+    tab_width: root.width/2
     TabbedPanelItem:
+        background_color: color_button
+        id: creation
         text: 'Creation'
         AnchorLayout:
             anchor_x: 'center'
@@ -65,6 +76,7 @@
                                 size_hint: 1.0, 0.35
                                 text: 'Equation'
                             Spinner:
+                                id: eq
                                 size_hint: 1.0, 0.35
                                 text: 'Navier-Stokes'
                                 values: ['Navier-Stokes', 'Stokes']
@@ -87,6 +99,7 @@
                                 size_hint: 1.0, 0.35
                                 text: 'Polynomial Order'
                             Spinner:
+                                id: poly
                                 size_hint: 1.0, 0.35
                                 text: '1'
                                 values: ['1', '2', '3','4', '5', '6', '7', '8', '9']
@@ -109,6 +122,7 @@
                                 size_hint: 1.0, 0.35
                                 text: 'Transient or Steady State'
                             Spinner:
+                                id: state
                                 size_hint: 1.0, 0.35
                                 text: 'Transient'
                                 values: ['Transient', 'Steady State']
@@ -131,9 +145,13 @@
                                 size_hint: 1.0, 0.35
                                 text: 'Dimensions'
                             TextInput:
+                                id: dim_1
                                 size_hint: 0.5, 0.35
+                                hint_text: '(i.e. 1.0)'
                             TextInput:
+                                id: dim_2
                                 size_hint: 0.5, 0.35
+                                hint_text: '(i.e. 2.0)'
                             Label:
                                 size_hint: 1.0, 0.15
                     AnchorLayout:
@@ -148,9 +166,13 @@
                                 size_hint: 1.0, 0.35
                                 text: 'Mesh Elements'
                             TextInput:
+                                id: mesh_1
                                 size_hint: 0.5, 0.35
+                                hint_text: '(i.e. 3)'
                             TextInput:
+                                id: mesh_2
                                 size_hint: 0.5, 0.35
+                                hint_text: '(i.e. 5)'
                             Label:
                                 size_hint: 1.0, 0.15
 
@@ -166,7 +188,9 @@
                                 size_hint: 1.0, 0.35
                                 text: 'Reynolds Number'
                             TextInput:
+                                id: reyn
                                 size_hint: 1.0, 0.35
+                                hint_text: '(i.e. 800)'
                             Label:
                                 size_hint: 1.0, 0.15
 
@@ -201,48 +225,43 @@
                             Label:
                                 size_hint: 1.0, cond
                             TextInput:
+                                id: pos_1
+                                size_hint: 1.0, cond_input
+                                hint_text: 'i.e. (x = .05, y > 3)'
+                            Label:
+                                size_hint: 1.0, cond * 2
+                            TextInput:
+                                id: pos_2
                                 size_hint: 1.0, cond_input
                             Label:
-                                size_hint: 1.0, cond
-                            Label:
-                                size_hint: 1.0, cond
+                                size_hint: 1.0, cond * 2
                             TextInput:
+                                id: pos_3
                                 size_hint: 1.0, cond_input
                             Label:
-                                size_hint: 1.0, cond
-                            Label:
-                                size_hint: 1.0, cond
+                                size_hint: 1.0, cond * 2
                             TextInput:
+                                id: pos_4
                                 size_hint: 1.0, cond_input
                             Label:
-                                size_hint: 1.0, cond
-                            Label:
-                                size_hint: 1.0, cond
+                                size_hint: 1.0, cond * 2
                             TextInput:
+                                id: pos_5
                                 size_hint: 1.0, cond_input
                             Label:
-                                size_hint: 1.0, cond
-                            Label:
-                                size_hint: 1.0, cond
+                                size_hint: 1.0, cond * 2
                             TextInput:
+                                id: pos_6
                                 size_hint: 1.0, cond_input
                             Label:
-                                size_hint: 1.0, cond
-                            Label:
-                                size_hint: 1.0, cond
+                                size_hint: 1.0, cond * 2
                             TextInput:
+                                id: pos_7
                                 size_hint: 1.0, cond_input
                             Label:
-                                size_hint: 1.0, cond
-                            Label:
-                                size_hint: 1.0, cond
+                                size_hint: 1.0, cond * 2
                             TextInput:
-                                size_hint: 1.0, cond_input
-                            Label:
-                                size_hint: 1.0, cond
-                            Label:
-                                size_hint: 1.0, cond
-                            TextInput:
+                                id: pos_8
                                 size_hint: 1.0, cond_input
                             Label:
                                 size_hint: 1.0, cond
@@ -255,98 +274,36 @@
                             size_hint: 0.9, 1.0
                             Label:
                                 size_hint: 1.0, cond
-                            Spinner:
-                                size_hint: 1.0, cond_input
-                                text: 'Select In/Outflow'
-                                values: ['Inflow', 'Outflow', 'N/A']
-                                background_color: color_button if self.state == 'normal' else color_button_pressed
-                                background_down: 'atlas://data/images/defaulttheme/spinner'
-                                color: color_font
-                                option_cls: Factory.get("MySpinnerOption")
+                            Flow:
+                                id: flow_1
                             Label:
-                                size_hint: 1.0, cond
+                                size_hint: 1.0, cond * 2
+                            Flow:
+                                id: flow_2
                             Label:
-                                size_hint: 1.0, cond
-                            Spinner:
-                                size_hint: 1.0, cond_input
-                                text: 'Select In/Outflow'
-                                values: ['Inflow', 'Outflow', 'N/A']
-                                background_color: color_button if self.state == 'normal' else color_button_pressed
-                                background_down: 'atlas://data/images/defaulttheme/spinner'
-                                color: color_font
-                                option_cls: Factory.get("MySpinnerOption")
+                                size_hint: 1.0, cond * 2
+                            Flow:
+                                id: flow_3
                             Label:
-                                size_hint: 1.0, cond
+                                size_hint: 1.0, cond * 2
+                            Flow:
+                                id: flow_4
                             Label:
-                                size_hint: 1.0, cond
-                            Spinner:
-                                size_hint: 1.0, cond_input
-                                text: 'Select In/Outflow'
-                                values: ['Inflow', 'Outflow', 'N/A']
-                                background_color: color_button if self.state == 'normal' else color_button_pressed
-                                background_down: 'atlas://data/images/defaulttheme/spinner'
-                                color: color_font
-                                option_cls: Factory.get("MySpinnerOption")
+                                size_hint: 1.0, cond * 2
+                            Flow:
+                                id: flow_5
                             Label:
-                                size_hint: 1.0, cond
+                                size_hint: 1.0, cond * 2
+                            Flow:
+                                id: flow_6
                             Label:
-                                size_hint: 1.0, cond
-                            Spinner:
-                                size_hint: 1.0, cond_input
-                                text: 'Select In/Outflow'
-                                values: ['Inflow', 'Outflow', 'N/A']
-                                background_color: color_button if self.state == 'normal' else color_button_pressed
-                                background_down: 'atlas://data/images/defaulttheme/spinner'
-                                color: color_font
-                                option_cls: Factory.get("MySpinnerOption")
+                                size_hint: 1.0, cond * 2
+                            Flow:
+                                id: flow_7
                             Label:
-                                size_hint: 1.0, cond
-                            Label:
-                                size_hint: 1.0, cond
-                            Spinner:
-                                size_hint: 1.0, cond_input
-                                text: 'Select In/Outflow'
-                                values: ['Inflow', 'Outflow', 'N/A']
-                                background_color: color_button if self.state == 'normal' else color_button_pressed
-                                background_down: 'atlas://data/images/defaulttheme/spinner'
-                                color: color_font
-                                option_cls: Factory.get("MySpinnerOption")
-                            Label:
-                                size_hint: 1.0, cond
-                            Label:
-                                size_hint: 1.0, cond
-                            Spinner:
-                                size_hint: 1.0, cond_input
-                                text: 'Select In/Outflow'
-                                values: ['Inflow', 'Outflow', 'N/A']
-                                background_color: color_button if self.state == 'normal' else color_button_pressed
-                                background_down: 'atlas://data/images/defaulttheme/spinner'
-                                color: color_font
-                                option_cls: Factory.get("MySpinnerOption")
-                            Label:
-                                size_hint: 1.0, cond
-                            Label:
-                                size_hint: 1.0, cond
-                            Spinner:
-                                size_hint: 1.0, cond_input
-                                text: 'Select In/Outflow'
-                                values: ['Inflow', 'Outflow', 'N/A']
-                                background_color: color_button if self.state == 'normal' else color_button_pressed
-                                background_down: 'atlas://data/images/defaulttheme/spinner'
-                                color: color_font
-                                option_cls: Factory.get("MySpinnerOption")
-                            Label:
-                                size_hint: 1.0, cond
-                            Label:
-                                size_hint: 1.0, cond
-                            Spinner:
-                                size_hint: 1.0, cond_input
-                                text: 'Select In/Outflow'
-                                values: ['Inflow', 'Outflow', 'N/A']
-                                background_color: color_button if self.state == 'normal' else color_button_pressed
-                                background_down: 'atlas://data/images/defaulttheme/spinner'
-                                color: color_font
-                                option_cls: Factory.get("MySpinnerOption")
+                                size_hint: 1.0, cond * 2
+                            Flow:
+                                id: flow_8
                             Label:
                                 size_hint: 1.0, cond
                     AnchorLayout:
@@ -358,49 +315,69 @@
                             Label:
                                 size_hint: 1.0, cond
                             TextInput:
-                                size_hint: 1.0, cond_input
-                            Label:
-                                size_hint: 1.0, cond
-                            Label:
-                                size_hint: 1.0, cond
+                                id: func_1
+                                size_hint: 0.5, cond_input
+                                hint_text: 'x velocity'
                             TextInput:
-                                size_hint: 1.0, cond_input
+                                id: func_1b
+                                size_hint: 0.5, cond_input
+                                hint_text: 'y velocity'
                             Label:
-                                size_hint: 1.0, cond
-                            Label:
-                                size_hint: 1.0, cond
+                                size_hint: 1.0, cond * 2
                             TextInput:
-                                size_hint: 1.0, cond_input
-                            Label:
-                                size_hint: 1.0, cond
-                            Label:
-                                size_hint: 1.0, cond
+                                id: func_2
+                                size_hint: 0.5, cond_input
                             TextInput:
-                                size_hint: 1.0, cond_input
+                                id: func_2b
+                                size_hint: 0.5, cond_input
                             Label:
-                                size_hint: 1.0, cond
-                            Label:
-                                size_hint: 1.0, cond
+                                size_hint: 1.0, cond * 2
                             TextInput:
-                                size_hint: 1.0, cond_input
-                            Label:
-                                size_hint: 1.0, cond
-                            Label:
-                                size_hint: 1.0, cond
+                                id: func_3
+                                size_hint: 0.5, cond_input
                             TextInput:
-                                size_hint: 1.0, cond_input
+                                id: func_3b
+                                size_hint: 0.5, cond_input
                             Label:
-                                size_hint: 1.0, cond
-                            Label:
-                                size_hint: 1.0, cond
+                                size_hint: 1.0, cond *2
                             TextInput:
-                                size_hint: 1.0, cond_input
-                            Label:
-                                size_hint: 1.0, cond
-                            Label:
-                                size_hint: 1.0, cond
+                                id: func_4
+                                size_hint: 0.5, cond_input
                             TextInput:
-                                size_hint: 1.0, cond_input
+                                id: func_4b
+                                size_hint: 0.5, cond_input
+                            Label:
+                                size_hint: 1.0, cond * 2
+                            TextInput:
+                                id: func_5
+                                size_hint: 0.5, cond_input
+                            TextInput:
+                                id: func_5b
+                                size_hint: 0.5, cond_input
+                            Label:
+                                size_hint: 1.0, cond * 2
+                            TextInput:
+                                id: func_6
+                                size_hint: 0.5, cond_input
+                            TextInput:
+                                id: func_6b
+                                size_hint: 0.5, cond_input
+                            Label:
+                                size_hint: 1.0, cond * 2
+                            TextInput:
+                                id: func_7
+                                size_hint: 0.5, cond_input
+                            TextInput:
+                                id: func_7b
+                                size_hint: 0.5, cond_input
+                            Label:
+                                size_hint: 1.0, cond * 2
+                            TextInput:
+                                id: func_8
+                                size_hint: 0.5, cond_input
+                            TextInput:
+                                id: func_8b
+                                size_hint: 0.5, cond_input
                             Label:
                                 size_hint: 1.0, cond
                     
@@ -419,17 +396,21 @@
                         Label:
                             size_hint: 0.04, 1.0
                         Button:
+                            id: solve
                             size_hint: 0.44, 1.0
                             text: 'Solve'
                             font_size: 20
                             background_color: color_button
+                            on_press: root.solve()
                         Label: 
                             size_hint: 0.04, 1.0
                         Button:
+                            id: clear
                             size_hint: 0.44, 1.0
                             text: 'Clear'
                             font_size: 20
                             background_color: color_button
+                            on_press: root.clear()
                         Label: 
                             size_hint: 0.04, 1.0
                     
@@ -437,7 +418,9 @@
 
 
     TabbedPanelItem:
+        id: solution
         text: 'Solution'
+        background_color: color_button
         AnchorLayout:
             anchor_x: 'center'
             anchor_y: 'center'
@@ -470,6 +453,7 @@
                             Label:
                                 size_hint: 1.0, 0.1
                             Spinner:
+                                id: plot_type
                                 size_hint: .48, 0.8
                                 text: 'u1'
                                 values: ['u1', 'u2', 'p', 'stream', 'mesh', 'error']
@@ -480,6 +464,7 @@
                             Label:
                                 size_hint: .04, 0.8
                             Button:
+                                id: plot
                                 size_hint: 0.48, 0.8
                                 text: 'Plot'
                                 background_color: color_button
@@ -491,6 +476,7 @@
                             Label: 
                                 size_hint: 1.0, 0.085
                             Spinner:
+                                id: refine_type
                                 size_hint: .48, 0.4
                                 text: 'h auto'
                                 values: ['h auto', 'h manual', 'p auto', 'p manual']
@@ -501,14 +487,17 @@
                             Label:
                                 size_hint: .04, 0.4
                             Button:
+                                id: refine
                                 size_hint: 0.48, 0.4
                                 text: 'Refine'
                                 background_color: color_button
                             Label:
-                                size_hint: 1.0, 0.03
+                                text: 'Elements to Refine:'
+                                size_hint: 1.0, 0.23
                             TextInput:
                                 id: m_refine
-                                size_hint: 1.0, 0.4
+                                size_hint: 1.0, 0.2
+                                hint_text: '(0,1,2,5,8,9,10,...)'
                             Label:
                                 size_hint: 1.0, 0.085
 
@@ -517,14 +506,17 @@
                             Label: 
                                 size_hint: 1.0, 0.085
                             Button:
+                                id: load
                                 size_hint: 1.0, 0.4
                                 text: 'Load'
                                 background_color: color_button
                             Label:
-                                size_hint: 1.0, 0.03
+                                text: 'Filename (no extension):'
+                                size_hint: 1.0, 0.23
                             TextInput:
-                                id: load
-                                size_hint: 1.0, 0.4
+                                id: load_file
+                                size_hint: 1.0, 0.2
+                                hint_text: 'CamelliaModel'
                             Label:
                                 size_hint: 1.0, 0.085
 
@@ -533,14 +525,17 @@
                             Label:
                                 size_hint: 1.0, 0.085
                             Button:
+                                id: save
                                 size_hint: 1.0, 0.4
                                 text: 'Save'
                                 background_color: color_button
                             Label:
-                                size_hint: 1.0, 0.03
+                                text: 'Save as (no extension):'
+                                size_hint: 1.0, 0.23
                             TextInput:
-                                id: load
-                                size_hint: 1.0, 0.4
+                                id: save_file
+                                size_hint: 1.0, 0.2
+                                hint_text: 'CamelliaModel'
                             Label:  
                                 size_hint: 1.0, 0.085
 
