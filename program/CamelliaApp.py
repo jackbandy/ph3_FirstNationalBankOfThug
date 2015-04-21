@@ -9,14 +9,12 @@ from kivy.uix.tabbedpanel import TabbedPanel
 import Controller
 import Interpreter2
 from PyCamellia import *
+import re
 
 
 
 
 class CamelliaWindow(TabbedPanel):
-    control = Controller.Controller()
-    interpreter = Interpreter2.Interpreter2()
-
 
     def __init__(self, **kwargs):
         super(CamelliaWindow, self).__init__(**kwargs)
@@ -35,6 +33,9 @@ class CamelliaWindow(TabbedPanel):
         self.poses = [self.ids.pos_1, self.ids.pos_2, self.ids.pos_3, self.ids.pos_4, self.ids.pos_5, self.ids.pos_6, self.ids.pos_7, self.ids.pos_8]
         self.flows = [self.ids.flow_1, self.ids.flow_2, self.ids.flow_3, self.ids.flow_4, self.ids.flow_5, self.ids.flow_6, self.ids.flow_7, self.ids.flow_8]
         self.inputs = self.funcs+self.funcs_b+self.poses+[self.ids.mesh_1, self.ids.mesh_2, self.ids.dim_1, self.ids.dim_2, self.ids.reyn]
+        
+        #for flow in self.flows:
+        #    flow.bind(text=self.change_input)
 
     def solve(self):
         solveable = True
@@ -115,6 +116,20 @@ class CamelliaWindow(TabbedPanel):
     def switch_tab(self):
 	a = self.tab_list[0]
 	self.switch_to(a)
+
+    def change_input(spinner, text):
+        if (text == "Inflow"):
+            self.funcs[0].disabled = False
+            self.funcs_b[0].disabled = False
+            self.poses[0].disabled = False
+        elif (text == "Outflow"):
+            self.funcs[0].disabled = True
+            self.funcs_b[0].disabled = True
+            self.poses[0].disabled = False
+        elif (text == "N/A"):
+            self.funcs[0].disabled = True
+            self.funcs_b[0].disabled = True
+            self.poses[0].disabled = True
 
     def color_red(self, i):
         i.background_color = (.5, 0, 0.1, 1)

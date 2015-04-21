@@ -401,7 +401,7 @@
                             text: 'Solve'
                             font_size: 20
                             background_color: color_button
-                            on_press: root.solve(func_1)
+                            on_press: root.solve()
                         Label: 
                             size_hint: 0.04, 1.0
                         Button:
