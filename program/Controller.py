@@ -1,5 +1,5 @@
 import Interpreter2
-
+import pickle
 
 class Controller(object):
 
@@ -41,6 +41,23 @@ class Controller(object):
             inflowFunctions_.append(self.interpreter2.interpret(x))        
         outflowPos_
         
-        
+    def save(self, fileName):
+        #saving stringlist
+        file = open(fileName, 'wb')
+        pickle.dump(stringList, file)
+        file.close
+
+        #saving form solution
+        form.solution().save(fileName)
+
+    def load(self, fileName):
+        #loading stringlist
+        file = open(fileName, 'rb')
+        stringList = pickle.load(file)
+        file.close()
+
+        #loading solution
+        #if stokes use:  void initializeSolution(std::string savePrefix, int fieldPolyOrder, int delta_k = 1, FunctionPtr forcingFunction = Teuchos::null);
+        #if NS use: NavierStokesVGPFormulation(std::string prefixString, int spaceDim, double Re, int fieldPolyOrder, int delta_k = 1, FunctionPtr forcingFunction = Teuchos::null, bool transientFormulation = false, bool useConformingTraces = false);
 
     
