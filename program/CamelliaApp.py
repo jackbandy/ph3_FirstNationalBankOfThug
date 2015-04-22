@@ -34,8 +34,8 @@ class CamelliaWindow(TabbedPanel):
         self.flows = [self.ids.flow_1, self.ids.flow_2, self.ids.flow_3, self.ids.flow_4, self.ids.flow_5, self.ids.flow_6, self.ids.flow_7, self.ids.flow_8]
         self.inputs = self.funcs+self.funcs_b+self.poses+[self.ids.mesh_1, self.ids.mesh_2, self.ids.dim_1, self.ids.dim_2, self.ids.reyn]
         
-        #for flow in self.flows:
-        #    flow.bind(text=self.change_input)
+        for flow in self.flows:
+            flow.bind(text=self.change_input)
 
     def solve(self):
         solveable = True
@@ -119,19 +119,28 @@ class CamelliaWindow(TabbedPanel):
 	a = self.tab_list[0]
 	self.switch_to(a)
 
-    def change_input(spinner, text):
+    def change_input(self, spinner, text):
         if (text == "Inflow"):
-            self.funcs[0].disabled = False
-            self.funcs_b[0].disabled = False
-            self.poses[0].disabled = False
+	    for i in range(0, len(self.flows)):
+	        if spinner==self.flows[i]:
+		    self.funcs[i].disabled = False
+            	    self.funcs_b[i].disabled = False
+            	    self.poses[i].disabled = False
+		    break
         elif (text == "Outflow"):
-            self.funcs[0].disabled = True
-            self.funcs_b[0].disabled = True
-            self.poses[0].disabled = False
+	    for i in range(0, len(self.flows)):
+	        if spinner==self.flows[i]:
+		    self.funcs[i].disabled = True
+            	    self.funcs_b[i].disabled = True
+            	    self.poses[i].disabled = False
+		    break
         elif (text == "N/A"):
-            self.funcs[0].disabled = True
-            self.funcs_b[0].disabled = True
-            self.poses[0].disabled = True
+	    for i in range(0, len(self.flows)):
+	        if spinner==self.flows[i]:
+		    self.funcs[i].disabled = True
+            	    self.funcs_b[i].disabled = True
+            	    self.poses[i].disabled = True
+		    break
 
     def color_red(self, i):
         i.background_color = (.5, 0, 0.1, 1)
@@ -162,15 +171,6 @@ class CamelliaWindow(TabbedPanel):
         except NameError:
             return False
         return True
-
-    def save(self):
-        name = self.ids.save_file.text
-        self.controller.save(name)
-    
-    def load(self):
-        name = self.ids.load_file.text
-        data = self.controller.load(name)
-        #do stuff with the data
 
 class CamelliaApp(App):
     def build(self):
