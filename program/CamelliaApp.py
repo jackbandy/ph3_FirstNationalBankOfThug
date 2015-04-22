@@ -34,7 +34,8 @@ class CamelliaWindow(TabbedPanel):
         self.flows = [self.ids.flow_1, self.ids.flow_2, self.ids.flow_3, self.ids.flow_4, self.ids.flow_5, self.ids.flow_6, self.ids.flow_7, self.ids.flow_8]
         self.inputs = self.funcs+self.funcs_b+self.poses+[self.ids.mesh_1, self.ids.mesh_2, self.ids.dim_1, self.ids.dim_2, self.ids.reyn]
         
-        self.ids.state.disabled = True        
+        self.ids.state.disabled = True 
+        self.ids.m_refine.disabled = True       
 
         for flow in self.flows:
             flow.bind(text=self.change_input)
