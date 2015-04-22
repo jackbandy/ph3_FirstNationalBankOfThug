@@ -119,10 +119,10 @@ class Interpreter2():
                 new_fun = self.retExp(stack[position - 1],doub)
                 new_stack.append(new_fun)
                 new_stack.extend(stack[position+2:])
-                position += 1
                 stack = new_stack
             else:
                 position += 1
+
         position = 0
         while (position < len(stack)):
             if(stack[position] == 'e'):
@@ -131,10 +131,10 @@ class Interpreter2():
                 new_fun = stack[position -1] * self.retExp(10,doub)
                 new_stack.append(new_fun)
                 new_stack.extend(stack[position+2:])
-                position += 1
                 stack = new_stack
             else:
                 position += 1
+
         position = 0
         while (position < len(stack)):
             if(stack[position] == ('*')):
@@ -142,10 +142,10 @@ class Interpreter2():
                 new_fun = (stack[position - 1]*stack[position + 1])
                 new_stack.append(new_fun)
                 new_stack.extend(stack[position+2:])
-                position += 1
                 stack = new_stack
             else:
                 position += 1
+
         position = 0
         while (position < len(stack)):
             if(stack[position] == '/'):
@@ -153,7 +153,6 @@ class Interpreter2():
                 new_fun = (stack[position - 1]/stack[position + 1])
                 new_stack.append(new_fun)
                 new_stack.extend(stack[position+2:])
-                position += 1
                 stack = new_stack
             else:
                 position += 1
@@ -178,7 +177,6 @@ class Interpreter2():
                 new_fun = stack[position - 1] + stack[position + 1]
                 new_stack.append(new_fun)
                 new_stack.extend(stack[position+2:])
-                position += 1
                 stack = new_stack
             else:
                 position += 1
@@ -189,7 +187,6 @@ class Interpreter2():
                 new_fun = (stack[position - 1]-stack[position + 1])
                 new_stack.append(new_fun)
                 new_stack.extend(stack[position+2:])
-                position += 1
                 stack = new_stack
             else:
                 position += 1

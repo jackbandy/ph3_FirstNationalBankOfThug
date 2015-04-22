@@ -94,6 +94,8 @@ class CamelliaWindow(TabbedPanel):
             solveable = False
         print(solveable)
 	if (solveable):
+        #solve
+        #plot
 		self.switch_tab()
         #if stokes reyn = -1 else check it
         # pass the stuff

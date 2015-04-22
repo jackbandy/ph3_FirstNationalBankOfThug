@@ -22,21 +22,27 @@ Added Ids:
     load_file
     save
     save_file
+    plot
+    error
 Stuff to do:
 
-Needs Id (and other changes):
-    Plot 
-    Energy error
-
-If input is invalid, red the box
 Regular expression to parse position stuff
     Use the string "([x,y][=,>,<]/d+)+" Maybe <=, >=, =<, >=  from stackoverflow r"Test(\d*(?:\.\d+))"
-Use interpreter2.py to interpreter functions
 Depending on the state of inflow and outflow grey out
-
 if Navier Stokes its always steady state
 Submit will check all of the input and make red if wrong
 Derek/the back end will send the specifications for teh solve() pass -1 in the reyNum if stokes
+
+Fix interpreter
+Bridge the stuff
+    manualRefine(type, numbers) gives energy error
+    autoRefine(type) gives energy error
+    solve(lots of stuff [inflow tuples of strings], [outflow list of strings]) gives energy error
+    plot(type) returns image?? options u1, u2, p, stream, mesh, error
+    save(string) *
+    load(string) * (maybe return all the stuff)
+
+call plot if we refine
 
 Might have a load where it resets the settings in the Creation tab
 save/load will call save(filename) or load(filename)
