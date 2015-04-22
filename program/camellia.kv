@@ -28,7 +28,7 @@
     background_down: 'atlas://data/images/defaulttheme/spinner'
     color: color_font
     option_cls: Factory.get("MySpinnerOption")
-
+    
 
 <CamelliaWindow>:
     size_hint: 1, 1
@@ -124,7 +124,7 @@
                             Spinner:
                                 id: state
                                 size_hint: 1.0, 0.35
-                                text: 'Transient'
+                                text: 'Steady State'
                                 values: ['Transient', 'Steady State']
                                 background_color: color_button if self.state == 'normal' else color_button_pressed
                                 background_down: 'atlas://data/images/defaulttheme/spinner'
@@ -491,6 +491,7 @@
                                 size_hint: 0.48, 0.4
                                 text: 'Refine'
                                 background_color: color_button
+                                on_press: root.refine()
                             Label:
                                 text: 'Elements to Refine:'
                                 size_hint: 1.0, 0.23
@@ -529,6 +530,7 @@
                                 size_hint: 1.0, 0.4
                                 text: 'Save'
                                 background_color: color_button
+                                on_press: root.save
                             Label:
                                 text: 'Save as (no extension):'
                                 size_hint: 1.0, 0.23
@@ -547,11 +549,11 @@
                     size_hint: .75, 1.0
                     orientation: 'lr-tb'
                     Label:
+                        id: plot
                         size_hint: 1.0, .7
                         text: 'Plot goes here!'
                     Label:
+                        id: error
                         size_hint: 1.0, .3
                         text: 'Your error is:'
-
-
 
