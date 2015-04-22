@@ -4,7 +4,7 @@ from PyCamellia import *
 
 
 interpreter = Interpreter2()
-fun = interpreter.interpret("4.4")
+fun = interpreter.interpret("4 . 4")
 print(fun.displayString())
 fun = interpreter.interpret("4+-4")
 print(fun.displayString())

@@ -6,7 +6,7 @@ import math
 class Interpreter2():
     def interpret(self, string):
         self.string = string
-        self.string.replace(" ", "")#removes spaces
+        self.string = self.string.replace(" ", "")#removes spaces
         try:
             return self.iterateString(self.string)
         except NameError:

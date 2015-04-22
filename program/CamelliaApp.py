@@ -26,7 +26,7 @@ class CamelliaWindow(TabbedPanel):
         #self.funcs_b = extract(filter(lambda pair: pair[0].endswith('b'), funcs))
         #self.funcs = extract(filter(lambda pair: not pair[0].endswith('b'), funcs))
         self.control = Controller.Controller()
-        self.finterpreter = Interpreter2.Interpreter2()
+        self.interpreter = Interpreter2.Interpreter2()
 
         self.funcs = [self.ids.func_1, self.ids.func_2, self.ids.func_3, self.ids.func_4, self.ids.func_5, self.ids.func_6, self.ids.func_7, self.ids.func_8]
         self.funcs_b = [self.ids.func_1b, self.ids.func_2b, self.ids.func_3b, self.ids.func_4b, self.ids.func_5b, self.ids.func_6b, self.ids.func_7b, self.ids.func_8b]
@@ -34,8 +34,12 @@ class CamelliaWindow(TabbedPanel):
         self.flows = [self.ids.flow_1, self.ids.flow_2, self.ids.flow_3, self.ids.flow_4, self.ids.flow_5, self.ids.flow_6, self.ids.flow_7, self.ids.flow_8]
         self.inputs = self.funcs+self.funcs_b+self.poses+[self.ids.mesh_1, self.ids.mesh_2, self.ids.dim_1, self.ids.dim_2, self.ids.reyn]
         
+        self.ids.state.disabled = True        
+
         for flow in self.flows:
             flow.bind(text=self.change_input)
+
+        self.ids.eq.bind(text=self.equation_choice)
 
     def solve(self):
         solveable = True
@@ -44,6 +48,8 @@ class CamelliaWindow(TabbedPanel):
         pos = []
         for y in self.inputs:
             y.background_color = (1,1,1,1)
+        reg = re.compile("[x,y][=,>,<]\d*\.?\d+")
+        #checks if the functions and position are parsable, not useful
         for counter, flow  in enumerate(self.flows):
             if (flow.text == 'Inflow'):
                 text = self.funcs[counter].text
@@ -62,10 +68,21 @@ class CamelliaWindow(TabbedPanel):
                     self.color_red(self.funcs_b[counter])
                 else:
                     fun_y.append(text)
-                #check positions
+                text = self.poses[counter].text
+                filters = reg.findall(text)
+                if (len(filters) == 0):
+                    self.color_red(self.poses[counter])
+                    solveable = False
+                else:
+                    pos.append(filters)
             elif (flow.text == 'Outflow'):
-                #check pos
-                pass
+                text = self.poses[counter].text
+                filters = reg.findall(text)
+                if (len(filters) == 0):
+                    self.color_red(self.poses[counter])
+                    solveable = False
+                else:
+                    pos.append(filters)
         #check dim and mesh as float and int respectively
         try:
             d_1 = float(self.ids.dim_1.text)
@@ -119,28 +136,38 @@ class CamelliaWindow(TabbedPanel):
 	a = self.tab_list[0]
 	self.switch_to(a)
 
+    #changes what can be input for the specified flow condition
     def change_input(self, spinner, text):
         if (text == "Inflow"):
-	    for i in range(0, len(self.flows)):
-	        if spinner==self.flows[i]:
-		    self.funcs[i].disabled = False
-            	    self.funcs_b[i].disabled = False
-            	    self.poses[i].disabled = False
-		    break
+            for i in range(0, len(self.flows)):
+                if spinner == self.flows[i]:
+                    self.funcs[i].disabled = False
+                    self.funcs_b[i].disabled = False
+                    self.poses[i].disabled = False
+                    break
         elif (text == "Outflow"):
-	    for i in range(0, len(self.flows)):
-	        if spinner==self.flows[i]:
-		    self.funcs[i].disabled = True
-            	    self.funcs_b[i].disabled = True
-            	    self.poses[i].disabled = False
-		    break
+            for i in range(0, len(self.flows)):
+                if spinner == self.flows[i]:
+                    self.funcs[i].disabled = True
+                    self.funcs_b[i].disabled = True
+                    self.poses[i].disabled = False
+                    break
         elif (text == "N/A"):
-	    for i in range(0, len(self.flows)):
-	        if spinner==self.flows[i]:
-		    self.funcs[i].disabled = True
-            	    self.funcs_b[i].disabled = True
-            	    self.poses[i].disabled = True
-		    break
+            for i in range(0, len(self.flows)):
+                if spinner == self.flows[i]:
+                    self.funcs[i].disabled = True
+                    self.funcs_b[i].disabled = True
+                    self.poses[i].disabled = True
+                    break
+
+    def equation_choice(self,spinner, text):
+        if (text == "Navier-Stokes"):
+            self.ids.reyn.disabled = False
+            self.ids.state.text = "Steady State"
+            self.ids.state.disabled = True
+        else:
+            self.ids.reyn.disabled = True
+            self.ids.state.disabled = False
 
     def color_red(self, i):
         i.background_color = (.5, 0, 0.1, 1)
@@ -148,12 +175,14 @@ class CamelliaWindow(TabbedPanel):
     def clear(self):
         self.ids.eq.text = 'Navier-Stokes'
         self.ids.poly.text = '1'
-        self.ids.state.text = 'Transient'
+        self.ids.state.text = 'Steady State'
         self.ids.dim_1.text = ''
         self.ids.dim_2.text = ''
         self.ids.mesh_1.text = ''
         self.ids.mesh_2.text = ''
         self.ids.reyn.text = ''
+        for widget in self.inputs:
+            widget.disabled = False
         for x in self.poses:
             x.text = ''
         for x in self.flows:

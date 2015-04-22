@@ -1,4 +1,4 @@
-Done:
+DONE:
 Added Ids:
     creation
     eq
@@ -24,16 +24,14 @@ Added Ids:
     save_file
     plot
     error
-Stuff to do:
-
 Regular expression to parse position stuff
     Use the string "([x,y][=,>,<]/d+)+" Maybe <=, >=, =<, >=  from stackoverflow r"Test(\d*(?:\.\d+))"
-Depending on the state of inflow and outflow grey out
+Fix interpreter2.py
 if Navier Stokes its always steady state
-Submit will check all of the input and make red if wrong
-Derek/the back end will send the specifications for teh solve() pass -1 in the reyNum if stokes
+Depending on the state of inflow and outflow grey out
 
-Fix interpreter
+STUFF TO DO:
+pass -1 in the reyNum if stokes
 Bridge the stuff
     manualRefine(type, numbers) gives energy error
     autoRefine(type) gives energy error
@@ -42,6 +40,7 @@ Bridge the stuff
     save(string) *
     load(string) * (maybe return all the stuff)
 
+call plot if we refine
 
 Might have a load where it resets the settings in the Creation tab
 save/load will call save(filename) or load(filename)

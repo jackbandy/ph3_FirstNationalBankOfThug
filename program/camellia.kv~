@@ -82,10 +82,8 @@
                                 values: ['Navier-Stokes', 'Stokes']
                                 background_color: color_button if self.state == 'normal' else color_button_pressed
                                 background_down: 'atlas://data/images/defaulttheme/spinner'
-				on_press: disabled = True
                                 color: color_font
                                 option_cls: Factory.get("MySpinnerOption")
-				
                             Label:
                                 size_hint: 1.0, 0.15
 
