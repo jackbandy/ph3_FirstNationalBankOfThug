@@ -32,7 +32,7 @@ class CamelliaWindow(TabbedPanel):
         self.funcs_b = [self.ids.func_1b, self.ids.func_2b, self.ids.func_3b, self.ids.func_4b, self.ids.func_5b, self.ids.func_6b, self.ids.func_7b, self.ids.func_8b]
         self.poses = [self.ids.pos_1, self.ids.pos_2, self.ids.pos_3, self.ids.pos_4, self.ids.pos_5, self.ids.pos_6, self.ids.pos_7, self.ids.pos_8]
         self.flows = [self.ids.flow_1, self.ids.flow_2, self.ids.flow_3, self.ids.flow_4, self.ids.flow_5, self.ids.flow_6, self.ids.flow_7, self.ids.flow_8]
-        self.inputs = self.funcs+self.funcs_b+self.poses+[self.ids.mesh_1, self.ids.mesh_2, self.ids.dim_1, self.ids.dim_2, self.ids.reyn]
+        self.inputs = self.funcs+self.funcs_b+self.poses+[self.ids.mesh_1, self.ids.mesh_2, self.ids.dim_1, self.ids.dim_2, self.ids.reyn, self.ids.load_file, self.ids.save_file]
         
         self.ids.state.disabled = True 
         self.ids.m_refine.disabled = True       
@@ -46,9 +46,8 @@ class CamelliaWindow(TabbedPanel):
 
     def solve(self):
         solveable = True
-        fun_x = []
-        fun_y = []
-        pos = []
+        inflow = []
+        outflow = []
         for y in self.inputs:
             y.background_color = (1,1,1,1)
         reg = re.compile("[x,y][=,>,<]\d*\.?\d+")
@@ -62,7 +61,7 @@ class CamelliaWindow(TabbedPanel):
                     solveable = False
                     self.color_red(self.funcs[counter])
                 else:
-                    fun_x.append(text)
+                    fun_x = text
                 text = self.funcs_b[counter].text
                 if (len(text) == 0):
                      text = '0'
@@ -70,14 +69,16 @@ class CamelliaWindow(TabbedPanel):
                     solveable = False
                     self.color_red(self.funcs_b[counter])
                 else:
-                    fun_y.append(text)
+                    fun_y = text 
                 text = self.poses[counter].text
                 filters = reg.findall(text)
                 if (len(filters) == 0):
                     self.color_red(self.poses[counter])
                     solveable = False
                 else:
-                    pos.append(filters)
+                    pos = text
+                if solveable:
+                    inflow.append((pos, fun_x,fun_y))
             elif (flow.text == 'Outflow'):
                 text = self.poses[counter].text
                 filters = reg.findall(text)
@@ -85,7 +86,7 @@ class CamelliaWindow(TabbedPanel):
                     self.color_red(self.poses[counter])
                     solveable = False
                 else:
-                    pos.append(filters)
+                    outflow.append(text)
         #check dim and mesh as float and int respectively
         try:
             d_1 = float(self.ids.dim_1.text)
@@ -109,30 +110,38 @@ class CamelliaWindow(TabbedPanel):
             solveable = False
         try:
             reyn = int(self.ids.reyn.text)
+            if (reyn < 0):
+                self.color_red(self.ids.reyn)
+                solveable = False
         except ValueError:
             self.color_red(self.ids.reyn)
             solveable = False
-        print(solveable)
-	if (solveable):
-        #solve
-        #plot
-		self.switch_tab()
-        #if stokes reyn = -1 else check it
-        # pass the stuff
-        #if (solveable):
-            
-            #string eq
-            #string poly
-            #string tuple mesh elements
-            #string tuple dimensions
-            
-            #string reyn
-            #reyn = self.ids.reyn.text positions
-            #List<string> inflow positions
-            #List<string> inflow x functions fun_x
-            #List<string> inflow y functions fun_y
-            #List<string> outflow positions
+        if (solveable):
+            #solve
+            #plot
+            print(inflow)
+            print(outflow)
+            self.switch_tab()
+            eq = self.ids.eq.text
+            poly = self.ids.poly.text
+            state = self.ids.state.text
+            dim_1 = self.ids.dim_1.text
+            dim_2 = self.ids.dim_2.text
+            mesh_1 = self.ids.mesh_1.text
+            mesh_2 = self.ids.mesh_2.text
+            if self.ids.state.text == Stokes:
+                reyn = "-1"
+            else:
+                reyn = self.ids.reyn.text
+            self.control.solve(eq, poly, state, dim_1, dim_2, mesh_1, mesh_2, reyn, inflow, outflow)
 
+
+    def checkFunction(self, text):
+        try:
+            func = self.interpreter.interpret(text)
+        except NameError:
+            return False
+        return True
 
     def refine(self):
         text=self.ids.refine_type.text
@@ -149,7 +158,7 @@ class CamelliaWindow(TabbedPanel):
                 #self.control.manualRefine(text[0],elements)
             else:
                 self.color_red(self.ids.m_refine)
-            
+
 
     #go to the solution tab 
     def switch_tab(self):
@@ -211,23 +220,35 @@ class CamelliaWindow(TabbedPanel):
         self.ids.reyn.text = ''
         for widget in self.inputs:
             widget.disabled = False
-        for x in self.poses:
-            x.text = ''
+            widget.text = ''
+            widget.background_color = (1,1,1,1)
         for x in self.flows:
             x.text = 'Select In/Outflow'
-        for x in self.funcs:
-            x.text = ''
-        for x in self.funcs_b:
-            x.text = ''
-        for t_in in self.inputs:
-            t_in.background_color = (1,1,1,1)
 
-    def checkFunction(self, text):
-        try:
-            func = self.interpreter.interpret(text)
-        except NameError:
-            return False
-        return True
+    def save(self):
+        text = self.ids.save_file.text
+        if (len(text) > 0):
+            self.control.save(text)
+        else:
+            self.control.save("CamelliaSaveFile")
+
+    def load(self):
+        text = self.ids.load_file.text
+        if (len(text) == 0):
+            pass
+            #error
+        else:
+            boo = self.control.load(text)
+            if (boo):
+                self.plot()
+                self.ids.error.text = self.control.error()
+            else:
+                pass
+                #make red
+
+    def plot(self):
+        plot = self.ids.plot_type.text
+        self.control.plot(plot)
 
 class CamelliaApp(App):
     def build(self):
