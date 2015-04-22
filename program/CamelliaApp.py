@@ -38,7 +38,9 @@ class CamelliaWindow(TabbedPanel):
         self.ids.m_refine.disabled = True       
 
         for flow in self.flows:
-            flow.bind(text=self.change_input)
+            flow.bind(text=self.change_flow_input)
+	    (self.ids.refine_type).bind(text=self.change_refine_input)
+	
 
         self.ids.eq.bind(text=self.equation_choice)
 
@@ -132,13 +134,38 @@ class CamelliaWindow(TabbedPanel):
             #List<string> outflow positions
 
 
+    def refine(self):
+        text=self.ids.refine_type.text
+        if text=="h auto" or text=="p auto":
+            #self.control.autoRefine(text[0])
+            self.ids.m_refine.background_color = (1,1,1,1)
+        elif text=="p manual" or text=="h manual":
+            elements = self.ids.m_refine.text
+            elements = elements.replace(" ","")
+            reg = re.compile("\d+(,\d+)*")
+            m = reg.match(elements)
+            if (m != None and elements==m.group() and elements!=""):
+                self.ids.m_refine.background_color = (1,1,1,1)
+                #self.control.manualRefine(text[0],elements)
+            else:
+                self.color_red(self.ids.m_refine)
+            
+
     #go to the solution tab 
     def switch_tab(self):
 	a = self.tab_list[0]
 	self.switch_to(a)
 
+    def change_refine_input(self, spinner, text):
+        if text=="h auto" or text=="p auto":
+            self.ids.m_refine.disabled = True
+            self.ids.m_refine.background_color = (1,1,1,1)
+        else:
+            self.ids.m_refine.disabled = False
+            
+
     #changes what can be input for the specified flow condition
-    def change_input(self, spinner, text):
+    def change_flow_input(self, spinner, text):
         if (text == "Inflow"):
             for i in range(0, len(self.flows)):
                 if spinner == self.flows[i]:
