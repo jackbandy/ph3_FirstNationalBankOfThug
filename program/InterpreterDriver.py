@@ -1,0 +1,28 @@
+from Interpreter2 import *
+from PyCamellia import *
+#input = raw_input("Input test function: ")
+
+
+interpreter = Interpreter2()
+fun = interpreter.interpret("4 . 4")
+print(fun.displayString())
+fun = interpreter.interpret("4+-4")
+print(fun.displayString())
+fun = interpreter.interpret("-4.4")
+print(fun.displayString())
+fun = interpreter.interpret("x+4.4y")
+eval = Function.evaluate(fun, 1.0,4.0)
+print(eval)
+print(fun.displayString())
+fun = interpreter.interpret("9*y-3*y*y-6")
+print(fun)
+eval = Function.evaluate(fun, 4.0,1.0)
+print(eval)
+fun = interpreter.interpret("-3*y*y+9*y-6")
+print(fun)
+eval = Function.evaluate(fun, 4.0,4.0)
+print(eval)
+fun = interpreter.interpret("-3*(y-1)*(y-2)")
+print(fun)
+eval = Function.evaluate(fun, 4.0,4.0)
+print(eval)

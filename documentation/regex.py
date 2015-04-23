@@ -1,8 +1,14 @@
 import re
+from string import *
 
 
-test = "dog 3  y < 3.4 3...4 3.4."
 
-results = re.findall(r"[x,y][=,>,<][-+]?[0-9]*\.?[0-9]+", test)  #[0-9]*[.,]?\d*$
+test = "dog x = 3  y < 3.4, 3...4 3.4."
+print test
+test = test.replace(" ", "")
+
+print(test)
+re = re.compile("[x,y][=,>,<]\d*\.?\d+")
+results = re.findall(test)  #[0-9]*[.,]?\d*$[-+]
  
 print results
