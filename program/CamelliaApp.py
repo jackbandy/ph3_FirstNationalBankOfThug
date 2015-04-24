@@ -50,7 +50,7 @@ class CamelliaWindow(TabbedPanel):
         outflow = []
         for y in self.inputs:
             y.background_color = (1,1,1,1)
-        reg = re.compile("[x,y][=,>,<]\d*\.?\d+")
+        reg = re.compile("[x,y][=,>,<][-+]?\d*\.?\d+")
         #checks if the functions and position are parsable, not useful
         for counter, flow  in enumerate(self.flows):
             if (flow.text == 'Inflow'):
@@ -71,6 +71,7 @@ class CamelliaWindow(TabbedPanel):
                 else:
                     fun_y = text 
                 text = self.poses[counter].text
+                text = text.replace(" ","")
                 filters = reg.findall(text)
                 if (len(filters) == 0):
                     self.color_red(self.poses[counter])
@@ -81,6 +82,7 @@ class CamelliaWindow(TabbedPanel):
                     inflow.append((pos, fun_x,fun_y))
             elif (flow.text == 'Outflow'):
                 text = self.poses[counter].text
+                text = text.replace(" ","")
                 filters = reg.findall(text)
                 if (len(filters) == 0):
                     self.color_red(self.poses[counter])
@@ -109,10 +111,11 @@ class CamelliaWindow(TabbedPanel):
             self.color_red(self.ids.mesh_2)
             solveable = False
         try:
-            reyn = int(self.ids.reyn.text)
-            if (reyn < 0):
-                self.color_red(self.ids.reyn)
-                solveable = False
+            if (self.ids.eq.text == 'Navier-Stokes'):
+                reyn = int(self.ids.reyn.text)
+                if (reyn < 0):
+                    self.color_red(self.ids.reyn)
+                    solveable = False
         except ValueError:
             self.color_red(self.ids.reyn)
             solveable = False
@@ -129,7 +132,7 @@ class CamelliaWindow(TabbedPanel):
             dim_2 = self.ids.dim_2.text
             mesh_1 = self.ids.mesh_1.text
             mesh_2 = self.ids.mesh_2.text
-            if self.ids.state.text == Stokes:
+            if self.ids.state.text == 'Stokes':
                 reyn = "-1"
             else:
                 reyn = self.ids.reyn.text
@@ -204,6 +207,7 @@ class CamelliaWindow(TabbedPanel):
             self.ids.state.disabled = True
         else:
             self.ids.reyn.disabled = True
+            self.ids.reyn.background_color = (1, 1, 1, 1)
             self.ids.state.disabled = False
 
     def color_red(self, i):
