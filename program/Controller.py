@@ -1,3 +1,4 @@
+from PyCamellia import *
 import Interpreter2
 import pickle
 
@@ -44,20 +45,22 @@ class Controller(object):
     def save(self, fileName):
         #saving stringlist
         file = open(fileName, 'wb')
-        pickle.dump(stringList, file)
+        pickle.dump(self.stringList, file)
         file.close
-
         #saving form solution
-        form.solution().save(fileName)
+        self.form.solution().save(fileName)
 
     def load(self, fileName):
         #loading stringlist
         file = open(fileName, 'rb')
-        stringList = pickle.load(file)
+        self.stringList = pickle.load(file)
         file.close()
-
         #loading solution
-        #if stokes use:  void initializeSolution(std::string savePrefix, int fieldPolyOrder, int delta_k = 1, FunctionPtr forcingFunction = Teuchos::null);
+        #if stokes use: initializeSolution(std::string savePrefix, int fieldPolyOrder, int delta_k = 1, FunctionPtr forcingFunction = Teuchos::null);
+        if self.stringList.eq_type == "Stokes":
+            self.form.initializeSolution(fileName, self.stringList[1])
         #if NS use: NavierStokesVGPFormulation(std::string prefixString, int spaceDim, double Re, int fieldPolyOrder, int delta_k = 1, FunctionPtr forcingFunction = Teuchos::null, bool transientFormulation = false, bool useConformingTraces = false);
+        elif self.stringList.eq_type == "Navier-Stokes":
+            self.form.NavierStokesVGPFormulation(fileName, self.stringList[3], self.stringList[1], self.stringList[5]) 
 
     
