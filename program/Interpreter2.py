@@ -104,7 +104,8 @@ class Interpreter2():
                 position += 1
             
             else:
-                position += 1
+                #position += 1
+                raise NameError
                 
 
         #done with looping and tokenizing
@@ -114,6 +115,8 @@ class Interpreter2():
         position = 0
         while (position < len(stack)):
             if(stack[position] == '^'):
+                if (len(stack) == position):
+                    raise NameError
                 new_stack = stack[:position -1]
                 doub = math.floor(Function.evaluate(stack[position + 1],1.0,1.0))
                 new_fun = self.retExp(stack[position - 1],doub)
@@ -127,6 +130,8 @@ class Interpreter2():
         while (position < len(stack)):
             if(stack[position] == 'e'):
                 new_stack = stack[:position -1]
+                if (len(stack) == position):
+                    raise NameError
                 doub =math.floor(Function.evaluate(stack[position + 1],1.0,1.0))
                 new_fun = stack[position -1] * self.retExp(10,doub)
                 new_stack.append(new_fun)
@@ -138,6 +143,8 @@ class Interpreter2():
         position = 0
         while (position < len(stack)):
             if(stack[position] == ('*')):
+                if (len(stack) == position):
+                    raise NameError
                 new_stack = stack[:position -1]
                 new_fun = (stack[position - 1]*stack[position + 1])
                 new_stack.append(new_fun)
@@ -149,6 +156,8 @@ class Interpreter2():
         position = 0
         while (position < len(stack)):
             if(stack[position] == '/'):
+                if (len(stack) == position):
+                    raise NameError
                 new_stack = stack[:position -1]
                 new_fun = (stack[position - 1]/stack[position + 1])
                 new_stack.append(new_fun)
@@ -173,6 +182,8 @@ class Interpreter2():
         position = 0
         while (position < len(stack)):
             if(stack[position] == ('+')):
+                if (len(stack) == position):
+                    raise NameError
                 new_stack = stack[:position -1]
                 new_fun = stack[position - 1] + stack[position + 1]
                 new_stack.append(new_fun)
@@ -183,6 +194,8 @@ class Interpreter2():
         position = 0
         while (position < len(stack)):
             if(stack[position] == ('-')):
+                if (len(stack) == position):
+                    raise NameError
                 new_stack = stack[:position -1]
                 new_fun = (stack[position - 1]-stack[position + 1])
                 new_stack.append(new_fun)
