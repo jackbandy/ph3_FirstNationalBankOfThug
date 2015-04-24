@@ -1,5 +1,6 @@
 import Interpreter2
 import pickle
+import random
 
 class Controller(object):
 
@@ -7,7 +8,7 @@ class Controller(object):
         self.stringList = []
         self.form = None
         self.interpreter2 = Interpreter2.Interpreter2()
-    
+        self.puppies = ['puppies.jpg','puppies2.jpg','puppies3.jpg','puppies4.jpg','puppies5.jpg','puppies6.jpg','puppies7.jpg','puppies8.jpg','puppies9.jpg','puppies10.jpg']
     #String List
     #   String eq_type
     #   String pOrder
@@ -56,6 +57,8 @@ class Controller(object):
         stringList = pickle.load(file)
         file.close()
 
+    def plot(self, pltstr):
+        return random.choice(self.puppies)
         #loading solution
         #if stokes use:  void initializeSolution(std::string savePrefix, int fieldPolyOrder, int delta_k = 1, FunctionPtr forcingFunction = Teuchos::null);
         #if NS use: NavierStokesVGPFormulation(std::string prefixString, int spaceDim, double Re, int fieldPolyOrder, int delta_k = 1, FunctionPtr forcingFunction = Teuchos::null, bool transientFormulation = false, bool useConformingTraces = false);

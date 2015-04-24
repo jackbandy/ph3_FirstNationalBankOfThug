@@ -252,7 +252,7 @@ class CamelliaWindow(TabbedPanel):
 
     def plot(self):
         plot = self.ids.plot_type.text
-        self.control.plot(plot)
+        self.ids.plot.source = self.control.plot(plot)
 
 class CamelliaApp(App):
     def build(self):
