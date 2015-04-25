@@ -13,7 +13,7 @@ class plotter():
     def plotU1(self,form):
 	mesh = form.solution().mesh()
 	soln = Function.solution(form.u(1),form.solution())
-	self.plotFunction(soln,mesh,"u1")
+	return self.plotFunction(soln,mesh,"u1")
     def plotU2(self,form):
 	mesh = form.solution().mesh()
 	soln = Function.solution(form.u(2),form.solution()) 

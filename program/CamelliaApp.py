@@ -138,7 +138,11 @@ class CamelliaWindow(TabbedPanel):
             self.control.solve(eq, poly, state, (dim_1, dim_2), (mesh_1, mesh_2), reyn, inflow, outflow)
             self.ids.error.text = self.control.error()
             # automatically plots u1
-            self.ids.plot.source = self.control.plot('u1')
+            try:
+                self.ids.plot.source = self.control.plot('u1')
+            except ValueError:
+                self.ids.plot.source = 'puppies5.jpg'
+                self.ids.error.text = 'U1 isn\'t plotting properly :('
             self.ids.save_file.hint_text = 'CamelliaModel'
             
             
@@ -270,8 +274,13 @@ class CamelliaWindow(TabbedPanel):
 
     def plot(self):
         plot = self.ids.plot_type.text
-        self.ids.plot.source = self.control.plot(plot)
+        try:
+            self.ids.plot.source = self.control.plot(plot)
+        except ValueError:
+            self.ids.plot.source = 'puppies3.jpg'
+            self.ids.error.text = 'Uh oh! You failed Software Development!'
         self.reset_back()
+        
 
     def reset_back(self):
         self.ids.load_file.background_color = (1, 1, 1, 1)
