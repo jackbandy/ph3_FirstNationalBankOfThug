@@ -14,12 +14,12 @@ Jack Bandy (Public relations)
 
 README.md - you are here
 
-program       go here if you're ready for business:
+program-       go here if you're ready for business:
 	      To run the program, run program/CamelliaApp.py using pyton
 
-documentation:	  go here if you're clueless:
+documentation-	  go here if you're clueless:
 		  For full documentation see documentation/Documentation.docx or
 		         documentation/Documentation.txt
 
-playground:	    go here if you're curious ;)
+playground-	    go here if you're curious ;)
 
