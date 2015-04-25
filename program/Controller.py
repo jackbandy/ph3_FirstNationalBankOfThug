@@ -9,6 +9,8 @@ import re
 class Controller(object):
 
     def __init__(self):
+	self.animateit = False
+	self.ims = []
         self.stringList = []
         self.form = None
         self.refinementNumber = 0
@@ -53,8 +55,10 @@ class Controller(object):
 
         #Get a form from FormCreator
         if (reyNum_ == -1):
+	    #no reynolds number: Stokes
             self.form = self.formCreator.main(pOrder_, inflowSpatialFilters_, inflowFunX_, inflowFunY_, outflowSpatialFilters_, dimensions_, meshElements_, transient = (state == "transient"))
         else:
+	    #reynolds number: Navier-Stokes
             self.form = self.formCreator.main(pOrder_, inflowSpatialFilters_, inflowFunX_, inflowFunY_, outflowSpatialFilters_, dimensions_, meshElements_, re = reyNum_, transient = (state_ == "transient"))
 
 
@@ -78,11 +82,68 @@ class Controller(object):
             energy = self.form.solutionIncrement().energyErrorTotal()
         
         else:
+	#Stokes
+	  if(self.stringList[2] == "transient"):
+	  #do fancy stuff
+	    self.animateit = True
+	    self.animateIt()
+	  else:
+	    #this implies steady state stokes
             self.form.solve()
             mesh = self.form.solution().mesh()
             energy = self.form.solution().energyErrorTotal()
 
-            
+
+    def animateIt(self):
+	timeRamp = TimeRamp.timeRamp(self.form.getTimeFunction(),1.0)
+	x0 = [0.,0.]
+	meshTopo = MeshFactory.rectilinearMeshTopology(stringList[3],stringList[4],x0)
+	self.form.initializeSolution(meshTopo,stringList[1],delta_k)
+	for timeStepNumber in range(numTimeSteps):
+	  self.form.solve()
+	  transientForm.takeTimeStep()
+	  print("Time step %i completed" % timeStepNumber)
+	  u1_soln = Function.solution(self.form.u(1),transientForm.solution())
+	
+	  num_x = 10
+	  num_y = 10
+	  refCellVertexPoints = []
+	
+	  for j in range(num_y):
+	    y = -1 + 2. * float(j) / float(num_y - 1) # go from -1 to 1
+	    for i in range(num_x):
+	      x = -1 + 2. * float(i) / float(num_x - 1) # go from -1 to 1
+	      refCellVertexPoints.append([x,y])
+	
+	  zList = []
+	  activeCellIDs = mesh.getActiveCellIDs()
+	  for cellID in activeCellIDs:
+	       	  vertices = mesh.verticesForCell(cellID)
+	       	  xMinLocal = vertices[0][0]
+	       	  xMaxLocal = vertices[1][0]
+	       	  yMinLocal = vertices[0][1]
+	       	  yMaxLocal = vertices[2][1]
+	       	  xMin = sys.float_info.max
+	       	  xMax = sys.float_info.min
+	       	  yMin = sys.float_info.max
+	       	  yMax = sys.float_info.min
+	       	  (values,points) = u1_soln.getCellValues(mesh,cellID,refCellVertexPoints)
+	       	  zValues = np.array(values)
+	       	  zValues = zValues.reshape((num_x,num_y)) # 2D array
+	       	  zMin = -.75
+	       	  zMax = .75
+	       	  zList.append((zValues,(xMinLocal,xMaxLocal),(yMinLocal,yMaxLocal)))
+	       	  xMin = min(xMinLocal,xMin)
+	       	  xMax = max(xMaxLocal,xMax)
+	       	  yMin = min(yMinLocal,yMin)
+	       	  yMax = max(yMaxLocal,yMax)
+	  for zTuple in zList:
+	       	  zValues,(xMinLocal,xMaxLocal),(yMinLocal,yMaxLocal) = zTuple
+	       	  im = plt.imshow(zValues, cmap='coolwarm', vmin=zMin, vmax=zMax,
+	       	               extent=[xMinLocal, xMaxLocal, yMinLocal, yMaxLocal],
+	       	               interpolation='bicubic', origin='lower')
+	  self.ims.append([im])
+
     
     def error(self):
         if self.stringList[0] == "Navier-Stokes":
@@ -212,6 +273,8 @@ class Controller(object):
     def plot(self, pltstr):
         if (self.form == None):
             return random.choice(self.puppies)
+	if (self.animateIt == True):
+	    return self.plotter.plotAnim(self.ims)
         if (pltstr == "u1"):
             return self.plotter.plotU1(self.form)
         elif (pltstr == "u2"):

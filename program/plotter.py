@@ -182,3 +182,10 @@ class plotter():
 	plt.clf()
 	return title+"_plot.png"
 	
+    def plotAnim(self,ims):
+	fig = plt.figure()
+	ani = animation.ArtistAnimation(fig, ims, interval=200, blit=True,
+	    repeat_delay=500)
+	
+	plt.show()
+
