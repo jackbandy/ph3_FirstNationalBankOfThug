@@ -195,6 +195,7 @@ class Controller(object):
             #if NS
             elif self.stringList[0] == "Navier-Stokes":
                 self.form = NavierStokesVGPFormulation(fileName, 2, float(self.stringList[5]), int(self.stringList[1]))
+            return self.stringList
         except Exception:
             raise Exception
 
