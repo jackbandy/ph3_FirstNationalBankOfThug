@@ -36,12 +36,12 @@ class Controller(object):
         reyNum_ = int(reyNum)
         inflowPos_ = []
         inflowSpatialFilters_ = []
-        for x in inflowFunctions:
-            inflowSpatialFilters_.append(parsePos(x[0]))
-            inflowFunctions_.append(self.interpreter2.interpret(x[1]))
+        for x in inflow:
+            inflowSpatialFilters_.append(self.parsePos(x[0]))
+            inflowFunctions_.append((self.interpreter2.interpret(x[1]), self.interpreter2.interpret(x[2])))
         outflowSpatialFilters_ = []
         for x in outflow:
-            outflowSpatialFilters_.append(parsePos(x))
+            outflowSpatialFilters_.append(self.parsePos(x))
 
 
         #Get a form with FormCreator - Woodson?
@@ -53,7 +53,7 @@ class Controller(object):
             maxSteps = 10
             normOfIncrement = 1
             stepNumber = 0
-            while normOfIncrement > nonLinearThrehshold and stepNumber < maxSteps:
+            while normOfIncrement > nonLinearThreshold and stepNumber < maxSteps:
                 self.form.solveAndAccumulate()
                 normOfIncrement = self.form.L2NormSolutionIncrement()
                 stepNumber += 1
@@ -67,7 +67,7 @@ class Controller(object):
 
             
     
-    def error():
+    def error(self):
         if self.stringList[0] == "Navier-Stokes":
             energy = self.form.solutionIncrement().energyErrorTotal()
         else:
@@ -81,7 +81,7 @@ class Controller(object):
 
 
     #Returns a spatial filter given a string that is 
-    def parsePos(input):
+    def parsePos(self, input):
         inputData = re.split('=|<|>|,', input)
         input = re.split('( )*([0-9]*\.[0-9]+|[0-9]+)( )*', input)
 		
