@@ -111,7 +111,7 @@ class Controller(object):
             i = 2
             while i < len(filters_):
                 toRet = SpatialFilter.intersectionFilter(toRet, filters_[i])
-                    
+                i = i + 1
             return toRet
         else:
             return self.get_space_fil_helper(altered, input)
