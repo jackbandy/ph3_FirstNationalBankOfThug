@@ -273,7 +273,7 @@ class CamelliaWindow(TabbedPanel):
     def plot(self):
         plot = self.ids.plot_type.text
         self.ids.plot.source = self.control.plot(plot)
-        if (self.ids.save.disabled = False):
+        if (self.ids.save.disabled == False):
             self.ids.plot_label.text = 'Plot of ' + plot
         self.reset_back()
 

@@ -47,12 +47,10 @@ class FormCreator(State):
                 #NavierStokesVGPFormulation(self.context.file_name, space_dim, re, poly_order)
             
 
-<<<<<<< HEAD
+
     """
     No idea what this is
-=======
-        """No idea what this is
->>>>>>> 39f0eb5896dfa5869ae44023ce8842b3ccba2662
+
         #solves and prints result
         if is_Navier:
             nonlinearThreshold = 1e-3
@@ -75,8 +73,7 @@ class FormCreator(State):
 <<<<<<< HEAD
    """
 
-=======
-        """
+"""
 >>>>>>> 39f0eb5896dfa5869ae44023ce8842b3ccba2662
        
 
@@ -177,3 +174,4 @@ class FormCreator(State):
             self.context.parse_error(assignment)
             answer = self.context.query("Please input spatial filter in form x=3, y< 4")
             return self.get_space_fil_helper(answer, prompt)
+"""
