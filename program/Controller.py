@@ -140,7 +140,7 @@ class Controller(object):
             elif self.stringList.eq_type == "Navier-Stokes":
                 self.form = NavierStokesVGPFormulation(fileName, 2, self.stringList[5], self.stringList[1])
         except Exception:
-            print "Error: No such file"
+            raise Exception
 
 
 
