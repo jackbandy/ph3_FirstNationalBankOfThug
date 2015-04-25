@@ -146,7 +146,7 @@ class CamelliaWindow(TabbedPanel):
                 self.ids.plot.source = self.control.plot('u1')
                 self.ids.plot_label.text = 'Plot of u1'
             except ValueError:
-                self.ids.plot.source = 'puppies5.jpg'
+                self.ids.plot.source = 'puppies3.jpg'
                 self.ids.error.text = 'U1 isn\'t plotting properly :('
             self.ids.save_file.hint_text = 'CamelliaModel'
             self.ids.save.disabled = False
@@ -209,7 +209,6 @@ class CamelliaWindow(TabbedPanel):
         self.ids.load.disabled = True
         self.ids.refine.disabled = True
         self.ids.plot_butt.disabled = True
-        print("refining, please wait")
         self.ids.error.text = 'Refining, please wait'
 
     def refine_done(self):
@@ -218,6 +217,7 @@ class CamelliaWindow(TabbedPanel):
         self.ids.refine.disabled = False
         self.ids.plot_butt.disabled = False
         self.ids.error.text = self.control.error()
+        self.plot()
 
 
     #go to the solution tab 
@@ -311,7 +311,6 @@ class CamelliaWindow(TabbedPanel):
             try:
                 self.clear()
                 loaded = self.control.load(text)
-                print(loaded)
                 self.ids.eq.text = loaded[0]
                 self.ids.poly.text = loaded[1]
                 
@@ -332,9 +331,7 @@ class CamelliaWindow(TabbedPanel):
                     self.funcs_b[x].text = loaded[6][x][2]
                     self.flows[x].text = 'Inflow'
                     self.change_flow_input(self.flows[x], self.flows[x].text)
-                    print("wow")
                 for y in range(0, len(loaded[7])):
-                    print(loaded[7][y])
                     self.poses[y+inflows].text = loaded[7][y]
                     self.flows[y+inflows].text = 'Outflow'
                     self.change_flow_input(self.flows[y+inflows], self.flows[y+inflows].text)
@@ -358,6 +355,7 @@ class CamelliaWindow(TabbedPanel):
         plot = self.ids.plot_type.text
         try:
             self.ids.plot.source = self.control.plot(plot)
+            self.ids.plot.reload()
             self.ids.plot_label.text = 'Plot of ' + plot
         except ValueError:
             self.ids.plot.source = 'puppies3.jpg'
