@@ -28,7 +28,8 @@ class plotter():
 	stream.solve()
 	mesh = stream.mesh()
 	soln = Function.solution(form.streamPhi(),stream)
-	return self.plotFunction(soln,mesh,"stream")
+	print "amazing" 
+	return self.plotFunction(soln,mesh,"Stream")
     def plotMesh(self,form):
 	mesh = form.solution().mesh()
 	num_x = 10
@@ -182,24 +183,29 @@ class plotter():
 	plt.clf()
 	return title+"_plot.png"
 	
-    def plotAnim(self,ims):
+    def plotAnimFinal(self,ims):
 	fig = plt.figure()
 	ani = animation.ArtistAnimation(fig, ims, interval=200, blit=True,
 	    repeat_delay=500)
 	plt.show()
 
-    def plotAnim(self,frm,order,dims,elems,numTimeSteps):
+
+    def plotAnim(self,frm,order,dims,elems,totalTime,dt):
+	ims = []
+
 	mesh = frm.solution().mesh()
 	timeRamp = TimeRamp.timeRamp(frm.getTimeFunction(),1.0)
 	x0 = [0.,0.]
 
+	numTimeSteps = int(totalTime / dt)
+
 	meshTopo = MeshFactory.rectilinearMeshTopology(dims,elems,x0)
 	delta_k = 1
-	frm.initializeSolution(meshTopo,int(self.stringList[1]),delta_k)
+	frm.initializeSolution(meshTopo,order,delta_k)
 
         for timeStepNumber in range(numTimeSteps):
-          self.form.solve()
-          self.form.takeTimeStep()
+          frm.solve()
+          frm.takeTimeStep()
           print("Time step %i completed" % timeStepNumber)
           soln = Function.solution(frm.u(1),frm.solution())
 
@@ -240,8 +246,8 @@ class plotter():
                   im = plt.imshow(zValues, cmap='coolwarm', vmin=zMin, vmax=zMax,
                                extent=[xMinLocal, xMaxLocal, yMinLocal, yMaxLocal],
                                interpolation='bicubic', origin='lower')
-          self.ims.append([im])
-	plotAnim(ims)
+          ims.append([im])
+	self.plotAnimFinal(ims)
 
 
 

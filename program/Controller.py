@@ -11,6 +11,7 @@ class Controller(object):
     def __init__(self):
         self.stringList = []
         self.form = None
+	self.animateit = False
         self.refinementNumber = 0
         self.plotter = plotter.plotter()
         self.formCreator = FormCreator.FormCreator()
@@ -52,9 +53,9 @@ class Controller(object):
 
         #Get a form from FormCreator
         if (reyNum_ == -1):
-            self.form = self.formCreator.main(pOrder_, inflowSpatialFilters_, inflowFunX_, inflowFunY_, outflowSpatialFilters_, dimensions_, meshElements_, transient = (state == "transient"))
+            self.form = self.formCreator.main(pOrder_, inflowSpatialFilters_, inflowFunX_, inflowFunY_, outflowSpatialFilters_, dimensions_, meshElements_, transient = (state == "Transient"))
         else:
-            self.form = self.formCreator.main(pOrder_, inflowSpatialFilters_, inflowFunX_, inflowFunY_, outflowSpatialFilters_, dimensions_, meshElements_, re = reyNum_, transient = (state_ == "transient"))
+            self.form = self.formCreator.main(pOrder_, inflowSpatialFilters_, inflowFunX_, inflowFunY_, outflowSpatialFilters_, dimensions_, meshElements_, re = reyNum_, transient = (state_ == "Transient"))
 
 
         #Solve
@@ -75,7 +76,29 @@ class Controller(object):
                 stepNumber += 1
         
         else:
+        #Stokes
+          if(self.stringList[2] == "Transient"):
+          #do fancy stuff
+            self.animateit = True
+          else:
+            #this implies steady state stokes
             self.form.solve()
+
+
+
+
+    def animateIt(self):
+        dimensions_ = (float(self.stringList[3][0]), float(self.stringList[3][1]))
+        meshElements_ = (int(self.stringList[4][0]), int(self.stringList[3][1]))
+
+        dt = 0.1
+        totalTime = 2.0
+        numTimeSteps_ = int(totalTime / dt)
+
+        order_ = int(self.stringList[1])
+
+        self.plotter.plotAnim(self.form,order_,dimensions_,meshElements_,totalTime,dt)
+
 
             
     
@@ -210,6 +233,8 @@ class Controller(object):
     def plot(self, pltstr):
         if (self.form == None):
             return "puppies3.jpg"
+	if (self.animateit == True):
+	    self.animateIt()
         if (pltstr == "u1"):
             return self.plotter.plotU1(self.form)
         elif (pltstr == "u2"):
