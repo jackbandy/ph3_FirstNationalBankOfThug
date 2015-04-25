@@ -35,7 +35,13 @@ class CamelliaWindow(TabbedPanel):
         self.inputs = self.funcs+self.funcs_b+self.poses+[self.ids.mesh_1, self.ids.mesh_2, self.ids.dim_1, self.ids.dim_2, self.ids.reyn, self.ids.load_file, self.ids.save_file]
         
         self.ids.state.disabled = True 
-        self.ids.m_refine.disabled = True       
+        self.ids.m_refine.disabled = True
+        self.ids.save.disabled=True
+        self.ids.save_file.disabled=True
+        self.ids.plot_type.disabled=True
+        self.ids.plot_butt.disabled=True
+        self.ids.refine.disabled=True
+        self.ids.refine_type.disabled=True       
 
         for flow in self.flows:
             flow.bind(text=self.change_flow_input)
@@ -143,6 +149,13 @@ class CamelliaWindow(TabbedPanel):
             except ValueError:
                 self.ids.plot.source = 'puppies5.jpg'
                 self.ids.error.text = 'U1 isn\'t plotting properly :('
+            #enable save stuff.
+            self.ids.save.disabled=False
+            self.ids.save_file.disabled=False
+            self.ids.plot_type.disabled=False
+            self.ids.plot_butt.disabled=False
+            self.ids.refine.disabled=False
+            self.ids.refine_type.disabled=False
             self.ids.save_file.hint_text = 'CamelliaModel'
             
             
@@ -270,7 +283,13 @@ class CamelliaWindow(TabbedPanel):
                 self.color_red(self.ids.load_file)
                 self.ids.load_file.hint_text = 'File does not exist'
                 self.ids.load_file.text = ''
-            
+        #if we get here it was a successful load.
+        self.ids.save.disabled=False
+        self.ids.save_file.disabled=False
+        self.ids.plot_type.disabled=False
+        self.ids.plot_butt.disabled=False
+        self.ids.refine.disabled=False
+        self.ids.refine_type.disabled=False
 
     def plot(self):
         plot = self.ids.plot_type.text
