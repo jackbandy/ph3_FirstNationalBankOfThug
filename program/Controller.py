@@ -3,7 +3,7 @@ import Interpreter2
 import pickle
 import random
 import plotter
-import FormCreator
+#import FormCreator
 import re
 
 class Controller(object):
