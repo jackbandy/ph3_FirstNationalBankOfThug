@@ -140,10 +140,12 @@ class CamelliaWindow(TabbedPanel):
             # automatically plots u1
             try:
                 self.ids.plot.source = self.control.plot('u1')
+                self.ids.plot_label.text = 'Plot of u1'
             except ValueError:
                 self.ids.plot.source = 'puppies5.jpg'
                 self.ids.error.text = 'U1 isn\'t plotting properly :('
             self.ids.save_file.hint_text = 'CamelliaModel'
+            
             
             
 
@@ -157,10 +159,13 @@ class CamelliaWindow(TabbedPanel):
     def refine(self):
         text=self.ids.refine_type.text
         self.reset_back()
-        if text=="h auto" or text=="p auto":
-            self.control.autoRefine(text[0])
+        if text=="h auto" :
+            self.control.autoHRefine()
             self.ids.m_refine.background_color = (1,1,1,1)
-        elif text=="p manual" or text=="h manual":
+        elif text=="p auto":
+            self.control.autoPRefine()
+            self.ids.m_refine.background_color = (1,1,1,1)
+        elif text=="p manual":
             elements = self.ids.m_refine.text
             elements = elements.replace(" ","")
             reg = re.compile("\d+(,\d+)*")
@@ -168,7 +173,18 @@ class CamelliaWindow(TabbedPanel):
             if (m != None and elements==m.group() and elements!=""):
                 elements=re.split(",",elements)              
                 self.ids.m_refine.background_color = (1,1,1,1)
-                self.control.manualRefine(text[0],elements)
+                self.control.manualPRefine(elements)
+            else:
+                self.color_red(self.ids.m_refine)
+        elif text=="h manual":
+            elements = self.ids.m_refine.text
+            elements = elements.replace(" ","")
+            reg = re.compile("\d+(,\d+)*")
+            m = reg.match(elements)
+            if (m != None and elements==m.group() and elements!=""):
+                elements=re.split(",",elements)              
+                self.ids.m_refine.background_color = (1,1,1,1)
+                self.control.manualHRefine(elements)
             else:
                 self.color_red(self.ids.m_refine)
 
@@ -275,9 +291,9 @@ class CamelliaWindow(TabbedPanel):
     def plot(self):
         plot = self.ids.plot_type.text
         try:
-            print plot
             self.ids.plot.source = self.control.plot(plot)
             print self.ids.plot.source
+            self.ids.plot_label.text = 'Plot of ' + plot
         except ValueError:
             self.ids.plot.source = 'puppies3.jpg'
             self.ids.error.text = 'Uh oh! You failed Software Development!'
