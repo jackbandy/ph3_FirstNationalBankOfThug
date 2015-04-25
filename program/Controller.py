@@ -221,9 +221,9 @@ class Controller(object):
             #saving stringlist and refinement #
             file = open(fileName, 'wb')
             pickle.dump(self.stringList, file)
-            #pickle.dump(refinement#, file)
+            pickle.dump(self.refinementNumber, file)
             file.close()
-            #saving form solution
+            #saving form
             self.form.save(fileName)
         else:
             raise Exception
@@ -238,10 +238,13 @@ class Controller(object):
             file.close()
             print("Found that File")
             #if stokes use: initializeSolution(std::string savePrefix, int fieldPolyOrder, int delta_k = 1, FunctionPtr forcingFunction = Teuchos::null);
+            self.refinementNumber = pickle.load(file)
+            file.close()
+            #if Stokes
             if self.stringList[0] == "Stokes":
                 self.form = StokesVGPFormulation(2, False)
                 self.form.initializeSolution(fileName, self.stringList[1])
-            #if NS use: NavierStokesVGPFormulation(std::string prefixString, int spaceDim, double Re, int fieldPolyOrder, int delta_k = 1, FunctionPtr forcingFunction = Teuchos::null, bool transientFormulation = false, bool useConformingTraces = false);
+            #if NS
             elif self.stringList[0] == "Navier-Stokes":
                 self.form = NavierStokesVGPFormulation(fileName, 2, self.stringList[5], self.stringList[1])
         except Exception:
