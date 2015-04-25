@@ -76,11 +76,10 @@ class plotter():
 	           interpolation='bicubic', origin='lower')
 
 	plt.title("Mesh")
-	plt.colorbar()
 	plt.axis([xMin, xMax, yMin, yMax])
 	plt.savefig("mesh_plot.png")
 	plt.clf()
-	return ("plot.png")
+	return ("mesh_plot.png")
 
     def plotError(self,form,stokes):
 	mesh = form.solution().mesh()
@@ -126,10 +125,11 @@ class plotter():
 	           extent=[xMinLocal, xMaxLocal, yMinLocal, yMaxLocal],
 	           interpolation='bicubic', origin='lower')
 	plt.title('cavity flow error')
+	plt.colorbar()
 	plt.axis([xMin, xMax, yMin, yMax])
 	plt.savefig("error_plot.png")
 	plt.clf()
-	return ("plot.png")
+	return ("error_plot.png")
 
     def plotFunction(self, soln, mesh, title):
 	num_x = 10
