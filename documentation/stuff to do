@@ -24,7 +24,7 @@ Added Ids:
     save_file
     plot
     error
-Regular expression to parse position stuff
+
     Use the string "([x,y][=,>,<]/d+)+" Maybe <=, >=, =<, >=  from stackoverflow r"Test(\d*(?:\.\d+))"
 Fix interpreter2.py
 if Navier Stokes its always steady state
