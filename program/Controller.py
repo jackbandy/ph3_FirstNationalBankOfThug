@@ -219,14 +219,11 @@ class Controller(object):
 
     def load(self, fileName):
         try:
-            print("Line1")
             #loading stringlist and refinement #
             file = open(fileName, 'rb')
             self.stringList = pickle.load(file)
-            #if stokes use: initializeSolution(std::string savePrefix, int fieldPolyOrder, int delta_k = 1, FunctionPtr forcingFunction = Teuchos::null);
             self.refinementNumber = pickle.load(file)
             file.close()
-            print "File Found"
             #if Stokes
             if self.stringList[0] == "Stokes":
                 self.form = StokesVGPFormulation(2, False)
