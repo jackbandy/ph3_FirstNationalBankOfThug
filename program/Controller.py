@@ -119,21 +119,28 @@ class Controller(object):
             #saving stringlist
             file = open(fileName, 'wb')
             pickle.dump(self.stringList, file)
-            file.close
+            #pickle.dump(refinement#, file)
+            file.close()
             #saving form solution
             self.form.solution().save(fileName)
+        else:
+            print "Error: Form has not been created"
 
     def load(self, fileName):
-        #loading stringlist
-        file = open(fileName, 'rb')
-        self.stringList = pickle.load(file)
-        file.close()
-        #if stokes use: initializeSolution(std::string savePrefix, int fieldPolyOrder, int delta_k = 1, FunctionPtr forcingFunction = Teuchos::null);
-        #if NS use: NavierStokesVGPFormulation(std::string prefixString, int spaceDim, double Re, int fieldPolyOrder, int delta_k = 1, FunctionPtr forcingFunction = Teuchos::null, bool transientFormulation = false, bool useConformingTraces = false);
-        if self.stringList.eq_type == "Stokes":
-            self.form.initializeSolution(fileName, self.stringList[1])
-        elif self.stringList.eq_type == "Navier-Stokes":
-            self.form = NavierStokesVGPFormulation(fileName, 2, self.stringList[5], self.stringList[1])
+        try:
+            #loading stringlist
+            file = open(fileName, 'rb')
+            self.stringList = pickle.load(file)
+            #self.refinement# = pickle.load(file)
+            file.close()
+            #if stokes use: initializeSolution(std::string savePrefix, int fieldPolyOrder, int delta_k = 1, FunctionPtr forcingFunction = Teuchos::null);
+            if self.stringList.eq_type == "Stokes":
+                self.form.initializeSolution(fileName, self.stringList[1])
+            #if NS use: NavierStokesVGPFormulation(std::string prefixString, int spaceDim, double Re, int fieldPolyOrder, int delta_k = 1, FunctionPtr forcingFunction = Teuchos::null, bool transientFormulation = false, bool useConformingTraces = false);
+            elif self.stringList.eq_type == "Navier-Stokes":
+                self.form = NavierStokesVGPFormulation(fileName, 2, self.stringList[5], self.stringList[1])
+        except Exception:
+            print "Error: No such file"
 
 
 
