@@ -47,7 +47,6 @@ class Controller(object):
         for x in outflow:
             outflowSpatialFilters_.append(self.parsePos(x))
 
-
         #Get a form from FormCreator - Woodson?
         #if (reyNum_ == -1):
             #formCreator = FormCreator.FormCreator(pOrder_, inflowSpatialFilters_, inflowFunX_, inflowFunY_, outflowSpatialFilters_, dimensions_, meshElements_, transient = (state == "transient"))
@@ -55,6 +54,21 @@ class Controller(object):
             #formCreator = FormCreator.FormCreator(pOrder_, inflowSpatialFilters_, inflowFunX_, inflowFunY_, outflowSpatialFilters_, dimensions_, meshElements_, re = reyNum_, transient = (state_ == "transient"))
         #self.form = formCreator.form
             
+
+
+        #TEST
+        spaceDim = 2
+        Re = 800.0
+        dims = [8.0,2.0]
+        numElements = [8,2]
+        x0 = [0.,0.]
+        meshTopo = MeshFactory.rectilinearMeshTopology(dims,numElements,x0)
+        polyOrder = 3
+        delta_k = 1
+        self.form = NavierStokesVGPFormulation(meshTopo,Re,polyOrder,delta_k)
+        self.stringList = ["Navier-Stokes", polyOrder, "steady", dims, numElements, Re]
+
+>>>>>>> c53d41508ff3e33f03638d59663250a13cff7735
         #Solve
         if eq_type == "Navier-Stokes":
             nonLinearThreshold = 1e-3
