@@ -17,17 +17,18 @@ class plotter():
     def plotU2(self,form):
 	mesh = form.solution().mesh()
 	soln = Function.solution(form.u(2),form.solution()) 
-	self.plotFunction(soln,mesh,"u2")
+	return self.plotFunction(soln,mesh,"u2")
     def plotP(self,form):
 	mesh = form.solution().mesh()
 	soln = Function.solution(form.p(),form.solution()) 
-	self.plotFunction(soln,mesh,"p")
+	return self.plotFunction(soln,mesh,"p")
     def plotStream(self,form):
 	stream = form.streamSolution()
 	stream.solve()
 	mesh = stream.mesh()
-	soln = Function.solution(form.streamPhi(),stream) 
-	self.plotFunction(soln,mesh,"Stream")
+	soln = Function.solution(form.streamPhi(),stream)
+	print "amazing" 
+	return self.plotFunction(soln,mesh,"Stream")
     def plotMesh(self,form):
 	mesh = form.solution().mesh()
 	num_x = 10
@@ -174,6 +175,6 @@ class plotter():
 	plt.title(title)
 	plt.colorbar()
 	plt.axis([xMin, xMax, yMin, yMax])
-	plt.savefig("plot.png") # will save a plot to disk
-	return "plot.png"
+	plt.savefig(title+"_plot.png") # will save a plot to disk
+	return title+"_plot.png"
 	
