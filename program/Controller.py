@@ -27,6 +27,8 @@ class Controller(object):
     #   String List outflow
     #   
     def solve(self, eq_type, pOrder, state, dimensions, meshElements, reyNum, inflow, outflow):
+        #for solveForm
+        self.eq_type = eq_type
 
         self.stringList = [eq_type, pOrder, state, dimensions, meshElements, reyNum, inflow, outflow]
         
@@ -71,7 +73,11 @@ class Controller(object):
         """
 
         #Solve
-        if eq_type == "Navier-Stokes":
+        self.solveForm(eq_type)
+
+    #subroutine for resolving when refining
+    def solveForm(self):
+        if self.eq_type == "Navier-Stokes":
             nonLinearThreshold = 1e-3
             maxSteps = 10
             normOfIncrement = 1
@@ -102,7 +108,7 @@ class Controller(object):
         return toRet
 
 
-
+    """
     #Returns a spatial filter given a string that is 
     def parsePos(self, input):
         inputData = re.split('=|<|>|,', input)
@@ -135,14 +141,77 @@ class Controller(object):
             spatial1 = SpatialFilter.lessThanY(float(inputData[1]))
             spatial2 = SpatialFilter.matchingX(float(inputData[3]))
         return spatial1 and spatial2
+        """
 
+     #takes a string and returns a spacial filter
+    def ParsePos(self, input):
+        answer = self.context.query(input)
+        altered = answer.lower()
+        altered = altered.translate(None, whitespace)#remove whitespace
+        if altered.find(",") > -1: #if there are multiple spacial filters
+            halves = altered.split(",")#split them
+            filter1 = self.get_space_fil_helper(halves[0],input)
+            filter2 = self.get_space_fil_helper(halves[1],input)
+            return SpatialFilter.intersectionFilter(filter1, filter2)
+        else:
+            return self.get_space_fil_helper(altered, input)
 
-    def manualRefine(hOrP, elements):
-        pass
+    #ParsePos's helper method
+    def get_space_fil_helper(self, assignment, prompt):
+        is_x =  assignment.find("x") > -1
+        if not is_x:
+            if assignment.find("y") == -1:
+                self.context.parse_error(assignment)
+                return self.get_space_fil(prompt)
+        #error here
+        if assignment.find("=") > -1:
+            if is_x:
+                return SpatialFilter.matchingX(float(assignment.translate(None, "x=")))
+            else:
+                return SpatialFilter.matchingY(float(assignment.translate(None, "y=")))
+        elif assignment.find(">") > -1:
+            if is_x:
+                return SpatialFilter.greaterThanX(float(assignment.translate(None, "x>")))
+            else:
+                return SpatialFilter.greaterThanY(float(assignment.translate(None, "y>")))
+        elif assignment.find("<") > -1:
+            if is_x:
+                return SpatialFilter.lessThanX(float(assignment.translate(None, "x<")))
+            else:
+                return SpatialFilter.lessThanY(float(assignment.translate(None, "y<")))
+        else:
+            self.context.parse_error(assignment)
+            return self.parse()
+
+    #takes a string like "0,1,2" and refines those elements
+    def manualHRefine(elements_string):
+        cells = self.parse_cells(elements_string)
+        self.form.solution().mesh().hRefine(cells)
+        
+    #takes a string like "0,1,2" and refines those elements
+    def manualPRefine(elements_string):
+        cells = self.parse_cells(elements_string)
+        self.form.solution().mesh().pRefine(cells)
     
-    
-    def autoRefine(hOrP):
-        pass
+    def autoHRefine():
+        self.form.hRefine()
+        self.solveForm()
+
+    def autoPRefine():
+        self.form.pRefine()
+        self.solveForm()
+
+        #takes a string and returns a list of int
+        #this is for turning the manual refine functions
+    def parse_cells(self, data):
+        cells_refine = []
+        new_stuff = (num.split(','))
+        for val in new_stuff:
+                try:
+                    cells_refine.append(int(val))
+                except ValueError:
+                    raise ValueError("Could not convert to an int")
+        return cells_refine
 
 
         
