@@ -27,11 +27,13 @@ class Controller(object):
     #   String List outflow
     #   
     def solve(self, eq_type, pOrder, state, dimensions, meshElements, reyNum, inflow, outflow):
-        #for solveForm
+
+        # set initial things once solve is called
         self.eq_type = eq_type
         self.refinementNumber = 0
         self.stringList = [eq_type, pOrder, state, dimensions, meshElements, reyNum, inflow, outflow]
         print(self.stringList)
+
         #Parse input data strings to the correct type
         eq_type_ = eq_type
         pOrder_ = int(pOrder)
@@ -50,7 +52,7 @@ class Controller(object):
         for x in outflow:
             outflowSpatialFilters_.append(self.parsePos(x))
 
-        #Get a form from FormCreator
+        #Get a form from FormCreator (thank you woodson)
         if (reyNum_ == -1):
             self.form = self.formCreator.main(pOrder_, inflowSpatialFilters_, inflowFunX_, inflowFunY_, outflowSpatialFilters_, dimensions_, meshElements_, transient = (state == "transient"))
         else:
@@ -79,6 +81,7 @@ class Controller(object):
 
             
     
+    # Format and return the energy error to be printed
     def error(self):
         if self.stringList[0] == "Navier-Stokes":
             energy = self.form.solutionIncrement().energyErrorTotal()
@@ -92,7 +95,7 @@ class Controller(object):
         return toRet
 
 
-     #takes a string and returns a spacial filter
+    # Return a spatial filter given a string of limits
     def parsePos(self, input):
         altered = input.lower()
         altered = altered.translate(None, " ")#remove whitespace
@@ -111,7 +114,7 @@ class Controller(object):
         else:
             return self.get_space_fil_helper(altered, input)
 
-    #ParsePos's helper method
+    # ParsePos's helper method
     def get_space_fil_helper(self, assignment, prompt):
         is_x =  assignment.find("x") > -1
         if not is_x:
@@ -160,8 +163,8 @@ class Controller(object):
         self.form.pRefine()
         self.solveForm()
 
-        #takes a string and returns a list of int
-        #this is for turning the manual refine functions
+    # Takes a string and returns a list of int
+    # This is for turning the manual refine functions
     def parse_cells(self, data):
         cells_refine = []
         for val in data:
@@ -172,7 +175,7 @@ class Controller(object):
         return cells_refine
 
 
-        
+    # Save everything
     def save(self, fileName):
         if (self.form != None):
             #saving stringlist and refinement #
@@ -185,28 +188,27 @@ class Controller(object):
         else:
             raise Exception
 
+    #Load Everything
     def load(self, fileName):
-        try:
-            #loading stringlist and refinement #
-            file = open(fileName, 'rb')
-            self.stringList = pickle.load(file)
-            self.refinementNumber = pickle.load(file)
-            file.close()
-            #if Stokes
-            if self.stringList[0] == "Stokes":
-                self.form = StokesVGPFormulation(2, False)
-                self.form.initializeSolution(fileName, int(self.stringList[1]))
-            #if NS
-            elif self.stringList[0] == "Navier-Stokes":
-                self.form = NavierStokesVGPFormulation(fileName, 2, float(self.stringList[5]), int(self.stringList[1]))
-            return self.stringList
-        except Exception:
-            raise Exception
+        #loading stringlist and refinement #
+        file = open(fileName, 'rb')
+        self.stringList = pickle.load(file)
+        self.refinementNumber = pickle.load(file)
+        file.close()
+        #if Stokes
+        if self.stringList[0] == "Stokes":
+            self.form = StokesVGPFormulation(2, False)
+            self.form.initializeSolution(fileName, int(self.stringList[1]))
+        #if NS
+        elif self.stringList[0] == "Navier-Stokes":
+            self.form = NavierStokesVGPFormulation(fileName, 2, float(self.stringList[5]), int(self.stringList[1]))
+        return self.stringList
 
 
 
 
 
+    # Tell plotter.py what to plot (otherwise plot a puppy)
     def plot(self, pltstr):
         if (self.form == None):
             return "puppies3.jpg"
