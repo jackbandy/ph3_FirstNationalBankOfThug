@@ -3,6 +3,7 @@ import Interpreter2
 import pickle
 import random
 import plotter
+import re
 
 class Controller(object):
 
