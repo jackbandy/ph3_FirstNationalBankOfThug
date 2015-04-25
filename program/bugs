@@ -1,0 +1,17 @@
+Bugs:
+
+File "/homes/nate.hills/csci335/phase3/ph3_FirstNationalBankOfThug/program/Controller.py", line 149, in ParsePos
+     answer = self.context.query(input)
+ AttributeError: 'Controller' object has no attribute 'context'
+
+When we first solve it plots with the correct dimensions, but if you replot it with different dimensions it doesnt change
+
+Still printing out inflow and outflow lists
+
+plotting doesm't switch the dimensions (after you re solve) unless you press p, stream, mesh
+
+plot error causes a segmentation fault
+
+loading doesn't work in controller.py
+
+need to change error when we refine

@@ -124,7 +124,7 @@ class plotter():
 	  plt.imshow(zValues, cmap='coolwarm', vmin=zMin, vmax=zMax,
 	           extent=[xMinLocal, xMaxLocal, yMinLocal, yMaxLocal],
 	           interpolation='bicubic', origin='lower')
-	plt.title('cavity flow error')
+	plt.title('error')
 	plt.colorbar()
 	plt.axis([xMin, xMax, yMin, yMax])
 	plt.savefig("error_plot.png")
