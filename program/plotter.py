@@ -175,5 +175,5 @@ class plotter():
 	plt.colorbar()
 	plt.axis([xMin, xMax, yMin, yMax])
 	plt.savefig("plot.png") # will save a plot to disk
-	return plt.savefig("plot.png") # will save a plot to disk
+	return "plot.png"
 	
