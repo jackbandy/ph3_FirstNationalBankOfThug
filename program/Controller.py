@@ -230,7 +230,9 @@ class Controller(object):
                 self.form.initializeSolution(fileName, self.stringList[1])
             #if NS
             elif self.stringList[0] == "Navier-Stokes":
+                print "ab"
                 self.form = NavierStokesVGPFormulation(fileName, 2, self.stringList[5], self.stringList[1])
+                print "cd"
         except Exception as inst:
             print type(inst)
             raise Exception
