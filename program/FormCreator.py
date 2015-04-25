@@ -47,7 +47,8 @@ class FormCreator(State):
                 #NavierStokesVGPFormulation(self.context.file_name, space_dim, re, poly_order)
             
 
-"""No idea what this is
+    """
+    No idea what this is
         #solves and prints result
         if is_Navier:
             nonlinearThreshold = 1e-3
@@ -67,7 +68,8 @@ class FormCreator(State):
             mesh = form.solution().mesh()
             energy = form.solution().energyErrorTotal()
             self.context.printRefine(energy, mesh)
-"""
+   """
+
        
 
 
