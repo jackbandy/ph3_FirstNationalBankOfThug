@@ -78,7 +78,8 @@ class plotter():
 	plt.title("Mesh")
 	plt.colorbar()
 	plt.axis([xMin, xMax, yMin, yMax])
-	plt.savefig("plot.png")
+	plt.savefig("mesh_plot.png")
+	plt.clf()
 	return ("plot.png")
 
     def plotError(self,form,stokes):
@@ -126,7 +127,8 @@ class plotter():
 	           interpolation='bicubic', origin='lower')
 	plt.title('cavity flow error')
 	plt.axis([xMin, xMax, yMin, yMax])
-	plt.savefig("plot.png")
+	plt.savefig("error_plot.png")
+	plt.clf()
 	return ("plot.png")
 
     def plotFunction(self, soln, mesh, title):
@@ -173,8 +175,10 @@ class plotter():
 	           interpolation='bicubic', origin='lower')
 	
 	plt.title(title)
+	
 	plt.colorbar()
 	plt.axis([xMin, xMax, yMin, yMax])
 	plt.savefig(title+"_plot.png") # will save a plot to disk
+	plt.clf()
 	return title+"_plot.png"
 	
