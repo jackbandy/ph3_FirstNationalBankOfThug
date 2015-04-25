@@ -67,7 +67,7 @@ class Controller(object):
 
             
     
-    def error():
+    def error(self):
         if self.stringList[0] == "Navier-Stokes":
             energy = self.form.solutionIncrement().energyErrorTotal()
         else:
@@ -81,7 +81,7 @@ class Controller(object):
 
 
     #Returns a spatial filter given a string that is 
-    def parsePos(input):
+    def parsePos(self, input):
         inputData = re.split('=|<|>|,', input)
         input = re.split('( )*([0-9]*\.[0-9]+|[0-9]+)( )*', input)
 		
