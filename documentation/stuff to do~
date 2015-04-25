@@ -35,13 +35,11 @@ pass -1 in the reyNum if stokes
 Bridge the stuff
     manualRefine(type, numbers) gives energy error
     autoRefine(type) gives energy error
-    solve(lots of stuff [inflow tuples of strings], [outflow list of strings]) gives energy error
+    solve(lots of stuff [inflow tuples of strings], [outflow list of strings]) gives energy error string
     plot(type) returns image?? options u1, u2, p, stream, mesh, error
     save(string) *
     load(string) * (maybe return all the stuff)
 
 call plot if we refine
+PLOT AND ENERGY ERROR!!! AAAAAAAAHHHHHHHH!!!!!
 
-Might have a load where it resets the settings in the Creation tab
-save/load will call save(filename) or load(filename)
-load will return a list of things to be placed into the options in the Creation tab

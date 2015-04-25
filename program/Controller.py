@@ -3,6 +3,7 @@ import Interpreter2
 import pickle
 import random
 import plotter
+#import FormCreator
 import re
 
 class Controller(object):
@@ -35,17 +36,25 @@ class Controller(object):
         dimensions_ = (float(dimensions[0]), float(dimensions[1]))
         meshElements_ = (int(meshElements[0]), int(meshElements[1]))
         reyNum_ = int(reyNum)
-        inflowPos_ = []
+        inflowFunX_ = []
+        inflowFunY_ = []
         inflowSpatialFilters_ = []
         for x in inflow:
             inflowSpatialFilters_.append(self.parsePos(x[0]))
-            inflowFunctions_.append((self.interpreter2.interpret(x[1]), self.interpreter2.interpret(x[2])))
+            inflowFunX_.append(self.interpreter2.interpret(x[1]))
+            inflowFunY_.append(self.interpreter2.interpret(x[2]))
         outflowSpatialFilters_ = []
         for x in outflow:
             outflowSpatialFilters_.append(self.parsePos(x))
 
+        #Get a form from FormCreator - Woodson?
+        #if (reyNum_ == -1):
+            #formCreator = FormCreator.FormCreator(pOrder_, inflowSpatialFilters_, inflowFunX_, inflowFunY_, outflowSpatialFilters_, dimensions_, meshElements_, transient = (state == "transient"))
+        #else:
+            #formCreator = FormCreator.FormCreator(pOrder_, inflowSpatialFilters_, inflowFunX_, inflowFunY_, outflowSpatialFilters_, dimensions_, meshElements_, re = reyNum_, transient = (state_ == "transient"))
+        #self.form = formCreator.form
+            
 
-        #Get a form with FormCreator - Woodson?
 
         #TEST
         spaceDim = 2
@@ -96,6 +105,9 @@ class Controller(object):
     def parsePos(self, input):
         inputData = re.split('=|<|>|,', input)
         input = re.split('( )*([0-9]*\.[0-9]+|[0-9]+)( )*', input)
+	    spatial1 = SpatialFilter.matchingX(float(0))
+        spatial2 = SpatialFilter.greaterThanY(float(0))
+
         if input[0] == 'x=':
             spatial1 = SpatialFilter.matchingX(float(inputData[1]))
             if input[4] == ',y>':
