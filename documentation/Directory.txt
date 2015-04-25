@@ -2,10 +2,15 @@
 CODE
 =======
 CamelliaApp.py
+(Group)
+  main driver
 
 Controller.py
+(Derek & Scott)
+  controller in MVC
 
 Interpreter2.py
+  regular expression interpreter
 
 plotter.py
 (Jack & Andrew)
@@ -13,12 +18,14 @@ plotter.py
 
 Formcreator.py
 (Woodson)
+  black box. returns a form given required arguments
 
 
 =======
 GUI
 =======
 camellia.kv
+(Nate & Max)
 
 
 
