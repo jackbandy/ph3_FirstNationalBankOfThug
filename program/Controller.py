@@ -16,14 +16,15 @@ class Controller(object):
         self.formCreator = FormCreator.FormCreator()
         self.interpreter2 = Interpreter2.Interpreter2()
         self.puppies = ['puppies.jpg','puppies2.jpg','puppies3.jpg','puppies4.jpg','puppies5.jpg','puppies6.jpg','puppies7.jpg','puppies8.jpg','puppies9.jpg','puppies10.jpg']
-    #String List
+    
+    # String List Parameters
     #   String eq_type
     #   String pOrder
     #   String transOrSteady
     #   String Tuple dimensions
     #   String Tuple meshElements
     #   String reyNum (-1 if stokes)
-    #   String Tuple List inflow
+    #   String Tuple List inflow (inflowPos, inflowXVel, inflowYVel)
     #   String List outflow
     #   
     def solve(self, eq_type, pOrder, state, dimensions, meshElements, reyNum, inflow, outflow):
@@ -50,7 +51,7 @@ class Controller(object):
         for x in outflow:
             outflowSpatialFilters_.append(self.ParsePos(x))
 
-        #Get a form from FormCreator - Woodson?
+        #Get a form from FormCreator
         if (reyNum_ == -1):
             self.form = self.formCreator.main(pOrder_, inflowSpatialFilters_, inflowFunX_, inflowFunY_, outflowSpatialFilters_, dimensions_, meshElements_, transient = (state == "transient"))
         else:
@@ -62,7 +63,7 @@ class Controller(object):
 
 
 
-    #subroutine for resolving when refining
+    #subroutine for solving
     def solveForm(self):
         if self.eq_type == "Navier-Stokes":
             nonLinearThreshold = 1e-3
@@ -97,45 +98,10 @@ class Controller(object):
         return toRet
 
 
-    """
-    #Returns a spatial filter given a string that is 
-    def parsePos(self, input):
-        inputData = re.split('=|<|>|,', input)
-        input = re.split('( )*([0-9]*\.[0-9]+|[0-9]+)( )*', input)
-        spatial1 = SpatialFilter.matchingX(float(0))
-        spatial2 = SpatialFilter.greaterThanY(float(0))
-
-        if input[0] == 'x=':
-            spatial1 = SpatialFilter.matchingX(float(inputData[1]))
-            if input[4] == ',y>':
-                spatial2 = SpatialFilter.greaterThanY(float(inputData[3]))
-            elif input[4]== ',y<':
-                spatial2 = SpatialFilter.lessThanY(float(inputData[3]))
-        elif input[0] == 'x>':
-            spatial1 = SpatialFilter.greaterThanX(float(inputData[1]))
-            #must be y=	
-            spatial2 = SpatialFilter.matchingY(float(inputData[3]))
-        elif input[0] == 'x<':
-            spatial1 = SpatialFilter.lessThanX(float(inputData[1]))	
-            spatial2 = SpatialFilter.matchingY(float(inputData[3]))
-        elif input[0] == 'y=':
-            spatial1 = SpatialFilter.matchingY(float(inputData[1]))
-            if input[4]==',x>':
-                spatial2 = SpatialFilter.greaterThanX(float(inputData[3]))
-            elif input[4]==',x<':
-                spatial2 = SpatialFilter.lessThanX(float(inputData[3]))
-        elif input[0] == 'y>':
-            spatial1 = SpatialFilter.greaterThanY(float(inputData[1]))
-            spatial2 = SpatialFilter.matchingX(float(inputData[3]))
-        elif input[0] == 'y<':
-            spatial1 = SpatialFilter.lessThanY(float(inputData[1]))
-            spatial2 = SpatialFilter.matchingX(float(inputData[3]))
-        return spatial1 and spatial2
-        """
-
      #takes a string and returns a spacial filter
     def ParsePos(self, input):
-        altered = input.lower()
+        answer = self.context.query(input)
+        altered = answer.lower()
         altered = altered.translate(None, whitespace)#remove whitespace
         if altered.find(",") > -1: #if there are multiple spacial filters
             halves = altered.split(",")#split them
@@ -168,7 +134,9 @@ class Controller(object):
                 return SpatialFilter.lessThanX(float(assignment.translate(None, "x<")))
             else:
                 return SpatialFilter.lessThanY(float(assignment.translate(None, "y<")))
-            
+        else:
+            self.context.parse_error(assignment)
+            return self.parse()
 
     #takes a string like "0,1,2" and refines those elements
     def manualHRefine(self, elements_string):
@@ -227,12 +195,11 @@ class Controller(object):
                 self.form.initializeSolution(fileName, int(self.stringList[1]))
             #if NS
             elif self.stringList[0] == "Navier-Stokes":
-                print "ab"
                 self.form = NavierStokesVGPFormulation(fileName, 2, float(self.stringList[5]), int(self.stringList[1]))
-                print "cd"
         except Exception as inst:
             print type(inst)
             raise Exception
+
 
 
 
