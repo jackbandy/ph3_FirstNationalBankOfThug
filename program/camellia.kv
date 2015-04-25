@@ -469,6 +469,7 @@
                                 text: 'Plot'
                                 background_color: color_button
                                 on_press: root.plot()
+                                disabled: True
                             Label:
                                 size_hint: 1.0, 0.1
 
@@ -493,13 +494,14 @@
                                 text: 'Refine'
                                 background_color: color_button
                                 on_press: root.refine()
+                                disabled: True
                             Label:
                                 text: 'Elements to Refine:'
                                 size_hint: 1.0, 0.23
                             TextInput:
                                 id: m_refine
                                 size_hint: 1.0, 0.2
-                                hint_text: '(0,1,2,5,8,9,10,...)'
+                                hint_text: '0,1,2,5,8,9,10,...'
                             Label:
                                 size_hint: 1.0, 0.085
 
@@ -533,6 +535,7 @@
                                 text: 'Save'
                                 background_color: color_button
                                 on_press: root.save()
+                                disabled: True
                             Label:
                                 text: 'Save as (no extension):'
                                 size_hint: 1.0, 0.23
