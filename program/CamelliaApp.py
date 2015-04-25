@@ -283,6 +283,8 @@ class CamelliaWindow(TabbedPanel):
             self.ids.save_file.background_color = (1, 1, 1, 1)
             try:
                 self.control.save(text)
+                self.ids.save_file.text=''
+                self.ids.save_file.hint_text= text
             except Exception:
                 self.color_red(self.ids.save_file)
                 self.ids.save_file.hint_text = 'Form not created'
@@ -306,6 +308,8 @@ class CamelliaWindow(TabbedPanel):
                 self.ids.save.disabled = False
                 self.ids.refine.disabled = False
                 self.ids.plot_butt.disabled = False
+                self.ids.load_file.text=''
+                self.ids.load_file.hint_text = text
             except Exception:
                 self.color_red(self.ids.load_file)
                 self.ids.load_file.hint_text = 'File does not exist'
