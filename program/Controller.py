@@ -125,7 +125,6 @@ class Controller(object):
             self.form.solution().save(fileName)
         else:
             raise Exception
-            print "Error: Form has not been created"
 
     def load(self, fileName):
         try:
