@@ -47,7 +47,27 @@ class FormCreator(State):
                 #NavierStokesVGPFormulation(self.context.file_name, space_dim, re, poly_order)
             
 
+        """No idea what this is
+        #solves and prints result
+        if is_Navier:
+            nonlinearThreshold = 1e-3
+            maxSteps = 10
+            normOfIncrement = 1
+            stepNumber = 0
+            while normOfIncrement > nonlinearThreshold and stepNumber < maxSteps:
+                form.solveAndAccumulate()
+                normOfIncrement = form.L2NormSolutionIncrement()
+                stepNumber += 1
+            mesh = form.solution().mesh()
+            energy = form.solutionIncrement().energyErrorTotal()
+            self.context.printRefine(energy, mesh)
 
+        else:
+            form.solve()
+            mesh = form.solution().mesh()
+            energy = form.solution().energyErrorTotal()
+            self.context.printRefine(energy, mesh)
+        """
        
 
 
