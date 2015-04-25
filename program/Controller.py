@@ -65,7 +65,7 @@ class Controller(object):
 
     #subroutine for solving
     def solveForm(self):
-        if self.eq_type == "Navier-Stokes":
+        if self.stringList[0] == "Navier-Stokes":
             nonLinearThreshold = 1e-3
             maxSteps = 10
             normOfIncrement = 1
@@ -160,8 +160,7 @@ class Controller(object):
         #this is for turning the manual refine functions
     def parse_cells(self, data):
         cells_refine = []
-        new_stuff = (num.split(','))
-        for val in new_stuff:
+        for val in data:
                 try:
                     cells_refine.append(int(val))
                 except ValueError:
@@ -196,8 +195,7 @@ class Controller(object):
             #if NS
             elif self.stringList[0] == "Navier-Stokes":
                 self.form = NavierStokesVGPFormulation(fileName, 2, float(self.stringList[5]), int(self.stringList[1]))
-        except Exception as inst:
-            print type(inst)
+        except Exception:
             raise Exception
 
 
