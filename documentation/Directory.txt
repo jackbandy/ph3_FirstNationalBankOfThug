@@ -1,0 +1,42 @@
+=======
+CODE
+=======
+CamelliaApp.py
+
+Controller.py
+
+Interpreter2.py
+
+plotter.py
+(Jack & Andrew)
+  handles plotting for all 5 types
+
+Formcreator.py
+(Woodson)
+
+
+=======
+GUI
+=======
+camellia.kv
+
+
+
+=======
+TESTS
+=======
+FormCreatorTests.py
+(Woodson)
+
+PlotTests.py
+(Jack)
+  outputs test plots for each of the 5 types in the following order
+  1. u1
+  2. u2
+  3. p
+  4. mesh
+  5. error
+
+InterpreterDriver.py
+
+
