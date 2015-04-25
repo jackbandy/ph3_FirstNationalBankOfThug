@@ -28,7 +28,7 @@ class Controller(object):
         
         #Parse input data strings to the correct type
         eq_type_ = eq_type
-        pOrder_ = int(eq_type)
+        pOrder_ = int(pOrder)
         state_ = state
         dimensions_ = (float(dimensons[0]), float(dimensions[1]))
         meshElements_ = (int(meshElements[0]), int(meshElements[1]))
@@ -116,7 +116,7 @@ class Controller(object):
         
     def save(self, fileName):
         if (self.form != None):
-            #saving stringlist
+            #saving stringlist and refinement #
             file = open(fileName, 'wb')
             pickle.dump(self.stringList, file)
             #pickle.dump(refinement#, file)
@@ -128,7 +128,7 @@ class Controller(object):
 
     def load(self, fileName):
         try:
-            #loading stringlist
+            #loading stringlist and refinement #
             file = open(fileName, 'rb')
             self.stringList = pickle.load(file)
             #self.refinement# = pickle.load(file)
@@ -140,7 +140,7 @@ class Controller(object):
             elif self.stringList.eq_type == "Navier-Stokes":
                 self.form = NavierStokesVGPFormulation(fileName, 2, self.stringList[5], self.stringList[1])
         except Exception:
-            print "Error: No such file"
+            raise Exception
 
 
 
