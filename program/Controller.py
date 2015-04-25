@@ -10,7 +10,7 @@ class Controller(object):
         self.stringList = []
         self.form = None
         self.refinementNumber = 0
-        self.plotter = plotter.Plotter()
+        self.plotter = plotter.plotter()
         self.interpreter2 = Interpreter2.Interpreter2()
         self.puppies = ['puppies.jpg','puppies2.jpg','puppies3.jpg','puppies4.jpg','puppies5.jpg','puppies6.jpg','puppies7.jpg','puppies8.jpg','puppies9.jpg','puppies10.jpg']
     #String List
@@ -45,6 +45,18 @@ class Controller(object):
 
 
         #Get a form with FormCreator - Woodson?
+
+        #TEST
+        spaceDim = 2
+        Re = 800.0
+        dims = [8.0,2.0]
+        numElements = [8,2]
+        x0 = [0.,0.]
+        meshTopo = MeshFactory.rectilinearMeshTopology(dims,numElements,x0)
+        polyOrder = 3
+        delta_k = 1
+        self.form = NavierStokesVGPFormulation(meshTopo,Re,polyOrder,delta_k)
+        self.stringList = ["Navier-Stokes", polyOrder, "steady", dims, numElements, Re]
 
         #Solve
         if eq_type == "Navier-Stokes":
