@@ -10,7 +10,7 @@ class Controller(object):
         self.stringList = []
         self.form = None
         self.refinementNumber = 0
-        self.plotter = plotter.Plotter()
+        self.plotter = plotter.plotter()
         self.interpreter2 = Interpreter2.Interpreter2()
         self.puppies = ['puppies.jpg','puppies2.jpg','puppies3.jpg','puppies4.jpg','puppies5.jpg','puppies6.jpg','puppies7.jpg','puppies8.jpg','puppies9.jpg','puppies10.jpg']
     #String List
