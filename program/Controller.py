@@ -46,6 +46,18 @@ class Controller(object):
 
         #Get a form with FormCreator - Woodson?
 
+        #TEST
+        spaceDim = 2
+        Re = 800.0
+        dims = [8.0,2.0]
+        numElements = [8,2]
+        x0 = [0.,0.]
+        meshTopo = MeshFactory.rectilinearMeshTopology(dims,numElements,x0)
+        polyOrder = 3
+        delta_k = 1
+        self.form = NavierStokesVGPFormulation(meshTopo,Re,polyOrder,delta_k)
+        self.stringList = ["Navier-Stokes", polyOrder, "steady", dims, numElements, Re]
+
         #Solve
         if eq_type == "Navier-Stokes":
             nonLinearThreshold = 1e-3
