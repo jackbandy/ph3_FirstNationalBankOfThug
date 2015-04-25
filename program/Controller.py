@@ -43,15 +43,12 @@ class Controller(object):
         inflowFunY_ = []
         inflowSpatialFilters_ = []
         for x in inflow:
-            print x[0]
-            print x[1]
-            print x[2]
             inflowSpatialFilters_.append(self.parsePos(x[0]))
             inflowFunX_.append(self.interpreter2.interpret(x[1]))
             inflowFunY_.append(self.interpreter2.interpret(x[2]))
         outflowSpatialFilters_ = []
         for x in outflow:
-            outflowSpatialFilters_.append(self.parsePos(x))
+            outflowSpatialFilters_.append(self.ParsePos(x))
 
         #Get a form from FormCreator - Woodson?
         if (reyNum_ == -1):
@@ -76,7 +73,7 @@ class Controller(object):
         """
 
         #Solve
-        self.solveForm(eq_type)
+        self.solveForm()
 
     #subroutine for resolving when refining
     def solveForm(self):
@@ -116,8 +113,9 @@ class Controller(object):
     def parsePos(self, input):
         inputData = re.split('=|<|>|,', input)
         input = re.split('( )*([0-9]*\.[0-9]+|[0-9]+)( )*', input)
-	spatial1 = SpatialFilter.matchingX(float(0))
+        spatial1 = SpatialFilter.matchingX(float(0))
         spatial2 = SpatialFilter.greaterThanY(float(0))
+
         if input[0] == 'x=':
             spatial1 = SpatialFilter.matchingX(float(inputData[1]))
             if input[4] == ',y>':
@@ -187,20 +185,20 @@ class Controller(object):
             return self.parse()
 
     #takes a string like "0,1,2" and refines those elements
-    def manualHRefine(elements_string):
+    def manualHRefine(self, elements_string):
         cells = self.parse_cells(elements_string)
         self.form.solution().mesh().hRefine(cells)
         
     #takes a string like "0,1,2" and refines those elements
-    def manualPRefine(elements_string):
+    def manualPRefine(self, elements_string):
         cells = self.parse_cells(elements_string)
         self.form.solution().mesh().pRefine(cells)
     
-    def autoHRefine():
+    def autoHRefine(self):
         self.form.hRefine()
         self.solveForm()
 
-    def autoPRefine():
+    def autoPRefine(self):
         self.form.pRefine()
         self.solveForm()
 
@@ -232,9 +230,14 @@ class Controller(object):
 
     def load(self, fileName):
         try:
+            print("Line1")
             #loading stringlist and refinement #
             file = open(fileName, 'rb')
             self.stringList = pickle.load(file)
+            #self.refinement = pickle.load(file)
+            file.close()
+            print("Found that File")
+            #if stokes use: initializeSolution(std::string savePrefix, int fieldPolyOrder, int delta_k = 1, FunctionPtr forcingFunction = Teuchos::null);
             self.refinementNumber = pickle.load(file)
             file.close()
             #if Stokes
