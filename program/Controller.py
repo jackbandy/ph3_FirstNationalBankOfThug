@@ -36,7 +36,7 @@ class Controller(object):
         reyNum_ = int(reyNum)
         inflowPos_ = []
         inflowSpatialFilters_ = []
-        for x in inflowFunctions:
+        for x in inflow:
             inflowSpatialFilters_.append(parsePos(x[0]))
             inflowFunctions_.append(self.interpreter2.interpret(x[1]))
         outflowSpatialFilters_ = []
