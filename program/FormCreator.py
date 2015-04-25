@@ -47,12 +47,6 @@ class FormCreator(State):
                 #NavierStokesVGPFormulation(self.context.file_name, space_dim, re, poly_order)
             
 
-<<<<<<< HEAD
-    """
-    No idea what this is
-=======
-        """No idea what this is
->>>>>>> 39f0eb5896dfa5869ae44023ce8842b3ccba2662
         #solves and prints result
         if is_Navier:
             nonlinearThreshold = 1e-3
