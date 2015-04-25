@@ -41,7 +41,6 @@ class CamelliaWindow(TabbedPanel):
             flow.bind(text=self.change_flow_input)
 	    (self.ids.refine_type).bind(text=self.change_refine_input)
 	
-
         self.ids.eq.bind(text=self.equation_choice)
 
     def solve(self):
@@ -136,8 +135,13 @@ class CamelliaWindow(TabbedPanel):
                 reyn = "-1"
             else:
                 reyn = self.ids.reyn.text
-            self.control.solve(eq, poly, state, dim_1, dim_2, mesh_1, mesh_2, reyn, inflow, outflow)
-
+            self.control.solve(eq, poly, state, (dim_1, dim_2), (mesh_1, mesh_2), reyn, inflow, outflow)
+            self.ids.error.text = self.control.error()
+            # automatically plots u1
+            self.ids.plot.source = self.control.plot('u1')
+            self.ids.save_file.hint_text = 'CamelliaModel'
+            
+            
 
     def checkFunction(self, text):
         try:
@@ -148,8 +152,9 @@ class CamelliaWindow(TabbedPanel):
 
     def refine(self):
         text=self.ids.refine_type.text
+        self.reset_back()
         if text=="h auto" or text=="p auto":
-            #self.control.autoRefine(text[0])
+            self.control.autoRefine(text[0])
             self.ids.m_refine.background_color = (1,1,1,1)
         elif text=="p manual" or text=="h manual":
             elements = self.ids.m_refine.text
@@ -157,8 +162,9 @@ class CamelliaWindow(TabbedPanel):
             reg = re.compile("\d+(,\d+)*")
             m = reg.match(elements)
             if (m != None and elements==m.group() and elements!=""):
+                elements=re.split(",",elements)              
                 self.ids.m_refine.background_color = (1,1,1,1)
-                #self.control.manualRefine(text[0],elements)
+                self.control.manualRefine(text[0],elements)
             else:
                 self.color_red(self.ids.m_refine)
 
@@ -231,28 +237,52 @@ class CamelliaWindow(TabbedPanel):
 
     def save(self):
         text = self.ids.save_file.text
+        self.reset_back()
         if (len(text) > 0):
-            self.control.save(text)
+            self.ids.save_file.background_color = (1, 1, 1, 1)
+            try:
+                self.control.save(text)
+            except Exception:
+                self.color_red(self.ids.save_file)
+                self.ids.save_file.hint_text = 'Form not created'
+                self.ids.save_file.text = ''
         else:
-            self.control.save("CamelliaSaveFile")
+            self.color_red(self.ids.save_file)
 
     def load(self):
         text = self.ids.load_file.text
+        self.ids.load_file.background_color = (1, 1, 1, 1)
+        self.ids.save_file.background_color = (1, 1, 1, 1)
+        self.ids.m_refine.background_color = (1, 1, 1, 1)
         if (len(text) == 0):
-            pass
-            #error
+            self.color_red(self.ids.load_file)
         else:
-            boo = self.control.load(text)
-            if (boo):
-                self.plot()
-                self.ids.error.text = self.control.error()
-            else:
-                pass
-                #make red
+            try:
+                boo = self.control.load(text)
+                if (boo):
+                    self.plot()
+                    self.ids.error.text = self.control.error()
+                    self.ids.load_file.hint_text = 'CamelliaModel'
+                else:
+                    self.color_red(self.ids.load_file)
+                    self.ids.load_file.hint_text = 'File does not exist'
+                    self.ids.load_file.text = ''
+                    #make red
+            except Exception:
+                self.color_red(self.ids.load_file)
+                self.ids.load_file.hint_text = 'File does not exist'
+                self.ids.load_file.text = ''
+            
 
     def plot(self):
         plot = self.ids.plot_type.text
         self.ids.plot.source = self.control.plot(plot)
+        self.reset_back()
+
+    def reset_back(self):
+        self.ids.load_file.background_color = (1, 1, 1, 1)
+        self.ids.save_file.background_color = (1, 1, 1, 1)
+        self.ids.m_refine.background_color = (1, 1, 1, 1)
 
 class CamelliaApp(App):
     def build(self):

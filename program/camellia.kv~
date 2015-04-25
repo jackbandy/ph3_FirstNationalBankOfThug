@@ -468,6 +468,7 @@
                                 size_hint: 0.48, 0.8
                                 text: 'Plot'
                                 background_color: color_button
+                                on_press: root.plot()
                             Label:
                                 size_hint: 1.0, 0.1
 
@@ -548,12 +549,12 @@
                 StackLayout:
                     size_hint: .75, 1.0
                     orientation: 'lr-tb'
-                    Label:
+                    Image:
                         id: plot
                         size_hint: 1.0, .7
-                        text: 'Plot goes here!'
+                        source: 'puppies.jpg'
                     Label:
                         id: error
                         size_hint: 1.0, .3
-                        text: 'Your error is:'
+                        text: 'Please load or create'
 
