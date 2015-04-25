@@ -139,7 +139,9 @@ class CamelliaWindow(TabbedPanel):
             self.ids.error.text = self.control.error()
             # automatically plots u1
             self.ids.plot.source = self.control.plot('u1')
+            self.ids.plot_label = 'Plot of u1'
             self.ids.save_file.hint_text = 'CamelliaModel'
+            
             
             
 
@@ -271,6 +273,8 @@ class CamelliaWindow(TabbedPanel):
     def plot(self):
         plot = self.ids.plot_type.text
         self.ids.plot.source = self.control.plot(plot)
+        if (self.ids.save.disabled = False):
+            self.ids.plot_label.text = 'Plot of ' + plot
         self.reset_back()
 
     def reset_back(self):
