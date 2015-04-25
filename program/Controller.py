@@ -43,6 +43,9 @@ class Controller(object):
         inflowFunY_ = []
         inflowSpatialFilters_ = []
         for x in inflow:
+            print x[0]
+            print x[1]
+            print x[2]
             inflowSpatialFilters_.append(self.parsePos(x[0]))
             inflowFunX_.append(self.interpreter2.interpret(x[1]))
             inflowFunY_.append(self.interpreter2.interpret(x[2]))
