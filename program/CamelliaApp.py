@@ -32,9 +32,16 @@ class CamelliaWindow(TabbedPanel):
         self.poses = [self.ids.pos_1, self.ids.pos_2, self.ids.pos_3, self.ids.pos_4, self.ids.pos_5, self.ids.pos_6, self.ids.pos_7, self.ids.pos_8]
         self.flows = [self.ids.flow_1, self.ids.flow_2, self.ids.flow_3, self.ids.flow_4, self.ids.flow_5, self.ids.flow_6, self.ids.flow_7, self.ids.flow_8]
         self.inputs = self.funcs+self.funcs_b+self.poses+[self.ids.mesh_1, self.ids.mesh_2, self.ids.dim_1, self.ids.dim_2, self.ids.reyn, self.ids.load_file, self.ids.save_file]
+        self.inputs2=[self.ids.mesh_1, self.ids.mesh_2, self.ids.dim_1, self.ids.dim_2, self.ids.reyn, self.ids.load_file, self.ids.save_file]
         
         self.ids.state.disabled = True 
-        self.ids.m_refine.disabled = True       
+        self.ids.m_refine.disabled = True    
+        for func in self.funcs:
+            func.disabled=True
+        for func in self.funcs_b:
+            func.disabled=True
+        for pos in self.poses:
+            pos.disabled=True   
 
         for flow in self.flows:
             flow.bind(text=self.change_flow_input)
@@ -269,7 +276,7 @@ class CamelliaWindow(TabbedPanel):
         self.ids.mesh_1.text = ''
         self.ids.mesh_2.text = ''
         self.ids.reyn.text = ''
-        for widget in self.inputs:
+        for widget in self.inputs2:
             widget.disabled = False
             widget.text = ''
             widget.background_color = (1,1,1,1)
@@ -283,8 +290,6 @@ class CamelliaWindow(TabbedPanel):
             self.ids.save_file.background_color = (1, 1, 1, 1)
             try:
                 self.control.save(text)
-                self.ids.save_file.text=''
-                self.ids.save_file.hint_text= text
             except Exception:
                 self.color_red(self.ids.save_file)
                 self.ids.save_file.hint_text = 'Form not created'
@@ -308,8 +313,6 @@ class CamelliaWindow(TabbedPanel):
                 self.ids.save.disabled = False
                 self.ids.refine.disabled = False
                 self.ids.plot_butt.disabled = False
-                self.ids.load_file.text=''
-                self.ids.load_file.hint_text = text
             except Exception:
                 self.color_red(self.ids.load_file)
                 self.ids.load_file.hint_text = 'File does not exist'
@@ -320,7 +323,6 @@ class CamelliaWindow(TabbedPanel):
         plot = self.ids.plot_type.text
         try:
             self.ids.plot.source = self.control.plot(plot)
-            print self.ids.plot.source
             self.ids.plot_label.text = 'Plot of ' + plot
         except ValueError:
             self.ids.plot.source = 'puppies3.jpg'
