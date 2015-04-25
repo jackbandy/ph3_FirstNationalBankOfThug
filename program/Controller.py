@@ -49,7 +49,7 @@ class Controller(object):
             inflowFunY_.append(self.interpreter2.interpret(x[2]))
         outflowSpatialFilters_ = []
         for x in outflow:
-            outflowSpatialFilters_.append(self.ParsePos(x))
+            outflowSpatialFilters_.append(self.parsePos(x))
 
         #Get a form from FormCreator
         if (reyNum_ == -1):
@@ -98,21 +98,20 @@ class Controller(object):
 
 
      #takes a string and returns a spacial filter
-    def ParsePos(self, input):
-        answer = self.context.query(input)
-        altered = answer.lower()
-        altered = altered.translate(None, whitespace)#remove whitespace
+    def parsePos(self, input):
+        altered = input.lower()
+        altered = altered.translate(None, " ")#remove whitespace
         if altered.find(",") > -1: #if there are multiple spacial filters
             filters = altered.split(",")#split them
             filters_ = []
             for curr in filters:
                 filters_.append(self.get_space_fil_helper(curr, input))
             
-            toRet = SpatialFilter.intersectionFilter(filters_[0], filters[1])
+            toRet = SpatialFilter.intersectionFilter(filters_[0], filters_[1])
             i = 2
             while i < len(filters_):
                 toRet = SpatialFilter.intersectionFilter(toRet, filters_[i])
-                                
+                    
             return toRet
         else:
             return self.get_space_fil_helper(altered, input)
@@ -122,7 +121,7 @@ class Controller(object):
         is_x =  assignment.find("x") > -1
         if not is_x:
             if assignment.find("y") == -1:
-                self.context.parse_error(assignment)
+                print "Could not parse " + assignment
                 return self.get_space_fil(prompt)
         #error here
         if assignment.find("=") > -1:
@@ -141,7 +140,7 @@ class Controller(object):
             else:
                 return SpatialFilter.lessThanY(float(assignment.translate(None, "y<")))
         else:
-            self.context.parse_error(assignment)
+            print "Could not parse " + assignment
             return self.parse()
 
     #takes a string like "0,1,2" and refines those elements
