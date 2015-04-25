@@ -41,7 +41,6 @@ class CamelliaWindow(TabbedPanel):
             flow.bind(text=self.change_flow_input)
 	    (self.ids.refine_type).bind(text=self.change_refine_input)
 	
-
         self.ids.eq.bind(text=self.equation_choice)
 
     def solve(self):
@@ -140,6 +139,7 @@ class CamelliaWindow(TabbedPanel):
             self.ids.error.text = self.control.error()
             # automatically plots u1
             self.ids.plot.source = self.control.plot('u1')
+            self.ids.save_file.hint_text = 'CamelliaModel'
             
             
 
@@ -244,7 +244,8 @@ class CamelliaWindow(TabbedPanel):
                 self.control.save(text)
             except Exception:
                 self.color_red(self.ids.save_file)
-                self.ids.save_file.text = 'Form has not been created'
+                self.ids.save_file.hint_text = 'Form not created'
+                self.ids.save_file.text = ''
         else:
             self.color_red(self.ids.save_file)
 
@@ -258,15 +259,20 @@ class CamelliaWindow(TabbedPanel):
         else:
             try:
                 boo = self.control.load(text)
+                if (boo):
+                    self.plot()
+                    self.ids.error.text = self.control.error()
+                    self.ids.load_file.hint_text = 'CamelliaModel'
+                else:
+                    self.color_red(self.ids.load_file)
+                    self.ids.load_file.hint_text = 'File does not exist'
+                    self.ids.load_file.text = ''
+                    #make red
             except Exception:
                 self.color_red(self.ids.load_file)
-                self.ids.load_file.text = 'File does not exist'
-            if (boo):
-                self.plot()
-                self.ids.error.text = self.control.error()
-            else:
-                self.color_red(self.ids.load_file)
-                #make red
+                self.ids.load_file.hint_text = 'File does not exist'
+                self.ids.load_file.text = ''
+            
 
     def plot(self):
         plot = self.ids.plot_type.text

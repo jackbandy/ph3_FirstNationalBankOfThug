@@ -38,7 +38,7 @@ class Controller(object):
         inflowSpatialFilters_ = []
         for x in inflow:
             inflowSpatialFilters_.append(parsePos(x[0]))
-            inflowFunctions_.append((self.interpreter2.interpret(x[1]), self.interpreter2.interpret(x[2]))
+            inflowFunctions_.append((self.interpreter2.interpret(x[1]), self.interpreter2.interpret(x[2])))
         outflowSpatialFilters_ = []
         for x in outflow:
             outflowSpatialFilters_.append(parsePos(x))
