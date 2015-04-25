@@ -34,7 +34,7 @@ class Controller(object):
         self.eq_type = eq_type
         self.refinementNumber = 0
         self.stringList = [eq_type, pOrder, state, dimensions, meshElements, reyNum, inflow, outflow]
-        
+        print(self.stringList)
         #Parse input data strings to the correct type
         eq_type_ = eq_type
         pOrder_ = int(pOrder)

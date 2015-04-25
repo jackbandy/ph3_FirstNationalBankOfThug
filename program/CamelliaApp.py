@@ -121,6 +121,8 @@ class CamelliaWindow(TabbedPanel):
                 if (reyn < 0):
                     self.color_red(self.ids.reyn)
                     solveable = False
+            else:
+                reyn = -1
         except ValueError:
             self.color_red(self.ids.reyn)
             solveable = False
@@ -133,8 +135,8 @@ class CamelliaWindow(TabbedPanel):
             dim_2 = self.ids.dim_2.text
             mesh_1 = self.ids.mesh_1.text
             mesh_2 = self.ids.mesh_2.text
-            if self.ids.state.text == 'Stokes':
-                reyn = "-1"
+            if self.ids.eq.text == 'Stokes':
+                reyn = '-1'
             else:
                 reyn = self.ids.reyn.text
             self.control.solve(eq, poly, state, (dim_1, dim_2), (mesh_1, mesh_2), reyn, inflow, outflow)
@@ -207,6 +209,7 @@ class CamelliaWindow(TabbedPanel):
         self.ids.load.disabled = True
         self.ids.refine.disabled = True
         self.ids.plot_butt.disabled = True
+        print("refining, please wait")
         self.ids.error.text = 'Refining, please wait'
 
     def refine_done(self):
@@ -306,13 +309,45 @@ class CamelliaWindow(TabbedPanel):
             self.color_red(self.ids.load_file)
         else:
             try:
-                self.control.load(text)
+                self.clear()
+                loaded = self.control.load(text)
+                print(loaded)
+                self.ids.eq.text = loaded[0]
+                self.ids.poly.text = loaded[1]
+                
+                self.equation_choice(self.ids.eq, self.ids.eq.text)
+                if (self.ids.eq.text == 'Stokes'):
+                    self.ids.state.text = loaded[2]
+                    self.ids.reyn.text = ''
+                else:
+                    self.ids.reyn.text = loaded[5]
+                self.ids.dim_1.text = loaded[3][0]
+                self.ids.dim_2.text = loaded[3][1]
+                self.ids.mesh_1.text = loaded[4][0]
+                self.ids.mesh_2.text = loaded[4][1]
+                inflows = len(loaded[6])
+                for x in range(0, len(loaded[6])):
+                    self.poses[x].text = loaded[6][x][0]
+                    self.funcs[x].text = loaded[6][x][1]
+                    self.funcs_b[x].text = loaded[6][x][2]
+                    self.flows[x].text = 'Inflow'
+                    self.change_flow_input(self.flows[x], self.flows[x].text)
+                    print("wow")
+                for y in range(0, len(loaded[7])):
+                    print(loaded[7][y])
+                    self.poses[y+inflows].text = loaded[7][y]
+                    self.flows[y+inflows].text = 'Outflow'
+                    self.change_flow_input(self.flows[y+inflows], self.flows[y+inflows].text)
+                
+                self.ids.plot_type.text = 'u1'
                 self.plot()
                 self.ids.error.text = self.control.error()
                 self.ids.load_file.hint_text = 'CamelliaModel'
                 self.ids.save.disabled = False
                 self.ids.refine.disabled = False
                 self.ids.plot_butt.disabled = False
+                self.ids.load_file.text=''
+                self.ids.load_file.hint_text = 'CamelliaModel'
             except Exception:
                 self.color_red(self.ids.load_file)
                 self.ids.load_file.hint_text = 'File does not exist'
