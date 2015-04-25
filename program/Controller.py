@@ -73,7 +73,7 @@ class Controller(object):
         """
 
         #Solve
-        self.solveForm(eq_type)
+        self.solveForm()
 
     #subroutine for resolving when refining
     def solveForm(self):
@@ -185,20 +185,20 @@ class Controller(object):
             return self.parse()
 
     #takes a string like "0,1,2" and refines those elements
-    def manualHRefine(elements_string):
+    def manualHRefine(self, elements_string):
         cells = self.parse_cells(elements_string)
         self.form.solution().mesh().hRefine(cells)
         
     #takes a string like "0,1,2" and refines those elements
-    def manualPRefine(elements_string):
+    def manualPRefine(self, elements_string):
         cells = self.parse_cells(elements_string)
         self.form.solution().mesh().pRefine(cells)
     
-    def autoHRefine():
+    def autoHRefine(self):
         self.form.hRefine()
         self.solveForm()
 
-    def autoPRefine():
+    def autoPRefine(self):
         self.form.pRefine()
         self.solveForm()
 
