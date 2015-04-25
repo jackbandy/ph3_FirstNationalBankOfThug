@@ -105,7 +105,7 @@ class Controller(object):
         if altered.find(",") > -1: #if there are multiple spacial filters
             filters = altered.split(",")#split them
             filters_ = []
-            for filters as curr:
+            for curr in filters:
                 filters_.append(self.get_space_fil_helper(curr, input))
             
             toRet = SpatialFilter.intersectionFilter(filters_[0], filters[1])
