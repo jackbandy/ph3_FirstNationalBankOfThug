@@ -13,7 +13,6 @@
 
 #:set pan2_h 1.0/7.0
 
-
 <MySpinnerOption@SpinnerOption>:
     background_color: color_button if self.state == 'down' else color_button_pressed
     background_down: 'atlas://data/images/defaulttheme/button'
@@ -28,6 +27,7 @@
     background_down: 'atlas://data/images/defaulttheme/spinner'
     color: color_font
     option_cls: Factory.get("MySpinnerOption")
+    font_size: self.height/2
     
 
 <CamelliaWindow>:
@@ -75,6 +75,7 @@
                             Label:
                                 size_hint: 1.0, 0.35
                                 text: 'Equation'
+                                font_size: self.height/2
                             Spinner:
                                 id: eq
                                 size_hint: 1.0, 0.35
@@ -84,6 +85,7 @@
                                 background_down: 'atlas://data/images/defaulttheme/spinner'
                                 color: color_font
                                 option_cls: Factory.get("MySpinnerOption")
+                                font_size: self.height/2
                             Label:
                                 size_hint: 1.0, 0.15
 
@@ -98,6 +100,7 @@
                             Label:
                                 size_hint: 1.0, 0.35
                                 text: 'Polynomial Order'
+                                font_size: self.height/2
                             Spinner:
                                 id: poly
                                 size_hint: 1.0, 0.35
@@ -107,6 +110,7 @@
                                 background_down: 'atlas://data/images/defaulttheme/spinner'
                                 color: color_font
                                 option_cls: Factory.get("MySpinnerOption")
+                                font_size: self.height/2
                             Label:
                                 size_hint: 1.0, 0.15
 
@@ -121,6 +125,7 @@
                             Label:
                                 size_hint: 1.0, 0.35
                                 text: 'Transient or Steady State'
+                                font_size: self.height/2
                             Spinner:
                                 id: state
                                 size_hint: 1.0, 0.35
@@ -130,6 +135,7 @@
                                 background_down: 'atlas://data/images/defaulttheme/spinner'
                                 color: color_font
                                 option_cls: Factory.get("MySpinnerOption")
+                                font_size: self.height/2
                             Label:
                                 size_hint: 1.0, 0.15
 
@@ -144,14 +150,17 @@
                             Label:
                                 size_hint: 1.0, 0.35
                                 text: 'Dimensions'
+                                font_size: self.height/2
                             TextInput:
                                 id: dim_1
                                 size_hint: 0.5, 0.35
                                 hint_text: '(i.e. 1.0)'
+                                font_size: self.height/2
                             TextInput:
                                 id: dim_2
                                 size_hint: 0.5, 0.35
                                 hint_text: '(i.e. 2.0)'
+                                font_size: self.height/2
                             Label:
                                 size_hint: 1.0, 0.15
                     AnchorLayout:
@@ -165,14 +174,17 @@
                             Label:
                                 size_hint: 1.0, 0.35
                                 text: 'Mesh Elements'
+                                font_size: self.height/2
                             TextInput:
                                 id: mesh_1
                                 size_hint: 0.5, 0.35
                                 hint_text: '(i.e. 3)'
+                                font_size: self.height/2
                             TextInput:
                                 id: mesh_2
                                 size_hint: 0.5, 0.35
                                 hint_text: '(i.e. 5)'
+                                font_size: self.height/2
                             Label:
                                 size_hint: 1.0, 0.15
 
@@ -187,10 +199,12 @@
                             Label:
                                 size_hint: 1.0, 0.35
                                 text: 'Reynolds Number'
+                                font_size: self.height/2
                             TextInput:
                                 id: reyn
                                 size_hint: 1.0, 0.35
                                 hint_text: '(i.e. 800)'
+                                font_size: self.height/2
                             Label:
                                 size_hint: 1.0, 0.15
 
@@ -205,18 +219,19 @@
                     Label:
                         size_hint: 1.0, right_h
                         text: 'Flow Conditions'
-                        font_size: 20
+                        font_size: self.height/2
                     Label:
                         size_hint: right_w, right_h
                         text: 'Inflow/Outflow'
+                        font_size: self.height/3
                     Label:
                         size_hint: right_w, right_h
                         text: 'Position'
-                    
+                        font_size: self.height/3
                     Label:
                         size_hint: right_w, right_h
                         text: 'Inflow Velocity'
-
+                        font_size: self.height/3
 
                     AnchorLayout:
                         anchor_x: 'center'
@@ -273,41 +288,49 @@
                                 id: pos_1
                                 size_hint: 1.0, cond_input
                                 hint_text: 'i.e. (x = .05, y > 3)'
+                                font_size: self.height/2
                             Label:
                                 size_hint: 1.0, cond * 2
                             TextInput:
                                 id: pos_2
                                 size_hint: 1.0, cond_input
+                                font_size: self.height/2
                             Label:
                                 size_hint: 1.0, cond * 2
                             TextInput:
                                 id: pos_3
                                 size_hint: 1.0, cond_input
+                                font_size: self.height/2
                             Label:
                                 size_hint: 1.0, cond * 2
                             TextInput:
                                 id: pos_4
                                 size_hint: 1.0, cond_input
+                                font_size: self.height/2
                             Label:
                                 size_hint: 1.0, cond * 2
                             TextInput:
                                 id: pos_5
                                 size_hint: 1.0, cond_input
+                                font_size: self.height/2
                             Label:
                                 size_hint: 1.0, cond * 2
                             TextInput:
                                 id: pos_6
                                 size_hint: 1.0, cond_input
+                                font_size: self.height/2
                             Label:
                                 size_hint: 1.0, cond * 2
                             TextInput:
                                 id: pos_7
                                 size_hint: 1.0, cond_input
+                                font_size: self.height/2
                             Label:
                                 size_hint: 1.0, cond * 2
                             TextInput:
                                 id: pos_8
                                 size_hint: 1.0, cond_input
+                                font_size: self.height/2
                             Label:
                                 size_hint: 1.0, cond
 
@@ -324,66 +347,82 @@
                                 id: func_1
                                 size_hint: 0.5, cond_input
                                 hint_text: 'x velocity'
+                                font_size: self.height/2
                             TextInput:
                                 id: func_1b
                                 size_hint: 0.5, cond_input
                                 hint_text: 'y velocity'
+                                font_size: self.height/2
                             Label:
                                 size_hint: 1.0, cond * 2
                             TextInput:
                                 id: func_2
                                 size_hint: 0.5, cond_input
+                                font_size: self.height/2
                             TextInput:
                                 id: func_2b
                                 size_hint: 0.5, cond_input
+                                font_size: self.height/2
                             Label:
                                 size_hint: 1.0, cond * 2
                             TextInput:
                                 id: func_3
                                 size_hint: 0.5, cond_input
+                                font_size: self.height/2
                             TextInput:
                                 id: func_3b
                                 size_hint: 0.5, cond_input
+                                font_size: self.height/2
                             Label:
                                 size_hint: 1.0, cond *2
                             TextInput:
                                 id: func_4
                                 size_hint: 0.5, cond_input
+                                font_size: self.height/2
                             TextInput:
                                 id: func_4b
                                 size_hint: 0.5, cond_input
+                                font_size: self.height/2
                             Label:
                                 size_hint: 1.0, cond * 2
                             TextInput:
                                 id: func_5
                                 size_hint: 0.5, cond_input
+                                font_size: self.height/2
                             TextInput:
                                 id: func_5b
                                 size_hint: 0.5, cond_input
+                                font_size: self.height/2
                             Label:
                                 size_hint: 1.0, cond * 2
                             TextInput:
                                 id: func_6
                                 size_hint: 0.5, cond_input
+                                font_size: self.height/2
                             TextInput:
                                 id: func_6b
                                 size_hint: 0.5, cond_input
+                                font_size: self.height/2
                             Label:
                                 size_hint: 1.0, cond * 2
                             TextInput:
                                 id: func_7
                                 size_hint: 0.5, cond_input
+                                font_size: self.height/2
                             TextInput:
                                 id: func_7b
                                 size_hint: 0.5, cond_input
+                                font_size: self.height/2
                             Label:
                                 size_hint: 1.0, cond * 2
                             TextInput:
                                 id: func_8
                                 size_hint: 0.5, cond_input
+                                font_size: self.height/2
                             TextInput:
                                 id: func_8b
                                 size_hint: 0.5, cond_input
+                                font_size: self.height/2
                             Label:
                                 size_hint: 1.0, cond
                     
@@ -405,7 +444,7 @@
                             id: solve
                             size_hint: 0.44, 1.0
                             text: 'Solve'
-                            font_size: 20
+                            font_size: self.height/4
                             background_color: color_button
                             on_press: root.solve()
                         Label: 
@@ -414,7 +453,7 @@
                             id: clear
                             size_hint: 0.44, 1.0
                             text: 'Clear'
-                            font_size: 20
+                            font_size: self.height/4
                             background_color: color_button
                             on_press: root.clear()
                         Label: 
@@ -467,6 +506,7 @@
                                 background_down: 'atlas://data/images/defaulttheme/spinner'
                                 color: color_font
                                 option_cls: Factory.get("MySpinnerOption")
+                                font_size: self.height/3.5
                             Label:
                                 size_hint: .04, 0.8
                             Button:
@@ -476,6 +516,7 @@
                                 background_color: color_button
                                 on_press: root.plot()
                                 disabled: True
+                                font_size: self.height/3.5
                             Label:
                                 size_hint: 1.0, 0.1
 
@@ -492,6 +533,7 @@
                                 background_down: 'atlas://data/images/defaulttheme/spinner'
                                 color: color_font
                                 option_cls: Factory.get("MySpinnerOption")
+                                font_size: self.height/3.5
                             Label:
                                 size_hint: .04, 0.4
                             Button:
@@ -501,13 +543,16 @@
                                 background_color: color_button
                                 on_press: root.refine()
                                 disabled: True
+                                font_size: self.height/3.5
                             Label:
                                 text: 'Elements to Refine:'
                                 size_hint: 1.0, 0.23
+                                font_size: self.height/2.5
                             TextInput:
                                 id: m_refine
                                 size_hint: 1.0, 0.2
                                 hint_text: '0,1,2,5,8,9,10,...'
+                                font_size: self.height/2
                             Label:
                                 size_hint: 1.0, 0.085
 
@@ -521,13 +566,16 @@
                                 text: 'Load'
                                 background_color: color_button
                                 on_press: root.load()
+                                font_size: self.height/3
                             Label:
                                 text: 'Filename (no extension):'
                                 size_hint: 1.0, 0.23
+                                font_size: self.height/3
                             TextInput:
                                 id: load_file
                                 size_hint: 1.0, 0.2
                                 hint_text: 'CamelliaModel'
+                                font_size: self.height/2
                             Label:
                                 size_hint: 1.0, 0.085
 
@@ -542,13 +590,16 @@
                                 background_color: color_button
                                 on_press: root.save()
                                 disabled: True
+                                font_size: self.height/3
                             Label:
                                 text: 'Save as (no extension):'
                                 size_hint: 1.0, 0.23
+                                font_size: self.height/3
                             TextInput:
                                 id: save_file
                                 size_hint: 1.0, 0.2
                                 hint_text: 'CamelliaModel'
+                                font_size: self.height/2
                             Label:  
                                 size_hint: 1.0, 0.085
 
@@ -567,8 +618,10 @@
                         id: plot_label
                         size_hint: 1.0, 0.05
                         text: 'No plot yet'
+                        font_size: self.height
                     Label:
                         id: error
                         size_hint: 1.0, .3
                         text: 'Please load or create'
+                        font_size: self.height/10
 
