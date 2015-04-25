@@ -3,7 +3,7 @@ import Interpreter2
 import pickle
 import random
 import plotter
-#import FormCreator
+import FormCreator
 import re
 
 class Controller(object):
@@ -13,6 +13,7 @@ class Controller(object):
         self.form = None
         self.refinementNumber = 0
         self.plotter = plotter.plotter()
+        self.formCreator = FormCreator.FormCreator()
         self.interpreter2 = Interpreter2.Interpreter2()
         self.puppies = ['puppies.jpg','puppies2.jpg','puppies3.jpg','puppies4.jpg','puppies5.jpg','puppies6.jpg','puppies7.jpg','puppies8.jpg','puppies9.jpg','puppies10.jpg']
     #String List
@@ -48,15 +49,15 @@ class Controller(object):
             outflowSpatialFilters_.append(self.parsePos(x))
 
         #Get a form from FormCreator - Woodson?
-        #if (reyNum_ == -1):
-            #formCreator = FormCreator.FormCreator(pOrder_, inflowSpatialFilters_, inflowFunX_, inflowFunY_, outflowSpatialFilters_, dimensions_, meshElements_, transient = (state == "transient"))
-        #else:
-            #formCreator = FormCreator.FormCreator(pOrder_, inflowSpatialFilters_, inflowFunX_, inflowFunY_, outflowSpatialFilters_, dimensions_, meshElements_, re = reyNum_, transient = (state_ == "transient"))
-        #self.form = formCreator.form
+        if (reyNum_ == -1):
+            self.form = self.formCreator.main(pOrder_, inflowSpatialFilters_, inflowFunX_, inflowFunY_, outflowSpatialFilters_, dimensions_, meshElements_, transient = (state == "transient"))
+        else:
+            self.form = self.formCreator.main(pOrder_, inflowSpatialFilters_, inflowFunX_, inflowFunY_, outflowSpatialFilters_, dimensions_, meshElements_, re = reyNum_, transient = (state_ == "transient"))
             
 
 
         #TEST
+        """
         spaceDim = 2
         Re = 800.0
         dims = [8.0,2.0]
@@ -67,6 +68,7 @@ class Controller(object):
         delta_k = 1
         self.form = NavierStokesVGPFormulation(meshTopo,Re,polyOrder,delta_k)
         self.stringList = ["Navier-Stokes", polyOrder, "steady", dims, numElements, Re]
+        """
 
         #Solve
         if eq_type == "Navier-Stokes":

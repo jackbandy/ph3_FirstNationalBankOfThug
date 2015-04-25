@@ -12,10 +12,11 @@ Andrew Sutton
 Jack Bandy (Public relations)
 
 
-
-# ph3_FirstNationalBankOfThug
 README.md - you are here
-program		go here if you're ready for business
-documentation	go here if you're clueless
-playground	go here if you're curious
+
+program:		      go here if you're ready for business
+
+documentation:	  go here if you're clueless
+
+playground:	    go here if you're curious
 
