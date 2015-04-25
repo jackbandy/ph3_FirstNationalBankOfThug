@@ -24,7 +24,7 @@ Added Ids:
     save_file
     plot
     error
-Regular expression to parse position stuff
+
     Use the string "([x,y][=,>,<]/d+)+" Maybe <=, >=, =<, >=  from stackoverflow r"Test(\d*(?:\.\d+))"
 Fix interpreter2.py
 if Navier Stokes its always steady state
@@ -33,14 +33,15 @@ Depending on the state of inflow and outflow grey out
 STUFF TO DO:
 pass -1 in the reyNum if stokes
 Bridge the stuff
-    manualRefine(type, numbers) gives energy error
-    autoRefine(type) gives energy error
+    manualRefine(type, numbers) gives energy error (string h or p, and the coord
+    autoRefine(type) gives energy error (sends string h or p)
     solve(lots of stuff [inflow tuples of strings], [outflow list of strings]) gives energy error
     plot(type) returns image?? options u1, u2, p, stream, mesh, error
     save(string) *
     load(string) * (maybe return all the stuff)
 
 call plot if we refine
+PLOT AND ENERGY ERROR!!! AAAAAAAAHHHHHHHH!!!!!
 
 Might have a load where it resets the settings in the Creation tab
 save/load will call save(filename) or load(filename)
