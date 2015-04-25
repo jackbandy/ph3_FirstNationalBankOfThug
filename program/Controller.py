@@ -30,7 +30,7 @@ class Controller(object):
     def solve(self, eq_type, pOrder, state, dimensions, meshElements, reyNum, inflow, outflow):
         #for solveForm
         self.eq_type = eq_type
-
+        self.refinementNumber = 0
         self.stringList = [eq_type, pOrder, state, dimensions, meshElements, reyNum, inflow, outflow]
         print(self.stringList)
         #Parse input data strings to the correct type
