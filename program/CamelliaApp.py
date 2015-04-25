@@ -13,7 +13,6 @@ import re
 
 
 
-
 class CamelliaWindow(TabbedPanel):
 
     def __init__(self, **kwargs):
@@ -111,7 +110,7 @@ class CamelliaWindow(TabbedPanel):
             solveable = False
         try:
             if (self.ids.eq.text == 'Navier-Stokes'):
-                reyn = int(self.ids.reyn.text)
+                reyn = float(self.ids.reyn.text)
                 if (reyn < 0):
                     self.color_red(self.ids.reyn)
                     solveable = False
@@ -119,10 +118,6 @@ class CamelliaWindow(TabbedPanel):
             self.color_red(self.ids.reyn)
             solveable = False
         if (solveable):
-            #solve
-            #plot
-            print(inflow)
-            print(outflow)
             self.switch_tab()
             eq = self.ids.eq.text
             poly = self.ids.poly.text
@@ -145,6 +140,10 @@ class CamelliaWindow(TabbedPanel):
                 self.ids.plot.source = 'puppies5.jpg'
                 self.ids.error.text = 'U1 isn\'t plotting properly :('
             self.ids.save_file.hint_text = 'CamelliaModel'
+            self.ids.save.disabled = False
+            self.ids.refine.disabled = False
+            self.ids.plot_butt.disabled = False
+
             
             
             
@@ -160,10 +159,14 @@ class CamelliaWindow(TabbedPanel):
         text=self.ids.refine_type.text
         self.reset_back()
         if text=="h auto" :
+            self.refine_wait()
             self.control.autoHRefine()
+            self.refine_done()
             self.ids.m_refine.background_color = (1,1,1,1)
         elif text=="p auto":
+            self.refine_wait()
             self.control.autoPRefine()
+            self.refine_done()
             self.ids.m_refine.background_color = (1,1,1,1)
         elif text=="p manual":
             elements = self.ids.m_refine.text
@@ -173,7 +176,9 @@ class CamelliaWindow(TabbedPanel):
             if (m != None and elements==m.group() and elements!=""):
                 elements=re.split(",",elements)              
                 self.ids.m_refine.background_color = (1,1,1,1)
+                self.refine_wait()
                 self.control.manualPRefine(elements)
+                self.refine_done()
             else:
                 self.color_red(self.ids.m_refine)
         elif text=="h manual":
@@ -184,9 +189,25 @@ class CamelliaWindow(TabbedPanel):
             if (m != None and elements==m.group() and elements!=""):
                 elements=re.split(",",elements)              
                 self.ids.m_refine.background_color = (1,1,1,1)
+                self.refine_wait()
                 self.control.manualHRefine(elements)
+                self.refine_done()
             else:
                 self.color_red(self.ids.m_refine)
+
+    def refine_wait(self):
+        self.ids.save.disabled = True
+        self.ids.load.disabled = True
+        self.ids.refine.disabled = True
+        self.ids.plot_butt.disabled = True
+        self.ids.error.text = 'Refining, please wait'
+
+    def refine_done(self):
+        self.ids.save.disabled = False
+        self.ids.load.disabled = False
+        self.ids.refine.disabled = False
+        self.ids.plot_butt.disabled = False
+        self.ids.error.text = self.control.error()
 
 
     #go to the solution tab 
@@ -282,6 +303,9 @@ class CamelliaWindow(TabbedPanel):
                 self.plot()
                 self.ids.error.text = self.control.error()
                 self.ids.load_file.hint_text = 'CamelliaModel'
+                self.ids.save.disabled = False
+                self.ids.refine.disabled = False
+                self.ids.plot_butt.disabled = False
             except Exception:
                 self.color_red(self.ids.load_file)
                 self.ids.load_file.hint_text = 'File does not exist'
