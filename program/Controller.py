@@ -105,7 +105,8 @@ class Controller(object):
     def parsePos(self, input):
         inputData = re.split('=|<|>|,', input)
         input = re.split('( )*([0-9]*\.[0-9]+|[0-9]+)( )*', input)
-		
+	spatial1 = SpatialFilter.matchingX(float(0))
+        spatial2 = SpatialFilter.greaterThanY(float(0))
         if input[0] == 'x=':
             spatial1 = SpatialFilter.matchingX(float(inputData[1]))
             if input[4] == ',y>':
