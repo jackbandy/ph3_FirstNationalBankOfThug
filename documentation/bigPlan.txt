@@ -1,13 +1,16 @@
-_________
+=========
 FRONT END
+=========
 (assembling the GUI)
 Initial Members:
 -Nate
 -Scott
 -Max
 
-________
+
+=========
 BACK END
+=========
 (plugging in PyCamellia with GUI methods)
 Initial Members:
 -Derek
@@ -18,8 +21,10 @@ Initial Members:
 -{}th
 -Woodson
 
-________
+
+=========
 PLOTTING
+=========
 (visualize the plot)
 Initial Members:
 -Jack
