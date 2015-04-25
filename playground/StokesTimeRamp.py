@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import sys
 import matplotlib.animation as animation
+plt.rcParams['animation.ffmpeg_path'] = '/usr/bin/ffmpeg'
 
 spaceDim = 2
 useConformingTraces = True
@@ -76,7 +77,7 @@ exporter = HDF5Exporter(form.solution().mesh(), "steadyStokes", ".")
 exporter.exportSolution(form.solution(),0)
 
 transient = True
-dt = 0.1
+dt = 0.2
 totalTime = 2.0
 numTimeSteps = int(totalTime / dt)
 transientForm = StokesVGPFormulation(spaceDim,useConformingTraces,mu,transient,dt)
@@ -160,7 +161,8 @@ fig = plt.figure()
 ani = animation.ArtistAnimation(fig, ims, interval=500, blit=True,
     repeat_delay=500)
 
-ani.save('dynamic_images')
+myWriter = animation.FFMpegWriter()
+ani.save('anim.mp4', writer=myWriter)
 plt.show()
 
 
