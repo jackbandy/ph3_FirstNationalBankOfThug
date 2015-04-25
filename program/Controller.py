@@ -74,13 +74,9 @@ class Controller(object):
                 self.form.solveAndAccumulate()
                 normOfIncrement = self.form.L2NormSolutionIncrement()
                 stepNumber += 1
-            mesh = self.form.solution().mesh()
-            energy = self.form.solutionIncrement().energyErrorTotal()
         
         else:
             self.form.solve()
-            mesh = self.form.solution().mesh()
-            energy = self.form.solution().energyErrorTotal()
 
             
     
@@ -145,19 +141,23 @@ class Controller(object):
 
     #takes a string like "0,1,2" and refines those elements
     def manualHRefine(self, elements_string):
+        self.refinementNumber += 1
         cells = self.parse_cells(elements_string)
         self.form.solution().mesh().hRefine(cells)
         
     #takes a string like "0,1,2" and refines those elements
     def manualPRefine(self, elements_string):
+        self.refinementNumber += 1
         cells = self.parse_cells(elements_string)
         self.form.solution().mesh().pRefine(cells)
     
     def autoHRefine(self):
+        self.refinementNumber += 1
         self.form.hRefine()
         self.solveForm()
 
     def autoPRefine(self):
+        self.refinementNumber += 1
         self.form.pRefine()
         self.solveForm()
 
