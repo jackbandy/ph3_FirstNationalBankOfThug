@@ -15,7 +15,6 @@ class Controller(object):
         self.plotter = plotter.plotter()
         self.formCreator = FormCreator.FormCreator()
         self.interpreter2 = Interpreter2.Interpreter2()
-        self.puppies = ['puppies.jpg','puppies2.jpg','puppies3.jpg','puppies4.jpg','puppies5.jpg','puppies6.jpg','puppies7.jpg','puppies8.jpg','puppies9.jpg','puppies10.jpg']
     
     # String List Parameters
     #   String eq_type
@@ -210,7 +209,7 @@ class Controller(object):
 
     def plot(self, pltstr):
         if (self.form == None):
-            return random.choice(self.puppies)
+            return "puppies3.jpg"
         if (pltstr == "u1"):
             return self.plotter.plotU1(self.form)
         elif (pltstr == "u2"):
@@ -224,7 +223,7 @@ class Controller(object):
         elif (pltstr == "error"):
             return self.plotter.plotError(self.form, self.stringList[0] == "Stokes")
 
-        return random.choice(self.puppies)
+        return "puppies3.jpg"
         
          
 
