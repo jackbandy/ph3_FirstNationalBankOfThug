@@ -3,7 +3,7 @@ import Interpreter2
 import pickle
 import random
 import plotter
-import FormCreator
+#import FormCreator
 import re
 
 class Controller(object):
@@ -49,11 +49,11 @@ class Controller(object):
 
 
         #Get a form from FormCreator - Woodson?
-        if (reyNum_ == -1):
-            formCreator = FormCreator.FormCreator(pOrder_, inflowSpatialFilters_, inflowFunX_, inflowFunY_, outflowSpatialFilters_, dimensions_, meshElements_, transient = (state == "transient"))
-        else:
-            formCreator = FormCreator.FormCreator(pOrder_, inflowSpatialFilters_, inflowFunX_, inflowFunY_, outflowSpatialFilters_, dimensions_, meshElements_, re = reyNum_, transient = (state_ == "transient"))
-        self.form = formCreator.form
+        #if (reyNum_ == -1):
+            #formCreator = FormCreator.FormCreator(pOrder_, inflowSpatialFilters_, inflowFunX_, inflowFunY_, outflowSpatialFilters_, dimensions_, meshElements_, transient = (state == "transient"))
+        #else:
+            #formCreator = FormCreator.FormCreator(pOrder_, inflowSpatialFilters_, inflowFunX_, inflowFunY_, outflowSpatialFilters_, dimensions_, meshElements_, re = reyNum_, transient = (state_ == "transient"))
+        #self.form = formCreator.form
             
         #Solve
         if eq_type == "Navier-Stokes":
