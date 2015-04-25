@@ -66,12 +66,6 @@ class FormCreator(State):
             mesh = form.solution().mesh()
             energy = form.solution().energyErrorTotal()
             self.context.printRefine(energy, mesh)
-<<<<<<< HEAD
-   """
-
-=======
-        """
->>>>>>> 39f0eb5896dfa5869ae44023ce8842b3ccba2662
        
 
 
