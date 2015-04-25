@@ -95,7 +95,7 @@ class Controller(object):
             energy = self.form.solution().energyErrorTotal()
         mesh = self.form.solution().mesh()
 
-        toRet =  "Initial mesh has %i elements and %i degrees of freedom." % (mesh.numActiveElements(), mesh.numGlobalDofs())
+        toRet =  "Initial mesh has %i elements and %i degrees of freedom.\n" % (mesh.numActiveElements(), mesh.numGlobalDofs())
         toRet = toRet + "Energy error after %i refinements: %0.3f" % (self.refinementNumber, energy)
         return toRet
 
@@ -152,6 +152,7 @@ class Controller(object):
             #pickle.dump(refinement#, file)
             file.close()
             #saving form solution
+            self.form.streamSolution().solve()
             self.form.solution().save(fileName)
         else:
             raise Exception
@@ -165,7 +166,7 @@ class Controller(object):
             file.close()
             #if stokes use: initializeSolution(std::string savePrefix, int fieldPolyOrder, int delta_k = 1, FunctionPtr forcingFunction = Teuchos::null);
             if self.stringList[0] == "Stokes":
-                self.form.initializeSolution(fileName, self.stringList[1])
+                self.form = NavierStokesVGPFormulation(fileName, 2, self.stringList[5], self.stringList[1])
             #if NS use: NavierStokesVGPFormulation(std::string prefixString, int spaceDim, double Re, int fieldPolyOrder, int delta_k = 1, FunctionPtr forcingFunction = Teuchos::null, bool transientFormulation = false, bool useConformingTraces = false);
             elif self.stringList[0] == "Navier-Stokes":
                 self.form = NavierStokesVGPFormulation(fileName, 2, self.stringList[5], self.stringList[1])
