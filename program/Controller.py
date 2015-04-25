@@ -2,7 +2,7 @@ from PyCamellia import *
 import Interpreter2
 import pickle
 import random
-#import plotter
+import plotter
 
 class Controller(object):
 
@@ -10,7 +10,7 @@ class Controller(object):
         self.stringList = []
         self.form = None
         self.refinementNumber = 0
-        #self.plotter = plotter.plotter()
+        self.plotter = plotter.Plotter()
         self.interpreter2 = Interpreter2.Interpreter2()
         self.puppies = ['puppies.jpg','puppies2.jpg','puppies3.jpg','puppies4.jpg','puppies5.jpg','puppies6.jpg','puppies7.jpg','puppies8.jpg','puppies9.jpg','puppies10.jpg']
     #String List
@@ -28,7 +28,7 @@ class Controller(object):
         
         #Parse input data strings to the correct type
         eq_type_ = eq_type
-        pOrder_ = int(eq_type)
+        pOrder_ = int(pOrder)
         state_ = state
         dimensions_ = (float(dimensons[0]), float(dimensions[1]))
         meshElements_ = (int(meshElements[0]), int(meshElements[1]))
@@ -111,8 +111,15 @@ class Controller(object):
             spatial2 = SpatialFilter.matchingX(float(inputData[3]))
         return spatial1 and spatial2
 
-    def plot(self, pltstr):
-        return random.choice(self.puppies)
+
+    def manualRefine(hOrP, elements):
+        pass
+    
+    
+    def autoRefine(hOrP):
+        pass
+
+
         
     def save(self, fileName):
         #saving stringlist
@@ -139,20 +146,20 @@ class Controller(object):
 
 
     def plot(self, pltstr):
-        """
+        if (self.form == None):
+            return random.choice(self.puppies)
         if (pltstr == "u1"):
-            return plotter.plotU1(self.form)
+            return self.plotter.plotU1(self.form)
         elif (pltstr == "u2"):
-            return plotter.plotU2(self.form)
+            return self.plotter.plotU2(self.form)
         elif (pltstr == "p"):
-            return plotter.plotP(self.form)
+            return self.plotter.plotP(self.form)
         elif (pltstr == "stream"):
-            return plotter.plotStream(self.form)
+            return self.plotter.plotStream(self.form)
         elif (pltstr == "mesh"):
-            return plotter.plotMesh(self.form)
+            return self.plotter.plotMesh(self.form)
         elif (pltstr == "error"):
-            return plotter.plotError(self.form, self.stringList[0] == "Navier-Stokes")
-        """
+            return self.plotter.plotError(self.form, self.stringList[0] == "Navier-Stokes")
 
         return random.choice(self.puppies)
         
