@@ -38,7 +38,7 @@ class Controller(object):
         state_ = state
         dimensions_ = (float(dimensions[0]), float(dimensions[1]))
         meshElements_ = (int(meshElements[0]), int(meshElements[1]))
-        reyNum_ = int(reyNum)
+        reyNum_ = float(reyNum)
         inflowFunX_ = []
         inflowFunY_ = []
         inflowSpatialFilters_ = []
@@ -238,10 +238,10 @@ class Controller(object):
             #if Stokes
             if self.stringList[0] == "Stokes":
                 self.form = StokesVGPFormulation(2, False)
-                self.form.initializeSolution(fileName, self.stringList[1])
+                self.form.initializeSolution(fileName, int(self.stringList[1]))
             #if NS
             elif self.stringList[0] == "Navier-Stokes":
-                self.form = NavierStokesVGPFormulation(fileName, 2, self.stringList[5], self.stringList[1])
+                self.form = NavierStokesVGPFormulation(fileName, 2, float(self.stringList[5]), int(self.stringList[1]))
         except Exception:
             raise Exception
 
