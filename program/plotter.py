@@ -9,7 +9,7 @@ import sys
 class plotter():
     def __init__(self):
 	pass
-
+    #Plots each of the different forms
     def plotU1(self,form):
 	mesh = form.solution().mesh()
 	soln = Function.solution(form.u(1),form.solution())
@@ -27,8 +27,7 @@ class plotter():
 	stream.solve()
 	mesh = stream.mesh()
 	soln = Function.solution(form.streamPhi(),stream)
-	print "amazing" 
-	return self.plotFunction(soln,mesh,"Stream")
+	return self.plotFunction(soln,mesh,"stream")
     def plotMesh(self,form):
 	mesh = form.solution().mesh()
 	num_x = 10
@@ -56,6 +55,7 @@ class plotter():
 	  yMinLocal = vertices[0][1]
 	  yMaxLocal = vertices[2][1]
 	  zValues = []
+	  # zero for all of the cells
 	  for i in range(0,100):
 	    zValues.append(0)
 	  zValues = np.array(zValues)
@@ -78,7 +78,7 @@ class plotter():
 	plt.title("Mesh")
 	plt.axis([xMin, xMax, yMin, yMax])
 	plt.savefig("mesh_plot.png")
-	plt.clf()
+	plt.clf() # resets the figure
 	return ("mesh_plot.png")
 
     def plotError(self,form,stokes):
@@ -106,6 +106,7 @@ class plotter():
 	  yMinLocal = vertices[0][1]
 	  yMaxLocal = vertices[2][1]
 	  values = []
+	  # a single value for each of the cells
 	  for x in range(0,100):
 	     values.append(error[cellID])
 	  zValues = np.array(values) 
@@ -127,8 +128,8 @@ class plotter():
 	plt.title('error')
 	plt.colorbar()
 	plt.axis([xMin, xMax, yMin, yMax])
-	plt.savefig("error_plot.png")
-	plt.clf()
+	plt.savefig("error_plot.png") # saves a plot to disk
+	plt.clf() # resets the Figure
 	return ("error_plot.png")
 
     def plotFunction(self, soln, mesh, title):
@@ -179,6 +180,6 @@ class plotter():
 	plt.colorbar()
 	plt.axis([xMin, xMax, yMin, yMax])
 	plt.savefig(title+"_plot.png") # will save a plot to disk
-	plt.clf()
+	plt.clf() # resets the figure
 	return title+"_plot.png"
 	

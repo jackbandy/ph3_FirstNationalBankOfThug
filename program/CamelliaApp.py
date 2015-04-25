@@ -9,6 +9,7 @@ from kivy.uix.tabbedpanel import TabbedPanel
 import Controller
 import Interpreter2
 from PyCamellia import *
+import os
 import re
 
 
@@ -371,6 +372,32 @@ class CamelliaWindow(TabbedPanel):
 class CamelliaApp(App):
     def build(self):
         return CamelliaWindow()
+
+    def on_stop(self):
+        try:
+            os.remove("u1_plot.png")
+        except Exception:
+            pass
+        try:
+            os.remove("u2_plot.png")
+        except Exception:
+            pass
+        try:
+            os.remove("p_plot.png")
+        except Exception:
+            pass
+        try:
+            os.remove("stream_plot.png")
+        except Exception:
+            pass
+        try:
+            os.remove("error_plot.png")
+        except Exception:
+            pass
+        try:
+            os.remove("mesh_plot.png")
+        except Exception:
+            pass
 
 
 
