@@ -7,7 +7,7 @@ import os
 #takes the inputs from the GUI and returns a formulation with all conditions attached
 class FormCreator(State):
 
-    def __init__(self, poly, inflows, inflow_x_vels, inflow_y_vels, outflows, re=None, dims, elems, transient=False):
+    def __init__(self, poly, inflows, inflow_x_vels, inflow_y_vels, outflows, dims, elems, re=None, transient=False):
         delta_k = 1 
         space_dim = 2
         mesh = self.makeMesh(dims, elems)

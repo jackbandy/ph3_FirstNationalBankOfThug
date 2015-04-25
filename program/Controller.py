@@ -3,6 +3,8 @@ import Interpreter2
 import pickle
 import random
 import plotter
+import FormCreator
+import re
 
 class Controller(object):
 
@@ -10,7 +12,7 @@ class Controller(object):
         self.stringList = []
         self.form = None
         self.refinementNumber = 0
-        self.plotter = plotter.Plotter()
+        self.plotter = plotter.plotter()
         self.interpreter2 = Interpreter2.Interpreter2()
         self.puppies = ['puppies.jpg','puppies2.jpg','puppies3.jpg','puppies4.jpg','puppies5.jpg','puppies6.jpg','puppies7.jpg','puppies8.jpg','puppies9.jpg','puppies10.jpg']
     #String List
@@ -34,18 +36,25 @@ class Controller(object):
         dimensions_ = (float(dimensions[0]), float(dimensions[1]))
         meshElements_ = (int(meshElements[0]), int(meshElements[1]))
         reyNum_ = int(reyNum)
-        inflowPos_ = []
+        inflowFunX_ = []
+        inflowFunY_ = []
         inflowSpatialFilters_ = []
         for x in inflow:
             inflowSpatialFilters_.append(self.parsePos(x[0]))
-            inflowFunctions_.append((self.interpreter2.interpret(x[1]), self.interpreter2.interpret(x[2])))
+            inflowFunX_.append(self.interpreter2.interpret(x[1]))
+            inflowFunY_.append(self.interpreter2.interpret(x[2]))
         outflowSpatialFilters_ = []
         for x in outflow:
             outflowSpatialFilters_.append(self.parsePos(x))
 
 
-        #Get a form with FormCreator - Woodson?
-
+        #Get a form from FormCreator - Woodson?
+        if (reyNum_ == -1):
+            formCreator = FormCreator.FormCreator(pOrder_, inflowSpatialFilters_, inflowFunX_, inflowFunY_, outflowSpatialFilters_, dimensions_, meshElements_, transient = (state == "transient"))
+        else:
+            formCreator = FormCreator.FormCreator(pOrder_, inflowSpatialFilters_, inflowFunX_, inflowFunY_, outflowSpatialFilters_, dimensions_, meshElements_, re = reyNum_, transient = (state_ == "transient"))
+        self.form = formCreator.form
+            
         #Solve
         if eq_type == "Navier-Stokes":
             nonLinearThreshold = 1e-3
