@@ -14,9 +14,9 @@ Jack Bandy (Public relations)
 
 README.md - you are here
 
-program		      go here if you're ready for business
+program:		      go here if you're ready for business
 
-documentation	  go here if you're clueless
+documentation:	  go here if you're clueless
 
-playground	    go here if you're curious
+playground:	    go here if you're curious
 
