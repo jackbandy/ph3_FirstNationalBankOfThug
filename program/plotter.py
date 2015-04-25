@@ -28,8 +28,7 @@ class plotter():
 	stream.solve()
 	mesh = stream.mesh()
 	soln = Function.solution(form.streamPhi(),stream)
-	print "amazing" 
-	return self.plotFunction(soln,mesh,"Stream")
+	return self.plotFunction(soln,mesh,"stream")
     def plotMesh(self,form):
 	mesh = form.solution().mesh()
 	num_x = 10

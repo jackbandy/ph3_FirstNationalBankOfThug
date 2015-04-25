@@ -1,0 +1,24 @@
+﻿Phase 3
+First National Bank of Thug
+
+
+
+
+
+
+Organization and Project Approach:
+        We divided the project up into two large tasks, (1) creating the front end GUI, and (2) making the back end work with the calculations. We made two teams to each take care of the required functionality in one of these areas.
+GUI: Scott, Max, and Nate were responsible for creating the GUI. This involved making the layout of the GUI in Kivy, displaying input feedback for incorrect input, disabling input fields as necessary (e.g. no Reynolds number in the Stokes case), communicating with the driver, and other necessary operations.
+CORE: Jack, Andrew, Derek, Seth, and Woodson were responsible for the functionality that performs the necessary operations to make screen output possible. Jack and Andrew were responsible for plotting. Derek was the team leader, and was responsible for Controller.py, and making all of the parts work together in harmony. Woodson was responsible for FormCreator.py. This primarily involved adapting phase 2 code to work in phase 3. Seth was in charge of QA and took on the task of making save and load work.
+Quality Assurance: Nate and Seth teamed up to perform quality assurance. Nate was chosen to focus on quality assurance concerning the front end operations and Seth to focus on the back end.  They made sure that each team met up frequently to assure that tasks were getting done.  They also were present to see that code was up to standards and working properly.  As the project was coming to an end, they met together to run through all the code and work out bugs.  
+
+
+
+
+Program Instructions
+The user interface is divided into two tabs.
+The Creation tab allows the user to enter the desired parameters to create a solution to a given physics scenario. Some combinations of inputs are not supported, the transient solution to a Navier-Stokes problem for example, and the window will not allow the user to choose these combinations.
+* Enter positive numbers for the dimensions, positive integers for mesh elements, and positive integers for the reynolds number.
+* Enter a region of space under the position column, with a selected inflow/outflow condition, with inflow x velocity in the left column, and inflow y velocity in the right column.
+* When all fields are filled, click solve. The tabs will change to show the solution. 
+The Solution tab allows the user, once the problem has been solved, to plot the solution. The user can choose to plot u1, u2, p, stream, mesh, or error. The user can also refine a solution from the given options. The user can save a solution when one is currently in use, to a file specified in the text box. The user can also load a previously saved file.

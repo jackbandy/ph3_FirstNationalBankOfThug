@@ -1,7 +1,4 @@
 from PyCamellia import *
-import matplotlib.pyplot as plt
-import sys
-import numpy as np
 import Interpreter2
 import pickle
 import random
@@ -12,15 +9,12 @@ import re
 class Controller(object):
 
     def __init__(self):
-	self.animateit = False
-	self.ims = []
         self.stringList = []
         self.form = None
         self.refinementNumber = 0
         self.plotter = plotter.plotter()
         self.formCreator = FormCreator.FormCreator()
         self.interpreter2 = Interpreter2.Interpreter2()
-        self.puppies = ['puppies.jpg','puppies2.jpg','puppies3.jpg','puppies4.jpg','puppies5.jpg','puppies6.jpg','puppies7.jpg','puppies8.jpg','puppies9.jpg','puppies10.jpg']
     
     # String List Parameters
     #   String eq_type
@@ -58,11 +52,9 @@ class Controller(object):
 
         #Get a form from FormCreator
         if (reyNum_ == -1):
-	    #no reynolds number: Stokes
-            self.form = self.formCreator.main(pOrder_, inflowSpatialFilters_, inflowFunX_, inflowFunY_, outflowSpatialFilters_, dimensions_, meshElements_, transient = (state == "Transient"))
+            self.form = self.formCreator.main(pOrder_, inflowSpatialFilters_, inflowFunX_, inflowFunY_, outflowSpatialFilters_, dimensions_, meshElements_, transient = (state == "transient"))
         else:
-	    #reynolds number: Navier-Stokes
-            self.form = self.formCreator.main(pOrder_, inflowSpatialFilters_, inflowFunX_, inflowFunY_, outflowSpatialFilters_, dimensions_, meshElements_, re = reyNum_, transient = (state_ == "Transient"))
+            self.form = self.formCreator.main(pOrder_, inflowSpatialFilters_, inflowFunX_, inflowFunY_, outflowSpatialFilters_, dimensions_, meshElements_, re = reyNum_, transient = (state_ == "transient"))
 
 
         #Solve
@@ -83,28 +75,9 @@ class Controller(object):
                 stepNumber += 1
         
         else:
-	#Stokes
-	  if(self.stringList[2] == "Transient"):
-	  #do fancy stuff
-	    self.animateit = True
-	  else:
-	    #this implies steady state stokes
             self.form.solve()
 
-
-    def animateIt(self):
-        dimensions_ = (float(self.stringList[3][0]), float(self.stringList[3][1]))
-        meshElements_ = (int(self.stringList[4][0]), int(self.stringList[3][1]))
-
-	dt = 0.1
-	totalTime = 2.0
-	numTimeSteps_ = int(totalTime / dt)
-	
-	order_ = int(self.stringList[1])
-
-	self.plotter.plotAnim(self.form,order,dimensions_,meshElements_,numTimeSteps_)
-#	self.plotter.plotAnim(self.ims)
-
+            
     
     def error(self):
         if self.stringList[0] == "Navier-Stokes":
@@ -236,10 +209,7 @@ class Controller(object):
 
     def plot(self, pltstr):
         if (self.form == None):
-            return random.choice(self.puppies)
-	if (self.animateit == True):
-	    self.animateIt()
-	    return self.plotter.plotAnim(self.ims)
+            return "puppies3.jpg"
         if (pltstr == "u1"):
             return self.plotter.plotU1(self.form)
         elif (pltstr == "u2"):
@@ -253,8 +223,4 @@ class Controller(object):
         elif (pltstr == "error"):
             return self.plotter.plotError(self.form, self.stringList[0] == "Stokes")
 
-        return random.choice(self.puppies)
-        
-         
-
-    
+        return "puppies3.jpg"
