@@ -91,7 +91,6 @@ class Controller(object):
             energy = self.form.solution().energyErrorTotal()
         mesh = self.form.solution().mesh()
 
-        print type(self.form)
 
         toRet =  "Initial mesh has %i elements and %i degrees of freedom.\n" % (mesh.numActiveElements(), mesh.numGlobalDofs())
         toRet = toRet + "Energy error after %i refinements: %0.3f" % (self.refinementNumber, energy)
@@ -104,10 +103,17 @@ class Controller(object):
         altered = answer.lower()
         altered = altered.translate(None, whitespace)#remove whitespace
         if altered.find(",") > -1: #if there are multiple spacial filters
-            halves = altered.split(",")#split them
-            filter1 = self.get_space_fil_helper(halves[0],input)
-            filter2 = self.get_space_fil_helper(halves[1],input)
-            return SpatialFilter.intersectionFilter(filter1, filter2)
+            filters = altered.split(",")#split them
+            filters_ = []
+            for filters as curr:
+                filters_.append(self.get_space_fil_helper(curr, input))
+            
+            toRet = SpatialFilter.intersectionFilter(filters_[0], filters[1])
+            i = 2
+            while i < len(filters_):
+                toRet = SpatialFilter.intersectionFilter(toRet, filters_[i])
+                                
+            return toRet
         else:
             return self.get_space_fil_helper(altered, input)
 
