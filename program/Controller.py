@@ -135,8 +135,7 @@ class Controller(object):
 
      #takes a string and returns a spacial filter
     def ParsePos(self, input):
-        answer = self.context.query(input)
-        altered = answer.lower()
+        altered = input.lower()
         altered = altered.translate(None, whitespace)#remove whitespace
         if altered.find(",") > -1: #if there are multiple spacial filters
             halves = altered.split(",")#split them
@@ -169,9 +168,8 @@ class Controller(object):
                 return SpatialFilter.lessThanX(float(assignment.translate(None, "x<")))
             else:
                 return SpatialFilter.lessThanY(float(assignment.translate(None, "y<")))
-        else:
-            self.context.parse_error(assignment)
-            return self.parse()
+      else:
+            
 
     #takes a string like "0,1,2" and refines those elements
     def manualHRefine(self, elements_string):
