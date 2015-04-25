@@ -45,7 +45,6 @@ class Controller(object):
 
 
         #Get a form with FormCreator - Woodson?
-        
 
         #Solve
         if eq_type == "Navier-Stokes":
@@ -57,7 +56,7 @@ class Controller(object):
                 self.form.solveAndAccumulate()
                 normOfIncrement = self.form.L2NormSolutionIncrement()
                 stepNumber += 1
-            mesh = self.form.solution.mesh()
+            mesh = self.form.solution().mesh()
             energy = self.form.solutionIncrement().energyErrorTotal()
         
         else:
@@ -72,7 +71,7 @@ class Controller(object):
             energy = self.form.solutionIncrement().energyErrorTotal()
         else:
             energy = self.form.solution().energyErrorTotal()
-        mesh = self.form.solution.mesh()
+        mesh = self.form.solution().mesh()
 
         toRet =  "Initial mesh has %i elements and %i degrees of freedom." % (mesh.numActiveElements(), mesh.numGlobalDofs())
         toRet = toRet + "Energy error after %i refinements: %0.3f" % (self.refinementNumber, energy)
