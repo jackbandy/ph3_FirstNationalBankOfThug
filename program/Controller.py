@@ -26,7 +26,7 @@ class Controller(object):
                            dimensions,
                            meshElements,
                            reyNum,
-                           inflow
+                           inflow,
                            outflow]
         eq_type_ = eq_type
         pOrder_ = int(eq_type)
