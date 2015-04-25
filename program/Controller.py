@@ -37,11 +37,11 @@ class Controller(object):
         inflowPos_ = []
         inflowSpatialFilters_ = []
         for x in inflow:
-            inflowSpatialFilters_.append(parsePos(x[0]))
-            inflowFunctions_.append((self.interpreter2.interpret(x[1]), self.interpreter2.interpret(x[2]))
+            inflowSpatialFilters_.append(self.parsePos(x[0]))
+            inflowFunctions_.append((self.interpreter2.interpret(x[1]), self.interpreter2.interpret(x[2])))
         outflowSpatialFilters_ = []
         for x in outflow:
-            outflowSpatialFilters_.append(parsePos(x))
+            outflowSpatialFilters_.append(self.parsePos(x))
 
 
         #Get a form with FormCreator - Woodson?
