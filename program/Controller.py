@@ -31,7 +31,7 @@ class Controller(object):
         eq_type_ = eq_type
         pOrder_ = int(pOrder)
         state_ = state
-        dimensions_ = (float(dimensons[0]), float(dimensions[1]))
+        dimensions_ = (float(dimensions[0]), float(dimensions[1]))
         meshElements_ = (int(meshElements[0]), int(meshElements[1]))
         reyNum_ = int(reyNum)
         inflowPos_ = []
