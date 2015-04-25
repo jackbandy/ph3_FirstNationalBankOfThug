@@ -29,7 +29,7 @@ class Controller(object):
         
         #Parse input data strings to the correct type
         eq_type_ = eq_type
-        pOrder_ = int(eq_type)
+        pOrder_ = int(pOrder)
         state_ = state
         dimensions_ = (float(dimensons[0]), float(dimensions[1]))
         meshElements_ = (int(meshElements[0]), int(meshElements[1]))
