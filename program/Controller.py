@@ -38,12 +38,12 @@ class Controller(object):
         state_ = state
         dimensions_ = (float(dimensions[0]), float(dimensions[1]))
         meshElements_ = (int(meshElements[0]), int(meshElements[1]))
-        reyNum_ = int(reyNum)
+        reyNum_ = float(reyNum)
         inflowFunX_ = []
         inflowFunY_ = []
         inflowSpatialFilters_ = []
         for x in inflow:
-            inflowSpatialFilters_.append(self.ParsePos(x[0]))
+            inflowSpatialFilters_.append(self.parsePos(x[0]))
             inflowFunX_.append(self.interpreter2.interpret(x[1]))
             inflowFunY_.append(self.interpreter2.interpret(x[2]))
         outflowSpatialFilters_ = []
@@ -55,25 +55,12 @@ class Controller(object):
             self.form = self.formCreator.main(pOrder_, inflowSpatialFilters_, inflowFunX_, inflowFunY_, outflowSpatialFilters_, dimensions_, meshElements_, transient = (state == "transient"))
         else:
             self.form = self.formCreator.main(pOrder_, inflowSpatialFilters_, inflowFunX_, inflowFunY_, outflowSpatialFilters_, dimensions_, meshElements_, re = reyNum_, transient = (state_ == "transient"))
-            
 
-
-        #TEST
-        """
-        spaceDim = 2
-        Re = 800.0
-        dims = [8.0,2.0]
-        numElements = [8,2]
-        x0 = [0.,0.]
-        meshTopo = MeshFactory.rectilinearMeshTopology(dims,numElements,x0)
-        polyOrder = 3
-        delta_k = 1
-        self.form = NavierStokesVGPFormulation(meshTopo,Re,polyOrder,delta_k)
-        self.stringList = ["Navier-Stokes", polyOrder, "steady", dims, numElements, Re]
-        """
 
         #Solve
         self.solveForm()
+
+
 
     #subroutine for resolving when refining
     def solveForm(self):
@@ -102,6 +89,8 @@ class Controller(object):
         else:
             energy = self.form.solution().energyErrorTotal()
         mesh = self.form.solution().mesh()
+
+        print type(self.form)
 
         toRet =  "Initial mesh has %i elements and %i degrees of freedom.\n" % (mesh.numActiveElements(), mesh.numGlobalDofs())
         toRet = toRet + "Energy error after %i refinements: %0.3f" % (self.refinementNumber, energy)
@@ -230,24 +219,20 @@ class Controller(object):
 
     def load(self, fileName):
         try:
-            print("Line1")
             #loading stringlist and refinement #
             file = open(fileName, 'rb')
             self.stringList = pickle.load(file)
-            #self.refinement = pickle.load(file)
-            file.close()
-            print("Found that File")
-            #if stokes use: initializeSolution(std::string savePrefix, int fieldPolyOrder, int delta_k = 1, FunctionPtr forcingFunction = Teuchos::null);
             self.refinementNumber = pickle.load(file)
             file.close()
             #if Stokes
             if self.stringList[0] == "Stokes":
                 self.form = StokesVGPFormulation(2, False)
-                self.form.initializeSolution(fileName, self.stringList[1])
+                self.form.initializeSolution(fileName, int(self.stringList[1]))
             #if NS
             elif self.stringList[0] == "Navier-Stokes":
-                self.form = NavierStokesVGPFormulation(fileName, 2, self.stringList[5], self.stringList[1])
-        except Exception:
+                self.form = NavierStokesVGPFormulation(fileName, 2, float(self.stringList[5]), int(self.stringList[1]))
+        except Exception as inst:
+            print type(inst)
             raise Exception
 
 
@@ -267,7 +252,7 @@ class Controller(object):
         elif (pltstr == "mesh"):
             return self.plotter.plotMesh(self.form)
         elif (pltstr == "error"):
-            return self.plotter.plotError(self.form, self.stringList[0] == "Navier-Stokes")
+            return self.plotter.plotError(self.form, self.stringList[0] == "Stokes")
 
         return random.choice(self.puppies)
         
