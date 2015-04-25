@@ -304,6 +304,7 @@ class CamelliaWindow(TabbedPanel):
             self.color_red(self.ids.load_file)
         else:
             try:
+                self.clear()
                 loaded = self.control.load(text)
                 print(loaded)
                 self.ids.eq.text = loaded[0]
@@ -312,24 +313,26 @@ class CamelliaWindow(TabbedPanel):
                 self.equation_choice(self.ids.eq, self.ids.eq.text)
                 if (self.ids.eq.text == 'Stokes'):
                     self.ids.state.text = loaded[2]
-                    self.ids.reyn = ''
+                    self.ids.reyn.text = ''
                 else:
-                    self.ids.reyn = loaded[5]
+                    self.ids.reyn.text = loaded[5]
                 self.ids.dim_1.text = loaded[3][0]
                 self.ids.dim_2.text = loaded[3][1]
                 self.ids.mesh_1.text = loaded[4][0]
                 self.ids.mesh_2.text = loaded[4][1]
                 inflows = len(loaded[6])
                 for x in range(0, len(loaded[6])):
-                    self.funcs[x] = loaded[6][x][1]
-                    self.funcs_b[x] = loaded[6][x][2]
-                    self.pos[x] = loaded[6][x][0]
+                    self.poses[x].text = loaded[6][x][0]
+                    self.funcs[x].text = loaded[6][x][1]
+                    self.funcs_b[x].text = loaded[6][x][2]
                     self.flows[x].text = 'Inflow'
-                    change_flow_input(self.flows[x], self.flows[x].text)
-                for x in range(0, len(loaded[7])):
-                    self.pos[x] = loaded[7][x]
-                    self.flows[x].text = 'Outflow'
-                    change_flow_input(self.flows[x], self.flows[x].text)
+                    self.change_flow_input(self.flows[x], self.flows[x].text)
+                    print("wow")
+                for y in range(0, len(loaded[7])):
+                    print(loaded[7][y])
+                    self.poses[y+inflows].text = loaded[7][y]
+                    self.flows[y+inflows].text = 'Outflow'
+                    self.change_flow_input(self.flows[y+inflows], self.flows[y+inflows].text)
                 
                 self.plot()
                 self.ids.error.text = self.control.error()
@@ -338,7 +341,7 @@ class CamelliaWindow(TabbedPanel):
                 self.ids.refine.disabled = False
                 self.ids.plot_butt.disabled = False
                 self.ids.load_file.text=''
-                self.ids.load_file.hint_text = text
+                self.ids.load_file.hint_text = 'CamelliaModel'
             except Exception:
                 self.color_red(self.ids.load_file)
                 self.ids.load_file.hint_text = 'File does not exist'
