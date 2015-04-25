@@ -1,3 +1,4 @@
+from PyCamellia import *
 import Interpreter2
 import pickle
 import random
@@ -109,21 +110,33 @@ class Controller(object):
             spatial1 = SpatialFilter.lessThanY(float(inputData[1]))
             spatial2 = SpatialFilter.matchingX(float(inputData[3]))
         return spatial1 and spatial2
+
+    def plot(self, pltstr):
+        return random.choice(self.puppies)
         
     def save(self, fileName):
         #saving stringlist
         file = open(fileName, 'wb')
-        pickle.dump(stringList, file)
+        pickle.dump(self.stringList, file)
         file.close
-
         #saving form solution
-        form.solution().save(fileName)
+        self.form.solution().save(fileName)
 
     def load(self, fileName):
         #loading stringlist
         file = open(fileName, 'rb')
-        stringList = pickle.load(file)
+        self.stringList = pickle.load(file)
         file.close()
+
+        #if stokes use: initializeSolution(std::string savePrefix, int fieldPolyOrder, int delta_k = 1, FunctionPtr forcingFunction = Teuchos::null);
+        #if NS use: NavierStokesVGPFormulation(std::string prefixString, int spaceDim, double Re, int fieldPolyOrder, int delta_k = 1, FunctionPtr forcingFunction = Teuchos::null, bool transientFormulation = false, bool useConformingTraces = false);
+        if self.stringList.eq_type == "Stokes":
+            self.form.initializeSolution(fileName, self.stringList[1])
+        elif self.stringList.eq_type == "Navier-Stokes":
+            self.form.NavierStokesVGPFormulation(fileName, self.stringList[3], self.stringList[1], self.stringList[5])
+
+
+
 
     def plot(self, pltstr):
         if (pltstr == "u1"):
@@ -140,8 +153,7 @@ class Controller(object):
             return plotter.plotError(self.form, self.stringList[0] == "Navier-Stokes")
 
         return random.choice(self.puppies)
-        #loading solution
-        #if stokes use:  void initializeSolution(std::string savePrefix, int fieldPolyOrder, int delta_k = 1, FunctionPtr forcingFunction = Teuchos::null);
-        #if NS use: NavierStokesVGPFormulation(std::string prefixString, int spaceDim, double Re, int fieldPolyOrder, int delta_k = 1, FunctionPtr forcingFunction = Teuchos::null, bool transientFormulation = false, bool useConformingTraces = false);
+        
+         
 
     
