@@ -53,7 +53,7 @@ class Controller(object):
             maxSteps = 10
             normOfIncrement = 1
             stepNumber = 0
-            while normOfIncrement > nonLinearThrehshold and stepNumber < maxSteps:
+            while normOfIncrement > nonLinearThreshold and stepNumber < maxSteps:
                 self.form.solveAndAccumulate()
                 normOfIncrement = self.form.L2NormSolutionIncrement()
                 stepNumber += 1
