@@ -230,13 +230,9 @@ class Controller(object):
 
     def load(self, fileName):
         try:
-            print("Line1")
             #loading stringlist and refinement #
             file = open(fileName, 'rb')
             self.stringList = pickle.load(file)
-            #self.refinement = pickle.load(file)
-            file.close()
-            print("Found that File")
             #if stokes use: initializeSolution(std::string savePrefix, int fieldPolyOrder, int delta_k = 1, FunctionPtr forcingFunction = Teuchos::null);
             self.refinementNumber = pickle.load(file)
             file.close()
