@@ -149,7 +149,7 @@ class CamelliaWindow(TabbedPanel):
     def refine(self):
         text=self.ids.refine_type.text
         if text=="h auto" or text=="p auto":
-            #self.control.autoRefine(text[0])
+            self.control.autoRefine(text[0])
             self.ids.m_refine.background_color = (1,1,1,1)
         elif text=="p manual" or text=="h manual":
             elements = self.ids.m_refine.text
@@ -157,8 +157,9 @@ class CamelliaWindow(TabbedPanel):
             reg = re.compile("\d+(,\d+)*")
             m = reg.match(elements)
             if (m != None and elements==m.group() and elements!=""):
+                elements=re.split(",",elements)              
                 self.ids.m_refine.background_color = (1,1,1,1)
-                #self.control.manualRefine(text[0],elements)
+                self.control.manualRefine(text[0],elements)
             else:
                 self.color_red(self.ids.m_refine)
 

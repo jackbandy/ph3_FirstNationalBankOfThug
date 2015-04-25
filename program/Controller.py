@@ -24,6 +24,7 @@ class Controller(object):
     #   String List outflow
     #   
     def solve(self, eq_type, pOrder, state, dimensions, meshElements, reyNum, inflow, outflow):
+
         self.stringList = [eq_type, pOrder, state, dimensions, meshElements, reyNum, inflow, outflow]
         
         #Parse input data strings to the correct type
