@@ -258,16 +258,10 @@ class CamelliaWindow(TabbedPanel):
             self.color_red(self.ids.load_file)
         else:
             try:
-                boo = self.control.load(text)
-                if (boo):
-                    self.plot()
-                    self.ids.error.text = self.control.error()
-                    self.ids.load_file.hint_text = 'CamelliaModel'
-                else:
-                    self.color_red(self.ids.load_file)
-                    self.ids.load_file.hint_text = 'File does not exist'
-                    self.ids.load_file.text = ''
-                    #make red
+                self.control.load(text)
+                self.plot()
+                self.ids.error.text = self.control.error()
+                self.ids.load_file.hint_text = 'CamelliaModel'
             except Exception:
                 self.color_red(self.ids.load_file)
                 self.ids.load_file.hint_text = 'File does not exist'

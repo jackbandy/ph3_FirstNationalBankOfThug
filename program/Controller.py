@@ -2,7 +2,7 @@ from PyCamellia import *
 import Interpreter2
 import pickle
 import random
-#import plotter
+import plotter
 
 class Controller(object):
 
@@ -10,7 +10,7 @@ class Controller(object):
         self.stringList = []
         self.form = None
         self.refinementNumber = 0
-        #self.plotter = plotter.plotter()
+        self.plotter = plotter.plotter()
         self.interpreter2 = Interpreter2.Interpreter2()
         self.puppies = ['puppies.jpg','puppies2.jpg','puppies3.jpg','puppies4.jpg','puppies5.jpg','puppies6.jpg','puppies7.jpg','puppies8.jpg','puppies9.jpg','puppies10.jpg']
     #String List
@@ -45,7 +45,18 @@ class Controller(object):
 
 
         #Get a form with FormCreator - Woodson?
-        
+
+        #TEST
+        spaceDim = 2
+        Re = 800.0
+        dims = [8.0,2.0]
+        numElements = [8,2]
+        x0 = [0.,0.]
+        meshTopo = MeshFactory.rectilinearMeshTopology(dims,numElements,x0)
+        polyOrder = 3
+        delta_k = 1
+        self.form = NavierStokesVGPFormulation(meshTopo,Re,polyOrder,delta_k)
+        self.stringList = ["Navier-Stokes", polyOrder, "steady", dims, numElements, Re]
 
         #Solve
         if eq_type == "Navier-Stokes":
@@ -57,7 +68,7 @@ class Controller(object):
                 self.form.solveAndAccumulate()
                 normOfIncrement = self.form.L2NormSolutionIncrement()
                 stepNumber += 1
-            mesh = self.form.solution.mesh()
+            mesh = self.form.solution().mesh()
             energy = self.form.solutionIncrement().energyErrorTotal()
         
         else:
@@ -72,7 +83,7 @@ class Controller(object):
             energy = self.form.solutionIncrement().energyErrorTotal()
         else:
             energy = self.form.solution().energyErrorTotal()
-        mesh = self.form.solution.mesh()
+        mesh = self.form.solution().mesh()
 
         toRet =  "Initial mesh has %i elements and %i degrees of freedom." % (mesh.numActiveElements(), mesh.numGlobalDofs())
         toRet = toRet + "Energy error after %i refinements: %0.3f" % (self.refinementNumber, energy)
@@ -112,8 +123,15 @@ class Controller(object):
             spatial2 = SpatialFilter.matchingX(float(inputData[3]))
         return spatial1 and spatial2
 
-    def plot(self, pltstr):
-        return random.choice(self.puppies)
+
+    def manualRefine(hOrP, elements):
+        pass
+    
+    
+    def autoRefine(hOrP):
+        pass
+
+
         
     def save(self, fileName):
         if (self.form != None):
@@ -147,20 +165,20 @@ class Controller(object):
 
 
     def plot(self, pltstr):
-        """
+        if (self.form == None):
+            return random.choice(self.puppies)
         if (pltstr == "u1"):
-            return plotter.plotU1(self.form)
+            return self.plotter.plotU1(self.form)
         elif (pltstr == "u2"):
-            return plotter.plotU2(self.form)
+            return self.plotter.plotU2(self.form)
         elif (pltstr == "p"):
-            return plotter.plotP(self.form)
+            return self.plotter.plotP(self.form)
         elif (pltstr == "stream"):
-            return plotter.plotStream(self.form)
+            return self.plotter.plotStream(self.form)
         elif (pltstr == "mesh"):
-            return plotter.plotMesh(self.form)
+            return self.plotter.plotMesh(self.form)
         elif (pltstr == "error"):
-            return plotter.plotError(self.form, self.stringList[0] == "Navier-Stokes")
-        """
+            return self.plotter.plotError(self.form, self.stringList[0] == "Navier-Stokes")
 
         return random.choice(self.puppies)
         
