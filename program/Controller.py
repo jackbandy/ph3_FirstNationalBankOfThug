@@ -168,7 +168,6 @@ class Controller(object):
                 return SpatialFilter.lessThanX(float(assignment.translate(None, "x<")))
             else:
                 return SpatialFilter.lessThanY(float(assignment.translate(None, "y<")))
-      else:
             
 
     #takes a string like "0,1,2" and refines those elements
