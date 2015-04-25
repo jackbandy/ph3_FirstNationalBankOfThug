@@ -7,7 +7,7 @@ import os
 #takes the inputs from the GUI and returns a formulation with all conditions attached
 class FormCreator(State):
 
-    def __init__(self, poly, inflows, inflow_x_vels, inflow_y_vels, outflows, dims, elems, re=None, transient=False):
+    def __init__(self, poly, inflows, inflow_x_vels, inflow_y_vels, outflows,  dims, elems,re=None, transient=False):
         delta_k = 1 
         space_dim = 2
         mesh = self.makeMesh(dims, elems)
@@ -47,7 +47,12 @@ class FormCreator(State):
                 #NavierStokesVGPFormulation(self.context.file_name, space_dim, re, poly_order)
             
 
-"""No idea what this is
+<<<<<<< HEAD
+    """
+    No idea what this is
+=======
+        """No idea what this is
+>>>>>>> 39f0eb5896dfa5869ae44023ce8842b3ccba2662
         #solves and prints result
         if is_Navier:
             nonlinearThreshold = 1e-3
@@ -67,8 +72,16 @@ class FormCreator(State):
             mesh = form.solution().mesh()
             energy = form.solution().energyErrorTotal()
             self.context.printRefine(energy, mesh)
-"""
+<<<<<<< HEAD
+   """
+
+=======
+        """
+>>>>>>> 39f0eb5896dfa5869ae44023ce8842b3ccba2662
        
+
+
+
 
 
     #adds wall/inflow/outflow conditions to the form
