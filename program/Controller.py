@@ -3,6 +3,7 @@ import Interpreter2
 import pickle
 import random
 import plotter
+import re
 
 class Controller(object):
 
@@ -95,7 +96,6 @@ class Controller(object):
     def parsePos(self, input):
         inputData = re.split('=|<|>|,', input)
         input = re.split('( )*([0-9]*\.[0-9]+|[0-9]+)( )*', input)
-		
         if input[0] == 'x=':
             spatial1 = SpatialFilter.matchingX(float(inputData[1]))
             if input[4] == ',y>':
@@ -147,11 +147,13 @@ class Controller(object):
 
     def load(self, fileName):
         try:
+            print("Line1")
             #loading stringlist and refinement #
             file = open(fileName, 'rb')
             self.stringList = pickle.load(file)
-            #self.refinement# = pickle.load(file)
+            #self.refinement = pickle.load(file)
             file.close()
+            print("Found that File")
             #if stokes use: initializeSolution(std::string savePrefix, int fieldPolyOrder, int delta_k = 1, FunctionPtr forcingFunction = Teuchos::null);
             if self.stringList.eq_type == "Stokes":
                 self.form.initializeSolution(fileName, self.stringList[1])
