@@ -154,10 +154,10 @@ class Controller(object):
             #self.refinement# = pickle.load(file)
             file.close()
             #if stokes use: initializeSolution(std::string savePrefix, int fieldPolyOrder, int delta_k = 1, FunctionPtr forcingFunction = Teuchos::null);
-            if self.stringList.eq_type == "Stokes":
+            if self.stringList[0] == "Stokes":
                 self.form.initializeSolution(fileName, self.stringList[1])
             #if NS use: NavierStokesVGPFormulation(std::string prefixString, int spaceDim, double Re, int fieldPolyOrder, int delta_k = 1, FunctionPtr forcingFunction = Teuchos::null, bool transientFormulation = false, bool useConformingTraces = false);
-            elif self.stringList.eq_type == "Navier-Stokes":
+            elif self.stringList[0] == "Navier-Stokes":
                 self.form = NavierStokesVGPFormulation(fileName, 2, self.stringList[5], self.stringList[1])
         except Exception:
             raise Exception
