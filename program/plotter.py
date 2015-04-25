@@ -13,21 +13,22 @@ class plotter():
     def plotU1(self,form):
 	mesh = form.solution().mesh()
 	soln = Function.solution(form.u(1),form.solution())
-	self.plotFunction(soln,mesh,"u1")
+	return self.plotFunction(soln,mesh,"u1")
     def plotU2(self,form):
 	mesh = form.solution().mesh()
 	soln = Function.solution(form.u(2),form.solution()) 
-	self.plotFunction(soln,mesh,"u2")
+	return self.plotFunction(soln,mesh,"u2")
     def plotP(self,form):
 	mesh = form.solution().mesh()
 	soln = Function.solution(form.p(),form.solution()) 
-	self.plotFunction(soln,mesh,"p")
+	return self.plotFunction(soln,mesh,"p")
     def plotStream(self,form):
 	stream = form.streamSolution()
 	stream.solve()
 	mesh = stream.mesh()
-	soln = Function.solution(form.streamPhi(),stream) 
-	self.plotFunction(soln,mesh,"Stream")
+	soln = Function.solution(form.streamPhi(),stream)
+	print "amazing" 
+	return self.plotFunction(soln,mesh,"Stream")
     def plotMesh(self,form):
 	mesh = form.solution().mesh()
 	num_x = 10
@@ -75,10 +76,10 @@ class plotter():
 	           interpolation='bicubic', origin='lower')
 
 	plt.title("Mesh")
-	plt.colorbar()
 	plt.axis([xMin, xMax, yMin, yMax])
-	plt.savefig("plot.png")
-	return ("plot.png")
+	plt.savefig("mesh_plot.png")
+	plt.clf()
+	return ("mesh_plot.png")
 
     def plotError(self,form,stokes):
 	mesh = form.solution().mesh()
@@ -124,9 +125,11 @@ class plotter():
 	           extent=[xMinLocal, xMaxLocal, yMinLocal, yMaxLocal],
 	           interpolation='bicubic', origin='lower')
 	plt.title('cavity flow error')
+	plt.colorbar()
 	plt.axis([xMin, xMax, yMin, yMax])
-	plt.savefig("plot.png")
-	return ("plot.png")
+	plt.savefig("error_plot.png")
+	plt.clf()
+	return ("error_plot.png")
 
     def plotFunction(self, soln, mesh, title):
 	num_x = 10
@@ -172,8 +175,10 @@ class plotter():
 	           interpolation='bicubic', origin='lower')
 	
 	plt.title(title)
+	
 	plt.colorbar()
 	plt.axis([xMin, xMax, yMin, yMax])
-	plt.savefig("plot.png") # will save a plot to disk
-	return plt.savefig("plot.png") # will save a plot to disk
+	plt.savefig(title+"_plot.png") # will save a plot to disk
+	plt.clf()
+	return title+"_plot.png"
 	

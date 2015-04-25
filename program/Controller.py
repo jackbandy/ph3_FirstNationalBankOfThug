@@ -3,7 +3,7 @@ import Interpreter2
 import pickle
 import random
 import plotter
-#import FormCreator
+import FormCreator
 import re
 
 class Controller(object):
@@ -13,19 +13,23 @@ class Controller(object):
         self.form = None
         self.refinementNumber = 0
         self.plotter = plotter.plotter()
+        self.formCreator = FormCreator.FormCreator()
         self.interpreter2 = Interpreter2.Interpreter2()
         self.puppies = ['puppies.jpg','puppies2.jpg','puppies3.jpg','puppies4.jpg','puppies5.jpg','puppies6.jpg','puppies7.jpg','puppies8.jpg','puppies9.jpg','puppies10.jpg']
-    #String List
+    
+    # String List Parameters
     #   String eq_type
     #   String pOrder
     #   String transOrSteady
     #   String Tuple dimensions
     #   String Tuple meshElements
     #   String reyNum (-1 if stokes)
-    #   String Tuple List inflow
+    #   String Tuple List inflow (inflowPos, inflowXVel, inflowYVel)
     #   String List outflow
     #   
     def solve(self, eq_type, pOrder, state, dimensions, meshElements, reyNum, inflow, outflow):
+        #for solveForm
+        self.eq_type = eq_type
 
         self.stringList = [eq_type, pOrder, state, dimensions, meshElements, reyNum, inflow, outflow]
         
@@ -35,7 +39,7 @@ class Controller(object):
         state_ = state
         dimensions_ = (float(dimensions[0]), float(dimensions[1]))
         meshElements_ = (int(meshElements[0]), int(meshElements[1]))
-        reyNum_ = int(reyNum)
+        reyNum_ = float(reyNum)
         inflowFunX_ = []
         inflowFunY_ = []
         inflowSpatialFilters_ = []
@@ -45,31 +49,23 @@ class Controller(object):
             inflowFunY_.append(self.interpreter2.interpret(x[2]))
         outflowSpatialFilters_ = []
         for x in outflow:
-            outflowSpatialFilters_.append(self.parsePos(x))
+            outflowSpatialFilters_.append(self.ParsePos(x))
 
-        #Get a form from FormCreator - Woodson?
-        #if (reyNum_ == -1):
-            #formCreator = FormCreator.FormCreator(pOrder_, inflowSpatialFilters_, inflowFunX_, inflowFunY_, outflowSpatialFilters_, dimensions_, meshElements_, transient = (state == "transient"))
-        #else:
-            #formCreator = FormCreator.FormCreator(pOrder_, inflowSpatialFilters_, inflowFunX_, inflowFunY_, outflowSpatialFilters_, dimensions_, meshElements_, re = reyNum_, transient = (state_ == "transient"))
-        #self.form = formCreator.form
-            
+        #Get a form from FormCreator
+        if (reyNum_ == -1):
+            self.form = self.formCreator.main(pOrder_, inflowSpatialFilters_, inflowFunX_, inflowFunY_, outflowSpatialFilters_, dimensions_, meshElements_, transient = (state == "transient"))
+        else:
+            self.form = self.formCreator.main(pOrder_, inflowSpatialFilters_, inflowFunX_, inflowFunY_, outflowSpatialFilters_, dimensions_, meshElements_, re = reyNum_, transient = (state_ == "transient"))
 
-
-        #TEST
-        spaceDim = 2
-        Re = 800.0
-        dims = [8.0,2.0]
-        numElements = [8,2]
-        x0 = [0.,0.]
-        meshTopo = MeshFactory.rectilinearMeshTopology(dims,numElements,x0)
-        polyOrder = 3
-        delta_k = 1
-        self.form = NavierStokesVGPFormulation(meshTopo,Re,polyOrder,delta_k)
-        self.stringList = ["Navier-Stokes", polyOrder, "steady", dims, numElements, Re]
 
         #Solve
-        if eq_type == "Navier-Stokes":
+        self.solveForm()
+
+
+
+    #subroutine for solving
+    def solveForm(self):
+        if self.eq_type == "Navier-Stokes":
             nonLinearThreshold = 1e-3
             maxSteps = 10
             normOfIncrement = 1
@@ -95,52 +91,82 @@ class Controller(object):
             energy = self.form.solution().energyErrorTotal()
         mesh = self.form.solution().mesh()
 
+        print type(self.form)
+
         toRet =  "Initial mesh has %i elements and %i degrees of freedom.\n" % (mesh.numActiveElements(), mesh.numGlobalDofs())
         toRet = toRet + "Energy error after %i refinements: %0.3f" % (self.refinementNumber, energy)
         return toRet
 
 
+     #takes a string and returns a spacial filter
+    def ParsePos(self, input):
+        answer = self.context.query(input)
+        altered = answer.lower()
+        altered = altered.translate(None, whitespace)#remove whitespace
+        if altered.find(",") > -1: #if there are multiple spacial filters
+            halves = altered.split(",")#split them
+            filter1 = self.get_space_fil_helper(halves[0],input)
+            filter2 = self.get_space_fil_helper(halves[1],input)
+            return SpatialFilter.intersectionFilter(filter1, filter2)
+        else:
+            return self.get_space_fil_helper(altered, input)
 
-    #Returns a spatial filter given a string that is 
-    def parsePos(self, input):
-        inputData = re.split('=|<|>|,', input)
-        input = re.split('( )*([0-9]*\.[0-9]+|[0-9]+)( )*', input)
-	spatial1 = SpatialFilter.matchingX(float(0))
-        spatial2 = SpatialFilter.greaterThanY(float(0))
-        if input[0] == 'x=':
-            spatial1 = SpatialFilter.matchingX(float(inputData[1]))
-            if input[4] == ',y>':
-                spatial2 = SpatialFilter.greaterThanY(float(inputData[3]))
-            elif input[4]== ',y<':
-                spatial2 = SpatialFilter.lessThanY(float(inputData[3]))
-        elif input[0] == 'x>':
-            spatial1 = SpatialFilter.greaterThanX(float(inputData[1]))
-            #must be y=	
-            spatial2 = SpatialFilter.matchingY(float(inputData[3]))
-        elif input[0] == 'x<':
-            spatial1 = SpatialFilter.lessThanX(float(inputData[1]))	
-            spatial2 = SpatialFilter.matchingY(float(inputData[3]))
-        elif input[0] == 'y=':
-            spatial1 = SpatialFilter.matchingY(float(inputData[1]))
-            if input[4]==',x>':
-                spatial2 = SpatialFilter.greaterThanX(float(inputData[3]))
-            elif input[4]==',x<':
-                spatial2 = SpatialFilter.lessThanX(float(inputData[3]))
-        elif input[0] == 'y>':
-            spatial1 = SpatialFilter.greaterThanY(float(inputData[1]))
-            spatial2 = SpatialFilter.matchingX(float(inputData[3]))
-        elif input[0] == 'y<':
-            spatial1 = SpatialFilter.lessThanY(float(inputData[1]))
-            spatial2 = SpatialFilter.matchingX(float(inputData[3]))
-        return spatial1 and spatial2
+    #ParsePos's helper method
+    def get_space_fil_helper(self, assignment, prompt):
+        is_x =  assignment.find("x") > -1
+        if not is_x:
+            if assignment.find("y") == -1:
+                self.context.parse_error(assignment)
+                return self.get_space_fil(prompt)
+        #error here
+        if assignment.find("=") > -1:
+            if is_x:
+                return SpatialFilter.matchingX(float(assignment.translate(None, "x=")))
+            else:
+                return SpatialFilter.matchingY(float(assignment.translate(None, "y=")))
+        elif assignment.find(">") > -1:
+            if is_x:
+                return SpatialFilter.greaterThanX(float(assignment.translate(None, "x>")))
+            else:
+                return SpatialFilter.greaterThanY(float(assignment.translate(None, "y>")))
+        elif assignment.find("<") > -1:
+            if is_x:
+                return SpatialFilter.lessThanX(float(assignment.translate(None, "x<")))
+            else:
+                return SpatialFilter.lessThanY(float(assignment.translate(None, "y<")))
+        else:
+            self.context.parse_error(assignment)
+            return self.parse()
 
-
-    def manualRefine(hOrP, elements):
-        pass
+    #takes a string like "0,1,2" and refines those elements
+    def manualHRefine(self, elements_string):
+        cells = self.parse_cells(elements_string)
+        self.form.solution().mesh().hRefine(cells)
+        
+    #takes a string like "0,1,2" and refines those elements
+    def manualPRefine(self, elements_string):
+        cells = self.parse_cells(elements_string)
+        self.form.solution().mesh().pRefine(cells)
     
-    
-    def autoRefine(hOrP):
-        pass
+    def autoHRefine(self):
+        self.form.hRefine()
+        self.solveForm()
+
+    def autoPRefine(self):
+        self.form.pRefine()
+        self.solveForm()
+
+        #takes a string and returns a list of int
+        #this is for turning the manual refine functions
+    def parse_cells(self, data):
+        cells_refine = []
+        new_stuff = (num.split(','))
+        for val in new_stuff:
+                try:
+                    cells_refine.append(int(val))
+                except ValueError:
+                    raise ValueError("Could not convert to an int")
+        return cells_refine
 
 
         
@@ -149,11 +175,10 @@ class Controller(object):
             #saving stringlist and refinement #
             file = open(fileName, 'wb')
             pickle.dump(self.stringList, file)
-            #pickle.dump(refinement#, file)
+            pickle.dump(self.refinementNumber, file)
             file.close()
-            #saving form solution
-            self.form.streamSolution().solve()
-            self.form.solution().save(fileName)
+            #saving form
+            self.form.save(fileName)
         else:
             raise Exception
 
@@ -162,16 +187,19 @@ class Controller(object):
             #loading stringlist and refinement #
             file = open(fileName, 'rb')
             self.stringList = pickle.load(file)
-            #self.refinement# = pickle.load(file)
+            self.refinementNumber = pickle.load(file)
             file.close()
-            #if stokes use: initializeSolution(std::string savePrefix, int fieldPolyOrder, int delta_k = 1, FunctionPtr forcingFunction = Teuchos::null);
+            #if Stokes
             if self.stringList[0] == "Stokes":
-                self.form = NavierStokesVGPFormulation(fileName, 2, self.stringList[5], self.stringList[1])
-            #if NS use: NavierStokesVGPFormulation(std::string prefixString, int spaceDim, double Re, int fieldPolyOrder, int delta_k = 1, FunctionPtr forcingFunction = Teuchos::null, bool transientFormulation = false, bool useConformingTraces = false);
+                self.form = StokesVGPFormulation(2, False)
+                self.form.initializeSolution(fileName, int(self.stringList[1]))
+            #if NS
             elif self.stringList[0] == "Navier-Stokes":
-                self.form = NavierStokesVGPFormulation(fileName, 2, self.stringList[5], self.stringList[1])
-        except Exception:
+                self.form = NavierStokesVGPFormulation(fileName, 2, float(self.stringList[5]), int(self.stringList[1]))
+        except Exception as inst:
+            print type(inst)
             raise Exception
+
 
 
 
@@ -190,7 +218,7 @@ class Controller(object):
         elif (pltstr == "mesh"):
             return self.plotter.plotMesh(self.form)
         elif (pltstr == "error"):
-            return self.plotter.plotError(self.form, self.stringList[0] == "Navier-Stokes")
+            return self.plotter.plotError(self.form, self.stringList[0] == "Stokes")
 
         return random.choice(self.puppies)
         
