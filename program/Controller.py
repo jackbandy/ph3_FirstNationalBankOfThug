@@ -74,13 +74,9 @@ class Controller(object):
                 self.form.solveAndAccumulate()
                 normOfIncrement = self.form.L2NormSolutionIncrement()
                 stepNumber += 1
-            mesh = self.form.solution().mesh()
-            energy = self.form.solutionIncrement().energyErrorTotal()
         
         else:
             self.form.solve()
-            mesh = self.form.solution().mesh()
-            energy = self.form.solution().energyErrorTotal()
 
             
     
