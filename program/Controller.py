@@ -116,7 +116,7 @@ class Controller(object):
         
     def save(self, fileName):
         if (self.form != None):
-            #saving stringlist
+            #saving stringlist and refinement #
             file = open(fileName, 'wb')
             pickle.dump(self.stringList, file)
             #pickle.dump(refinement#, file)
@@ -128,7 +128,7 @@ class Controller(object):
 
     def load(self, fileName):
         try:
-            #loading stringlist
+            #loading stringlist and refinement #
             file = open(fileName, 'rb')
             self.stringList = pickle.load(file)
             #self.refinement# = pickle.load(file)
