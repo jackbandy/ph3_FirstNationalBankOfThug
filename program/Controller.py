@@ -37,11 +37,7 @@ class Controller(object):
         inflowPos_ = []
         inflowSpatialFilters_ = []
         for x in inflow:
-<<<<<<< HEAD
-            inflowSpatialFilters_.append(parsePos(x[0]))
-=======
             inflowSpatialFilters_.append(self.parsePos(x[0]))
->>>>>>> 0839396ebd48bdd21115fc1bd8b1c42725258c7a
             inflowFunctions_.append((self.interpreter2.interpret(x[1]), self.interpreter2.interpret(x[2])))
         outflowSpatialFilters_ = []
         for x in outflow:
@@ -57,7 +53,7 @@ class Controller(object):
             maxSteps = 10
             normOfIncrement = 1
             stepNumber = 0
-            while normOfIncrement > nonLinearThrehshold and stepNumber < maxSteps:
+            while normOfIncrement > nonLinearThreshold and stepNumber < maxSteps:
                 self.form.solveAndAccumulate()
                 normOfIncrement = self.form.L2NormSolutionIncrement()
                 stepNumber += 1
