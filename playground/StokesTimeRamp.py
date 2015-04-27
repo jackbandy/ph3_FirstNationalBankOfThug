@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import sys
 import matplotlib.animation as animation
-plt.rcParams['animation.ffmpeg_path'] = '/usr/bin/ffmpeg'
+#plt.rcParams['animation.ffmpeg_path'] = '/usr/bin/ffmpeg'
 
 spaceDim = 2
 useConformingTraces = True
@@ -158,11 +158,11 @@ for timeStepNumber in range(numTimeSteps):
 
 
 fig = plt.figure()
-ani = animation.ArtistAnimation(fig, ims, interval=500, blit=True,
+ani = animation.ArtistAnimation(fig, ims, interval=200, blit=True,
     repeat_delay=500)
 
-myWriter = animation.FFMpegWriter()
-ani.save('anim.mp4', writer=myWriter)
+#myWriter = animation.FFMpegWriter()
+#ani.save('anim.mp4', writer=myWriter)
 plt.show()
 
 
